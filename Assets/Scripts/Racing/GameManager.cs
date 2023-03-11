@@ -14,9 +14,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _pause;
     public static bool TimeFlows { get; private set; }
     public static GameManager Instance;
+    public int Vehicle = -2;
+    private Sprite[] vehicles;
+
+    private void Awake()
+    {
+        var n = Resources.LoadAll<Sprite>("Images/Vehicles").Length;
+        vehicles = new Sprite[n];
+        vehicles = Resources.LoadAll<Sprite>("Images/Vehicles");
+    }
 
     private void Start()
     {
+        Vehicle = -2;
         Instance = this;
         TimeFlows = true;
     }
@@ -44,7 +54,13 @@ public class GameManager : MonoBehaviour
                         break;
 
                     case 1:
-                        CreateBigObstacle();
+                        if (Vehicle == -2)
+                            CreateBigObstacle();
+                        break;
+
+                    case 2:
+                        if (Vehicle == -2)
+                            CreateVehicle();
                         break;
                 }
             }
@@ -61,9 +77,12 @@ public class GameManager : MonoBehaviour
 
     private void CreateObstacle()
     {
+        int r = Random.Range(-1, 2);
+        while (r == Vehicle)
+            r = Random.Range(-1, 2);
         var go = Instantiate(_obstacle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
-        go.GetComponent<Obstacle>().Create(Random.Range(-1, 2), null);
+        go.GetComponent<Obstacle>().Create(r, null);
         second -= Time.deltaTime;
     }
 
@@ -86,9 +105,10 @@ public class GameManager : MonoBehaviour
 
     private void CreateVehicle()
     {
+        Vehicle = Random.Range(-1, 2);
         var go = Instantiate(_vehicle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
-        go.GetComponent<Obstacle>().Create(Random.Range(-1, 2), null);
+        go.GetComponent<Vehicle>().Create(Vehicle, vehicles[Random.Range(0, vehicles.Length)]);
         second -= Time.deltaTime;
     }
 

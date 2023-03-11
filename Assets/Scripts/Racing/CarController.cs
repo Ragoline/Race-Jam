@@ -30,7 +30,6 @@ public class CarController : RoadObject
 
                 if (secondPressPos.x - firstPressPos.x > 200 && (firstPressPos.x > 0f || firstPressPos.y > 0f))
                 {
-                    Debug.Log(firstPressPos + " " + secondPressPos);
                     firstPressPos = new Vector2();
                     secondPressPos = new Vector2();
                     Move(true);
@@ -44,9 +43,9 @@ public class CarController : RoadObject
             }
 
             if (toMove)
-                MoveCar2(right);
+                MoveCar(right);
             if (toRound)
-                Round2();
+                Round();
         }
     }
 
@@ -86,27 +85,27 @@ public class CarController : RoadObject
         }
         moving = false;
     }*/
-    float move2 = 180f;
-    private void MoveCar2(bool right)
+    float move = 180f;
+    private void MoveCar(bool right)
     {
         if (right)
             transform.position = new Vector2(transform.position.x + 1f, transform.position.y);
         else
             transform.position = new Vector2(transform.position.x - 1f, transform.position.y);
-        move2 -= 1f;
+        move -= 1f;
 
-        if (move2 <= 65f)
+        if (move <= 65f)
         {
             if (right)
                 Position++;
             else
                 Position--;
         }
-        if (move2 == 0f)
+        if (move == 0f)
         {
             moving = false;
             toMove = false;
-            move2 = 180f;
+            move = 180f;
         }
     }
 
@@ -136,7 +135,7 @@ public class CarController : RoadObject
         }
     }*/
     float round = 0f;
-    private void Round2()
+    private void Round()
     {
         if (round < 390f)
         {

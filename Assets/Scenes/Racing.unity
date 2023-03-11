@@ -536,8 +536,9 @@ MonoBehaviour:
   _upperRoad: {fileID: 139722851}
   _obstacle: {fileID: 9205695252883112939, guid: 415da6aedb435564ea68ab3082d2b47f, type: 3}
   _bigObstacle: {fileID: 9205695252883112939, guid: 2f82ee63b0e12d24c8d52aa4de55bb3e, type: 3}
-  _vehicle: {fileID: 0}
+  _vehicle: {fileID: 1344800151564999328, guid: 73e26070d560ed6448bdce28dabb1f7c, type: 3}
   _pause: {fileID: 849476159}
+  Vehicle: 0
 --- !u!4 &563539852
 Transform:
   m_ObjectHideFlags: 0

@@ -18,11 +18,12 @@ public class CarController : RoadObject
     Vector2 secondPressPos;
     void Update()
     {
-        if (GameManager.TimeFlows)
+        if (GameManager.TimeFlows && Opponent.LetsGo)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                // todo если надолго зажато, а у игрока есть закись азота, включается нитро
             }
             if (Input.GetMouseButtonUp(0))
             {
@@ -55,36 +56,11 @@ public class CarController : RoadObject
         {
             Debug.Log("move");
             moving = true;
-            //StartCoroutine(MoveCar(right));
             this.right = right;
             toMove = true;
         }
     }
 
-    /*IEnumerator MoveCar(bool right)
-    {
-        var move = 180f;
-        yield return null;
-        while (move > 0)
-        {
-            if (right)
-                transform.position = new Vector2(transform.position.x + 1f, transform.position.y);
-            else
-                transform.position = new Vector2(transform.position.x - 1f, transform.position.y);
-            move -= 1f;
-
-            if (move <= 65f)
-            {
-                if (right)
-                    Position++;
-                else
-                    Position--;
-            }
-
-            yield return null;
-        }
-        moving = false;
-    }*/
     float move = 180f;
     private void MoveCar(bool right)
     {
@@ -111,29 +87,14 @@ public class CarController : RoadObject
 
     public void Crash()
     {
-        // todo минус сердце
-        //StartCoroutine(Round());
-        toRound = true;
+        if (!toRound)
+        {
+            // todo минус сердце
+
+            toRound = true;
+        }
     }
 
-    /*private IEnumerator Round()
-    {
-        var round = 0f;
-        yield return null;
-        while (GameManager.TimeFlows && round < 390f)
-        {
-            round += 1.5f;
-            transform.Rotate(new Vector3(0f, 0f, 1.5f));
-            yield return null;
-        }
-        round = 0f;
-        while (GameManager.TimeFlows && round < 30f)
-        {
-            round += 0.5f;
-            transform.Rotate(new Vector3(0f, 0f, -0.5f));
-            yield return null;
-        }
-    }*/
     float round = 0f;
     private void Round()
     {

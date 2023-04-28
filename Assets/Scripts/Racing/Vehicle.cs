@@ -29,6 +29,7 @@ public class Vehicle : RoadObject
             if (obstacle && ((Length == 1 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 213 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 150) || (Length == 2 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 125 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 275)))
             {
                 CarController.Instance.Crash();
+                _image.color = new Color(1, 1, 1, 0.5f);
                 obstacle = false;
             }
             if (!moving && move > 0f && Random.Range(0, 10000) == 10)
@@ -39,6 +40,12 @@ public class Vehicle : RoadObject
             {
                 Step();
             }
+        }
+        else
+        if (GameManager.Final)
+        {
+            //Destroy(gameObject);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 1f);
         }
     }
 

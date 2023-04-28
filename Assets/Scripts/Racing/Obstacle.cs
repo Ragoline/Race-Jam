@@ -19,8 +19,15 @@ public class Obstacle : RoadObject
             if (obstacle && ((Length == 1 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 160 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 115) || (Length == 2 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 125 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 275)))
             {
                 CarController.Instance.Crash();
+                _image.color = new Color(1, 1, 1, 0.5f);
                 obstacle = false;
             }
+        }
+        else
+        if (GameManager.Final)
+        {
+            //Destroy(gameObject);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 1f);
         }
     }
 

@@ -87,12 +87,9 @@ public class CarController : RoadObject
 
     public void Crash()
     {
-        if (!toRound)
-        {
-            // todo минус сердце
+        GameManager.Instance.LoseHealth();
 
             toRound = true;
-        }
     }
 
     float round = 0f;
@@ -113,6 +110,15 @@ public class CarController : RoadObject
         {
             toRound = false;
             round = 0f;
+        }
+    }
+
+    public void Nitro()
+    {
+        if (GameManager.Nitro > 0)
+        {
+            // todo use nitro
+            GameManager.Instance.SetNitro();
         }
     }
 }

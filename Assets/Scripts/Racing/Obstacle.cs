@@ -49,11 +49,11 @@ public class Obstacle : RoadObject
         _image.sprite = sprite;
         if (Position == 1)
         {
-            transform.Rotate(new Vector3(180f, 0f, 0f));
             transform.position = new Vector2(400, 1800);
         }
         else
         {
+            transform.Rotate(new Vector3(0f, 180f, 0f));
             transform.position = new Vector2(500, 1800);
         }
         VisualPosition();

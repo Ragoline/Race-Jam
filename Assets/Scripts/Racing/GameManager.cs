@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] public Canvas Canvas;
+    [SerializeField] private GameObject[] _health;
+    [SerializeField] private GameObject _nitro;
+    [SerializeField] private GameObject _window;
+    [SerializeField] private GameObject _finalWindow;
     [SerializeField] private GameObject _finishLine;
     [SerializeField] private GameObject _road;
     [SerializeField] private GameObject _upperRoad;
@@ -23,13 +27,14 @@ public class GameManager : MonoBehaviour
     public static bool OpponentExists = true;
     public static GameManager Instance;
     public int Vehicle = -2;
+    public static int Health = 6, Nitro = 0;
     public static bool Final = false;
-    private bool victory = false;
-    private bool pausable = true;
+    private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 1f, sideObjectTime = 1f, _raceTime, begin = 3f;
-    public static float race = 5f;
+    public static float race = 10f;
     private Sprite[] vehicles;
     private Sprite[] obstacles;
+    private Sprite[] bigObstacles;
     private Sprite[] sideObjects;
     private Sprite[] cars;
 
@@ -41,6 +46,9 @@ public class GameManager : MonoBehaviour
         n = Resources.LoadAll<Sprite>("Images/Obstacles").Length;
         obstacles = new Sprite[n];
         obstacles = Resources.LoadAll<Sprite>("Images/Obstacles");
+        n = Resources.LoadAll<Sprite>("Images/BigObstacles").Length;
+        bigObstacles = new Sprite[n];
+        bigObstacles = Resources.LoadAll<Sprite>("Images/BigObstacles");
         n = Resources.LoadAll<Sprite>("Images/Cars").Length;
         cars = new Sprite[n];
         cars = Resources.LoadAll<Sprite>("Images/Cars");
@@ -60,10 +68,21 @@ public class GameManager : MonoBehaviour
         {
             CreateOpponent();
         }
+        SetHealth();
+        SetNitro();
     }
 
     void Update()
     {
+        if (up && _window.activeSelf && _finalWindow.transform.position.y < Screen.height / 2f)
+            _finalWindow.transform.position = new Vector2(Screen.width / 2, _finalWindow.transform.position.y + 10f);
+        if (!up)
+        {
+            if (_finalWindow.transform.position.y < Screen.height * 2f)
+                _finalWindow.transform.position = new Vector2(Screen.width / 2, _finalWindow.transform.position.y + 20f);
+            else
+                SceneManager.LoadScene("Menu");
+        }
         if (TimeFlows)
         {
             if (begin > 0f)
@@ -155,7 +174,10 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Pause();
+            if (_window.activeSelf)
+                CloseWindow();
+            else
+                Pause();
         }
     }
 
@@ -186,11 +208,11 @@ public class GameManager : MonoBehaviour
         switch (Random.Range(-1, 1))
         {
             case -1:
-                go.GetComponent<Obstacle>().CreateBig(-1, null);
+                go.GetComponent<Obstacle>().CreateBig(-1, bigObstacles[Random.Range(0, bigObstacles.Length)]);
                 break;
 
             case 0:
-                go.GetComponent<Obstacle>().CreateBig(1, null);
+                go.GetComponent<Obstacle>().CreateBig(1, bigObstacles[Random.Range(0, bigObstacles.Length)]);
                 break;
         }
         roadObjectTime -= Time.deltaTime;
@@ -286,13 +308,15 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
-                if (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 3f);
-                else
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
-            }
+                    if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
+                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
+                    if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 500f)
+                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 20f);
+                    if (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
+                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 3f);
+                    else
+                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
+                }
             yield return null;
         }
         Final = false;
@@ -302,10 +326,92 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         Debug.Log("finish");
-        //todo показать окно кто выиграл
+        OpenWindow();
     }
 
-    public void Exit()
+    public void LoseHealth()
+    {
+        Health--;
+        SetHealth();
+        if (Health <= 0)
+        {
+            // todo lose
+        }
+    }
+
+    private void SetHealth()
+    {
+        switch (Health)
+        {
+            case 6:
+                _health[0].GetComponent<Image>().color = Color.gray;
+                _health[1].GetComponent<Image>().color = Color.gray;
+                _health[2].GetComponent<Image>().color = Color.gray;
+                break;
+            case 5:
+                _health[0].GetComponent<Image>().color = Color.gray;
+                _health[1].GetComponent<Image>().color = Color.gray;
+                _health[2].GetComponent<Image>().color = Color.red;
+                break;
+            case 4:
+                _health[0].GetComponent<Image>().color = Color.gray;
+                _health[1].GetComponent<Image>().color = Color.red;
+                _health[2].GetComponent<Image>().color = Color.red;
+                break;
+            case 3:
+                _health[0].GetComponent<Image>().color = Color.red;
+                _health[1].GetComponent<Image>().color = Color.red;
+                _health[2].GetComponent<Image>().color = Color.red;
+                break;
+            case 2:
+                _health[0].GetComponent<Image>().color = Color.red;
+                _health[1].GetComponent<Image>().color = Color.red;
+                _health[2].SetActive(false);
+                break;
+            case 1:
+                _health[0].GetComponent<Image>().color = Color.red;
+                _health[1].SetActive(false);
+                _health[2].SetActive(false);
+                break;
+            case 0:
+                _health[0].SetActive(false);
+                _health[1].SetActive(false);
+                _health[2].SetActive(false);
+                break;
+        }
+    }
+
+    public void SetNitro()
+    {
+        switch (Nitro)
+        {
+            case 3:
+                _nitro.GetComponent<Image>().color = Color.red;
+                break;
+            case 2:
+                _nitro.GetComponent<Image>().color = Color.yellow;
+                break;
+            case 1:
+                _nitro.GetComponent<Image>().color = Color.green;
+                break;
+            case 0:
+                _nitro.SetActive(false);
+                break;
+        }
+    }
+
+    private void OpenWindow()
+    {
+        up = true;
+        _window.SetActive(true);
+    }
+
+    private void CloseWindow()
+    {
+        up = false;
+    }
+
+        public void Exit()
     {
         SceneManager.LoadScene("Menu");
     }

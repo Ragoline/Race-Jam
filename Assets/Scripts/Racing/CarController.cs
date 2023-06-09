@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class CarController : RoadObject
 {
-    private bool moving = false, right, toMove = false, toRound = false;
+    private bool moving = false, right, toMove = false, toRound = false, nitro = false;
     public static float speed = 2f;
     public static CarController Instance;
+    private float hold = 0f;
 
     private void Start()
     {
@@ -23,7 +24,14 @@ public class CarController : RoadObject
             if (Input.GetMouseButtonDown(0))
             {
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                // todo если надолго зажато, а у игрока есть закись азота, включается нитро
+            }
+            if (Input.GetMouseButton(0))
+            {
+                hold += Time.deltaTime;
+                if (hold >= 1f)
+                {
+                    Nitro(true);
+                }
             }
             if (Input.GetMouseButtonUp(0))
             {
@@ -41,6 +49,11 @@ public class CarController : RoadObject
                     secondPressPos = new Vector2();
                     Move(false);
                 }
+                if (hold >= 1f)
+                {
+                    Nitro(false);
+                }
+                hold = 0f;
             }
 
             if (toMove)
@@ -113,12 +126,31 @@ public class CarController : RoadObject
         }
     }
 
-    public void Nitro()
+    public void Nitro(bool enable)
     {
-        if (GameManager.Nitro > 0)
+        if (enable)
         {
-            // todo use nitro
-            GameManager.Instance.SetNitro();
+            if (!nitro)
+            {
+                if (GameManager.Nitro > 0)
+                {
+                    Debug.Log("nitro");
+                    speed += 2f;
+                    nitro = true;
+                }
+            }
+            else if (GameManager.Instance.GetNitro())
+            {
+                GameManager.Instance.SwitchNitro();
+            }
+        }
+        else
+        {
+            if (nitro)
+            {
+                speed -= 2f;
+                nitro = false;
+            }
         }
     }
 }

@@ -22,12 +22,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _pause;
     [SerializeField] private Text _countdown;
     [SerializeField] private Slider _race;
+    [SerializeField] private Slider nitro;
     private Opponent opponent;
     public static bool TimeFlows { get; private set; }
     public static bool OpponentExists = true;
     public static GameManager Instance;
     public int Vehicle = -2;
-    public static int Health = 6, Nitro = 0;
+    public static int Health = 3, Nitro = 2;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 1f, sideObjectTime = 1f, _raceTime, begin = 3f;
@@ -129,7 +130,7 @@ public class GameManager : MonoBehaviour
                 _raceTime += Time.deltaTime;
                 _race.value = _raceTime;
                 if (_race.value == _race.maxValue && !Final)
-                    Finish();
+                    Finish(false);
 
                 #region objects
                 if (roadObjectTime == 1f)
@@ -253,26 +254,62 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Finish()
+    public void Finish(bool crash)
     {
         TimeFlows = false;
         Final = true;
         pausable = false;
         Opponent.LetsGo = false;
-        if (Opponent.Car.transform.position.y < CarController.Instance.gameObject.transform.position.y)
-        {
-            Debug.Log("victory");
-            victory = true;
-        }
-        else
+        if (crash)
         {
             Debug.Log("defeat");
             victory = false;
+            _finishLine.SetActive(false);
+            CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
+            StartCoroutine(CrashCutScene());
         }
-        _finishLine.SetActive(true);
-        CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
-        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 1800);
-        StartCoroutine(FinalCutScene());
+        else
+        {
+            /*TimeFlows = false;
+            Final = true;
+            pausable = false;
+            Opponent.LetsGo = false;*/
+            if (Opponent.Car.transform.position.y < CarController.Instance.gameObject.transform.position.y)
+            {
+                Debug.Log("victory");
+                victory = true;
+            }
+            else
+            {
+                Debug.Log("defeat");
+                victory = false;
+            }
+            _finishLine.SetActive(true);
+            CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
+            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 1800);
+            StartCoroutine(FinalCutScene());
+        }
+    }
+
+    private IEnumerator CrashCutScene()
+    {
+        yield return null;
+        // todo сделать так, чтобы машина игрока медленно остановилась
+        while (_finishLine.transform.position.y > 800)
+        {
+            if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
+                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
+            if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 500f)
+                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 20f);
+            if (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
+                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 3f);
+            else
+                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
+            yield return null;
+        }
+        Final = false;
+        Debug.Log("finish");
+        OpenWindow();
     }
 
     private IEnumerator FinalCutScene()
@@ -300,7 +337,6 @@ public class GameManager : MonoBehaviour
 
             if (victory)
             {
-                // todo
                 if (Opponent.Car.transform.position.y > 0)
                     Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 0.6f);
                 else
@@ -335,7 +371,7 @@ public class GameManager : MonoBehaviour
         SetHealth();
         if (Health <= 0)
         {
-            // todo lose
+            Finish(true);
         }
     }
 
@@ -387,17 +423,32 @@ public class GameManager : MonoBehaviour
         {
             case 3:
                 _nitro.GetComponent<Image>().color = Color.red;
+                nitro.maxValue = 30f;
                 break;
             case 2:
                 _nitro.GetComponent<Image>().color = Color.yellow;
+                nitro.maxValue = 20f;
                 break;
             case 1:
                 _nitro.GetComponent<Image>().color = Color.green;
+                nitro.maxValue = 10f;
                 break;
             case 0:
                 _nitro.SetActive(false);
                 break;
         }
+        nitro.value = nitro.maxValue;
+    }
+
+    public void SwitchNitro()
+    {
+        Debug.Log("switch");
+        nitro.value -= Time.deltaTime;
+    }
+
+    public bool GetNitro()
+    {
+        return nitro.value > 0 ? true : false;
     }
 
     private void OpenWindow()

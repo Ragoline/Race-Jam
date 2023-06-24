@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public static int Health = 3, Nitro = 2;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
-    private float roadObjectTime = 1f, sideObjectTime = 1f, _raceTime, begin = 3f;
+    private float roadObjectTime = 2f, sideObjectTime = 1f, _raceTime, begin = 3f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
     public static float race = 10f;
     private Sprite[] vehicles;
     private Sprite[] obstacles;
@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
                     Finish(false);
 
                 #region objects
-                if (roadObjectTime == 1f)
+                if (roadObjectTime == 2f)
                 {
                     switch (Random.Range(0, 1000))
                     {
@@ -153,10 +153,10 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                if (roadObjectTime < 1f && roadObjectTime > 0f)
+                if (roadObjectTime < 2f && roadObjectTime > 0f)
                     roadObjectTime -= Time.deltaTime;
                 else
-                    roadObjectTime = 1f;
+                    roadObjectTime = 2f;
                 if (sideObjectTime == 1f)
                 {
                     switch (Random.Range(0, 1000))
@@ -270,10 +270,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            /*TimeFlows = false;
-            Final = true;
-            pausable = false;
-            Opponent.LetsGo = false;*/
             if (Opponent.Car.transform.position.y < CarController.Instance.gameObject.transform.position.y)
             {
                 Debug.Log("victory");
@@ -307,6 +303,7 @@ public class GameManager : MonoBehaviour
                 Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
             yield return null;
         }
+        yield return new WaitForSeconds(1);
         Final = false;
         Debug.Log("finish");
         OpenWindow();

@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text _countdown;
     [SerializeField] private Slider _race;
     [SerializeField] private Slider nitro;
+    [SerializeField] private Sprite _redHeart;
+    [SerializeField] private Sprite _ironHeart;
     private Opponent opponent;
     public static bool TimeFlows { get; private set; }
     public static bool OpponentExists = true;
@@ -341,15 +343,15 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                    if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
-                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
-                    if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 500f)
-                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 20f);
-                    if (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
-                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 3f);
-                    else
-                        Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
-                }
+                if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
+                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
+                if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 500f)
+                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 20f);
+                if (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
+                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 3f);
+                else
+                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
+            }
             yield return null;
         }
         Final = false;
@@ -377,32 +379,32 @@ public class GameManager : MonoBehaviour
         switch (Health)
         {
             case 6:
-                _health[0].GetComponent<Image>().color = Color.gray;
-                _health[1].GetComponent<Image>().color = Color.gray;
-                _health[2].GetComponent<Image>().color = Color.gray;
+                _health[0].GetComponent<Image>().sprite = _ironHeart;
+                _health[1].GetComponent<Image>().sprite = _ironHeart;
+                _health[2].GetComponent<Image>().sprite = _ironHeart;
                 break;
             case 5:
-                _health[0].GetComponent<Image>().color = Color.gray;
-                _health[1].GetComponent<Image>().color = Color.gray;
-                _health[2].GetComponent<Image>().color = Color.red;
+                _health[0].GetComponent<Image>().sprite = _ironHeart;
+                _health[1].GetComponent<Image>().sprite = _ironHeart;
+                _health[2].GetComponent<Image>().sprite = _redHeart;
                 break;
             case 4:
-                _health[0].GetComponent<Image>().color = Color.gray;
-                _health[1].GetComponent<Image>().color = Color.red;
-                _health[2].GetComponent<Image>().color = Color.red;
+                _health[0].GetComponent<Image>().sprite = _ironHeart;
+                _health[1].GetComponent<Image>().sprite = _redHeart;
+                _health[2].GetComponent<Image>().sprite = _redHeart;
                 break;
             case 3:
-                _health[0].GetComponent<Image>().color = Color.red;
-                _health[1].GetComponent<Image>().color = Color.red;
-                _health[2].GetComponent<Image>().color = Color.red;
+                _health[0].GetComponent<Image>().sprite = _redHeart;
+                _health[1].GetComponent<Image>().sprite = _redHeart;
+                _health[2].GetComponent<Image>().sprite = _redHeart;
                 break;
             case 2:
-                _health[0].GetComponent<Image>().color = Color.red;
-                _health[1].GetComponent<Image>().color = Color.red;
+                _health[0].GetComponent<Image>().sprite = _redHeart;
+                _health[1].GetComponent<Image>().sprite = _redHeart;
                 _health[2].SetActive(false);
                 break;
             case 1:
-                _health[0].GetComponent<Image>().color = Color.red;
+                _health[0].GetComponent<Image>().sprite = _redHeart;
                 _health[1].SetActive(false);
                 _health[2].SetActive(false);
                 break;
@@ -459,7 +461,7 @@ public class GameManager : MonoBehaviour
         up = false;
     }
 
-        public void Exit()
+    public void Exit()
     {
         SceneManager.LoadScene("Menu");
     }

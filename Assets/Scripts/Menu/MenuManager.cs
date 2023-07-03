@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
@@ -11,8 +12,17 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _dailyGiftWindow;
     [SerializeField] private GameObject _dailyQuestWindow;
     [SerializeField] private GameObject _optionsWindow;
+    [SerializeField] private Slider _soundsVolume;
+    [SerializeField] private Slider _musicVolume;
 
     private bool up = false;
+    public static int MusicVolume;
+    public static int SoundsVolume;
+
+    private void Awake()
+    {
+        SetVolume();
+    }
 
     private void Update()
     {
@@ -138,10 +148,39 @@ public class MenuManager : MonoBehaviour
 
     #region Racing
     // todo сделать в окне выбор гонки (скорость врага и местность) и кнопку старта, а также кнопку старта случайной гонки
+
     #endregion
 
     #region Options
     // todo сделать кнопки переключения громкостей
+    private void SetVolume()
+    {
+        if (PlayerPrefs.HasKey("Music"))
+        {
+
+        }
+        else
+        {
+            MusicVolume = PlayerPrefs.GetInt("Music", 10);
+            _musicVolume.value = MusicVolume;
+            SoundsVolume = PlayerPrefs.GetInt("Sounds", 10);
+            _soundsVolume.value = SoundsVolume;
+        }
+    }
+
+    public void ChangeVolume(bool music)
+    {
+        if (music)
+        {
+            MusicVolume = (int)_musicVolume.value;
+            PlayerPrefs.SetInt("Music", MusicVolume);
+        }
+        else
+        {
+            SoundsVolume = (int)_soundsVolume.value;
+            PlayerPrefs.SetInt("Sounds", SoundsVolume);
+        }
+    }
     #endregion
 
     #region Daily Gift

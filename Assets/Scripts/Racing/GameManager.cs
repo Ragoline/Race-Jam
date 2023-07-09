@@ -259,7 +259,7 @@ public class GameManager : MonoBehaviour
     public void Finish(bool crash)
     {
         TimeFlows = false;
-        Final = true;
+        //Final = true;
         pausable = false;
         Opponent.LetsGo = false;
         if (crash)
@@ -305,7 +305,7 @@ public class GameManager : MonoBehaviour
                 Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
             yield return null;
         }
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
         Final = false;
         Debug.Log("finish");
         OpenWindow();

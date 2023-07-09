@@ -14,14 +14,27 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _optionsWindow;
     [SerializeField] private Slider _soundsVolume;
     [SerializeField] private Slider _musicVolume;
+    [SerializeField] private Toggle _instantMenu;
 
     private bool up = false;
     public static int MusicVolume;
     public static int SoundsVolume;
+    public static MenuManager Instance;
+    public static bool InstantMenu;
 
     private void Awake()
     {
         SetVolume();
+        Instance = this;
+        switch (PlayerPrefs.GetInt("InstantMenu", 0))
+        {
+            case 0:
+                InstantMenu = false;
+                break;
+            case 1:
+                InstantMenu = true;
+                break;
+        }
     }
 
     private void Update()
@@ -43,7 +56,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            HideWindow(_storyWindow);
+            HideWindow(_storyWindow); // todo сделать мгновенное появление меню-машины, если стоит instant menu
             HideWindow(_racingWindow);
             HideWindow(_dailyGiftWindow);
             HideWindow(_dailyQuestWindow);
@@ -157,7 +170,10 @@ public class MenuManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Music"))
         {
-
+            MusicVolume = PlayerPrefs.GetInt("Music", 10);
+            _musicVolume.value = MusicVolume;
+            SoundsVolume = PlayerPrefs.GetInt("Sounds", 10);
+            _soundsVolume.value = SoundsVolume;
         }
         else
         {
@@ -180,6 +196,14 @@ public class MenuManager : MonoBehaviour
             SoundsVolume = (int)_soundsVolume.value;
             PlayerPrefs.SetInt("Sounds", SoundsVolume);
         }
+    }
+
+    public void SwitchInstantMenu()
+    {
+        if (_instantMenu.isOn)
+            PlayerPrefs.SetInt("InstantMenu", 1);
+        else
+            PlayerPrefs.SetInt("InstantMenu", 0);
     }
     #endregion
 

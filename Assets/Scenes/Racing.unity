@@ -376,7 +376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &170592361
 RectTransform:
   m_ObjectHideFlags: 0
@@ -977,8 +977,8 @@ MonoBehaviour:
   _countdown: {fileID: 1166138533}
   _race: {fileID: 1758073417}
   nitro: {fileID: 1440501388}
-  _redHeart: {fileID: 0}
-  _ironHeart: {fileID: 0}
+  _redHeart: {fileID: 21300000, guid: e9193bfe62d923f46ada1790147b0408, type: 3}
+  _ironHeart: {fileID: 21300000, guid: 1fabfc4e8b458254b93e573e41e0db24, type: 3}
   Vehicle: 0
 --- !u!4 &563539852
 Transform:
@@ -2237,7 +2237,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1298677915
 MonoBehaviour:

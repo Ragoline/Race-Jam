@@ -964,6 +964,9 @@ MonoBehaviour:
   - {fileID: 1529675323}
   _nitro: {fileID: 781635183}
   _window: {fileID: 170592360}
+  _textWonLostCrushed: {fileID: 1236260200}
+  _textTheRace: {fileID: 2048827347}
+  _textGears: {fileID: 54360787}
   _finalWindow: {fileID: 938984074}
   _finishLine: {fileID: 1688871526}
   _road: {fileID: 1059809245}
@@ -973,6 +976,7 @@ MonoBehaviour:
   _bigObstacle: {fileID: 9205695252883112939, guid: 2f82ee63b0e12d24c8d52aa4de55bb3e, type: 3}
   _vehicle: {fileID: 1344800151564999328, guid: 73e26070d560ed6448bdce28dabb1f7c, type: 3}
   _opponent: {fileID: 1004213138849781298, guid: b8e2f6075b68caa4ea1a893f2b42e903, type: 3}
+  _gear: {fileID: 8645553666695217813, guid: 23578bb0c1278c345bc7b0f779d843e2, type: 3}
   _pause: {fileID: 849476159}
   _countdown: {fileID: 1166138533}
   _race: {fileID: 1758073417}
@@ -1318,14 +1322,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 7c63a59287fe24445aa1946a4db95e9f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1966,7 +1970,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1139450891}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 563539851}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Continue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1139450891
 MonoBehaviour:
   m_ObjectHideFlags: 0

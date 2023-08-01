@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] _health;
     [SerializeField] private GameObject _nitro;
     [SerializeField] private GameObject _window;
+    [SerializeField] private Text _textWonLostCrushed;
+    [SerializeField] private Text _textTheRace;
+    [SerializeField] private Text _textGears;
     [SerializeField] private GameObject _finalWindow;
     [SerializeField] private GameObject _finishLine;
     [SerializeField] private GameObject _road;
@@ -19,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _bigObstacle;
     [SerializeField] private GameObject _vehicle;
     [SerializeField] private GameObject _opponent;
+    [SerializeField] private GameObject _gear;
     [SerializeField] private GameObject _pause;
     [SerializeField] private Text _countdown;
     [SerializeField] private Slider _race;
@@ -30,10 +34,11 @@ public class GameManager : MonoBehaviour
     public static bool OpponentExists = true;
     public static GameManager Instance;
     public int Vehicle = -2;
+    private int gears = 0;
     public static int Health = 3, Nitro = 2;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
-    private float roadObjectTime = 2f, sideObjectTime = 1f, _raceTime, begin = 3f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
+    private float roadObjectTime = 2f, sideObjectTime = 1f, _raceTime, begin = 3f, gear = 1f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
     public static float race = 10f;
     private Sprite[] vehicles;
     private Sprite[] obstacles;
@@ -78,13 +83,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (up && _window.activeSelf && _finalWindow.transform.position.y < Screen.height / 2f)
-            _finalWindow.transform.position = new Vector2(Screen.width / 2, _finalWindow.transform.position.y + 10f);
+            GameManager.Window(_finalWindow, 1);
         if (!up)
         {
             if (_finalWindow.transform.position.y < Screen.height * 2f)
-                _finalWindow.transform.position = new Vector2(Screen.width / 2, _finalWindow.transform.position.y + 20f);
+                GameManager.Window(_finalWindow, 2);
             else
-                SceneManager.LoadScene("Menu");
+                Exit();
         }
         if (TimeFlows)
         {
@@ -153,6 +158,13 @@ public class GameManager : MonoBehaviour
                                 CreateVehicle();
                             break;
                     }
+                }
+
+                gear -= Time.deltaTime;
+                if (gear < 0f)
+                {
+                    gear += 1f;
+                    CreateGear();
                 }
 
                 if (roadObjectTime < 2f && roadObjectTime > 0f)
@@ -237,6 +249,13 @@ public class GameManager : MonoBehaviour
         go.GetComponent<Opponent>().Create(Vehicle, cars[Random.Range(0, vehicles.Length)]);
     }
 
+    private void CreateGear()
+    {
+        var go = Instantiate(_gear, Canvas.transform);
+        go.transform.SetSiblingIndex(3);
+        go.GetComponent<Gear>().Create();
+    }
+
     public void Pause()
     {
         if (pausable)
@@ -259,7 +278,7 @@ public class GameManager : MonoBehaviour
     public void Finish(bool crash)
     {
         TimeFlows = false;
-        //Final = true;
+        Final = true;
         pausable = false;
         Opponent.LetsGo = false;
         if (crash)
@@ -291,6 +310,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CrashCutScene()
     {
+        _textWonLostCrushed.text = "Crushed";
+        _textWonLostCrushed.color = Color.red;
+        _textTheRace.text = "";
         yield return null;
         // todo сделать так, чтобы машина игрока медленно остановилась
         while (_finishLine.transform.position.y > 800)
@@ -336,6 +358,8 @@ public class GameManager : MonoBehaviour
 
             if (victory)
             {
+                _textWonLostCrushed.text = "Won";
+                _textWonLostCrushed.color = Color.green;
                 if (Opponent.Car.transform.position.y > 0)
                     Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 0.6f);
                 else
@@ -343,6 +367,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                _textWonLostCrushed.text = "Lost";
+                _textWonLostCrushed.color = Color.red;
                 if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
                     Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
                 if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 500f)
@@ -352,6 +378,7 @@ public class GameManager : MonoBehaviour
                 else
                     Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
             }
+            _textGears.text = gears.ToString();
             yield return null;
         }
         Final = false;
@@ -362,6 +389,11 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log("finish");
         OpenWindow();
+    }
+
+    public void Continue()
+    {
+        CloseWindow();
     }
 
     public void LoseHealth()
@@ -450,6 +482,11 @@ public class GameManager : MonoBehaviour
         return nitro.value > 0 ? true : false;
     }
 
+    public void PickGear()
+    {
+        gears++;
+    }
+
     private void OpenWindow()
     {
         up = true;
@@ -464,5 +501,10 @@ public class GameManager : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public static void Window(GameObject window, int speed)
+    {
+        window.transform.position = new Vector2(Screen.width / 2, (PlayerPrefs.GetInt("InstantMenu", 0) == 0 ? window.transform.position.y + speed * 10f : (speed == 1 ? Screen.height / 2f : Screen.height * 2f)));
     }
 }

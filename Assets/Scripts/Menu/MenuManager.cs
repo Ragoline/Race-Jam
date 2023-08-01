@@ -30,9 +30,11 @@ public class MenuManager : MonoBehaviour
         {
             case 0:
                 InstantMenu = false;
+                _instantMenu.isOn = false;
                 break;
             case 1:
                 InstantMenu = true;
+                _instantMenu.isOn = true;
                 break;
         }
     }
@@ -44,15 +46,15 @@ public class MenuManager : MonoBehaviour
         if (up)
         {
             if (_storyWindow.activeSelf && _storyWindow.transform.position.y < Screen.height / 2f)
-                _storyWindow.transform.position = new Vector2(Screen.width / 2, _storyWindow.transform.position.y + 10f);
+                GameManager.Window(_storyWindow, 1);
             if (_racingWindow.activeSelf && _racingWindow.transform.position.y < Screen.height / 2f)
-                _racingWindow.transform.position = new Vector2(Screen.width / 2, _racingWindow.transform.position.y + 10f);
+                GameManager.Window(_racingWindow, 1);
             if (_dailyGiftWindow.activeSelf && _dailyGiftWindow.transform.position.y < Screen.height / 2f)
-                _dailyGiftWindow.transform.position = new Vector2(Screen.width / 2, _dailyGiftWindow.transform.position.y + 10f);
+                GameManager.Window(_dailyGiftWindow, 1);
             if (_dailyQuestWindow.activeSelf && _dailyQuestWindow.transform.position.y < Screen.height / 2f)
-                _dailyQuestWindow.transform.position = new Vector2(Screen.width / 2, _dailyQuestWindow.transform.position.y + 10f);
+                GameManager.Window(_dailyQuestWindow, 1);
             if (_optionsWindow.activeSelf && _optionsWindow.transform.position.y < Screen.height / 2f)
-                _optionsWindow.transform.position = new Vector2(Screen.width / 2, _optionsWindow.transform.position.y + 10f);
+                GameManager.Window(_optionsWindow, 1);
         }
         else
         {
@@ -142,7 +144,7 @@ public class MenuManager : MonoBehaviour
         if (go.activeSelf)
         {
             if (go.transform.position.y < Screen.height * 2f)
-                go.transform.position = new Vector2(Screen.width / 2, go.transform.position.y + 20f);
+                GameManager.Window(go, 2);
             else
             {
                 _windows.SetActive(false);

@@ -5,4 +5,5 @@ public enum Area
     Winter,
     Desert,
     Beach,
+    Town
 }

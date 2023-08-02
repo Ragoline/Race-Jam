@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -8,7 +7,12 @@ public class MenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject _windows;
     [SerializeField] private GameObject _storyWindow;
+
     [SerializeField] private GameObject _racingWindow;
+    [SerializeField] private Slider _areas;
+    [SerializeField] private Slider _opponents;
+    [SerializeField] private Slider _lengths;
+
     [SerializeField] private GameObject _dailyGiftWindow;
     [SerializeField] private GameObject _dailyQuestWindow;
     [SerializeField] private GameObject _optionsWindow;
@@ -37,6 +41,9 @@ public class MenuManager : MonoBehaviour
                 _instantMenu.isOn = true;
                 break;
         }
+        _areas.maxValue = Enum.GetValues(typeof(Area)).Length; // todo doesnt work FIX!
+        _opponents.maxValue = Enum.GetNames(typeof(Opponent)).Length;
+        _lengths.maxValue = Enum.GetNames(typeof(Length)).Length;
     }
 
     private void Update()

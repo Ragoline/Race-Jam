@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Slider _soundsVolume;
     [SerializeField] private Slider _musicVolume;
     [SerializeField] private Toggle _instantMenu;
+    [SerializeField] private Text _captionText;
 
     private bool up = false;
     public static int MusicVolume;
@@ -41,9 +42,9 @@ public class MenuManager : MonoBehaviour
                 _instantMenu.isOn = true;
                 break;
         }
-        _areas.maxValue = Enum.GetValues(typeof(Area)).Length; // todo doesnt work FIX!
-        _opponents.maxValue = Enum.GetNames(typeof(Opponent)).Length;
-        _lengths.maxValue = Enum.GetNames(typeof(Length)).Length;
+        _areas.maxValue = Enum.GetValues(typeof(Area)).Length-1;
+        _opponents.maxValue = Enum.GetNames(typeof(Enemy)).Length-1;
+        _lengths.maxValue = Enum.GetNames(typeof(Length)).Length-1;
     }
 
     private void Update()
@@ -169,8 +170,31 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Racing
-    // todo сделать в окне выбор гонки (скорость врага и местность) и кнопку старта, а также кнопку старта случайной гонки
+    /// <summary>
+    /// Меняет текст в определённом месте, когда переключаем слайдер
+    /// </summary>
+    /// <param name="which">0 - зона, 1 - оппонент, 2 - длительность</param>
+    public void ChangeSlider(int which)
+    {
+        switch (which)
+        {
+            case 0:
+                _captionText.text = ((Area)_areas.value).ToString();
+                break;
+            case 1:
+                _captionText.text = ((Enemy)_opponents.value).ToString();
+                break;
+            case 2:
+                _captionText.text = ((Length)_lengths.value).ToString();
+                break;
+        }
+    }
 
+    private void StartRace()
+    {
+        // todo и тут надо перенести данные
+        SceneManager.LoadScene("Racing");
+    }
     #endregion
 
     #region Options

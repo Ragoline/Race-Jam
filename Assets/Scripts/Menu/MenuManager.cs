@@ -190,9 +190,22 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    private void StartRace()
+    public void StartRace(bool random)
     {
-        // todo и тут надо перенести данные
+        if (random)
+        {
+            _areas.value = UnityEngine.Random.Range(0, _areas.maxValue + 1);
+            _opponents.value = UnityEngine.Random.Range(0, _opponents.maxValue + 1);
+            _lengths.value = UnityEngine.Random.Range(0, _lengths.maxValue + 1);
+        }
+        else
+        {
+            
+        }
+        // todo перенести выбранную сцену
+        GameManager.Race = 40f + _lengths.value * 10f;
+        GameManager.OpponentExists = true;
+        GameManager.OpponentCar = (int)_opponents.value;
         SceneManager.LoadScene("Racing");
     }
     #endregion

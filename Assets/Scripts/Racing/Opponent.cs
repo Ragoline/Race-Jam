@@ -15,7 +15,7 @@ public class Opponent : RoadObject
     {
         Car = gameObject;
         Position = -1;
-        _speed = CarController.speed + 1f; // todo хрень
+        _speed = CarController.speed + 1f; // todo хрень - должно быть в зависимости от автомобиля
     }
 
     private void Update()

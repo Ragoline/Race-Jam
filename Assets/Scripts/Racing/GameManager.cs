@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Sprite _redHeart;
     [SerializeField] private Sprite _ironHeart;
     private Opponent opponent;
+    public static int OpponentCar;
     public static bool TimeFlows { get; private set; }
     public static bool OpponentExists = true;
     public static GameManager Instance;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 2f, sideObjectTime = 1f, _raceTime, begin = 3f, gear = 1f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
-    public static float race = 10f;
+    public static float Race = 10f;
     private Sprite[] vehicles;
     private Sprite[] obstacles;
     private Sprite[] bigObstacles;
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _race.maxValue = race;
+        _race.maxValue = Race;
         _countdown.gameObject.SetActive(true);
         Vehicle = -2;
         Instance = this;
@@ -241,12 +242,12 @@ public class GameManager : MonoBehaviour
         go.GetComponent<Vehicle>().Create(Vehicle, vehicles[Random.Range(0, vehicles.Length)]);
         roadObjectTime -= Time.deltaTime;
     }
-
+    // todo если крашд, ничего не должно перемещаться вниз
     private void CreateOpponent()
     {
         var go = Instantiate(_opponent, Canvas.transform);
         go.transform.SetSiblingIndex(3);
-        go.GetComponent<Opponent>().Create(Vehicle, cars[Random.Range(0, vehicles.Length)]);
+        go.GetComponent<Opponent>().Create(Vehicle, cars[/*Random.Range(0, vehicles.Length)*/OpponentCar]);
     }
 
     private void CreateGear()
@@ -312,6 +313,7 @@ public class GameManager : MonoBehaviour
     {
         _textWonLostCrushed.text = "Crushed";
         _textWonLostCrushed.color = Color.red;
+        _textGears.text = "0";
         _textTheRace.text = "";
         yield return null;
         // todo сделать так, чтобы машина игрока медленно остановилась

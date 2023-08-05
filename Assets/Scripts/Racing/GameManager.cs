@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
         go.GetComponent<Vehicle>().Create(Vehicle, vehicles[Random.Range(0, vehicles.Length)]);
         roadObjectTime -= Time.deltaTime;
     }
-    // todo если крашд, ничего не должно перемещаться вниз
+
     private void CreateOpponent()
     {
         var go = Instantiate(_opponent, Canvas.transform);
@@ -315,8 +315,13 @@ public class GameManager : MonoBehaviour
         _textWonLostCrushed.color = Color.red;
         _textGears.text = "0";
         _textTheRace.text = "";
-        yield return null;
-        // todo сделать так, чтобы машина игрока медленно остановилась
+        var rot = 0f;
+        while (rot < 45f) {
+            CarController.Instance.transform.position = new Vector3(CarController.Instance.transform.position.x, CarController.Instance.transform.position.y + 0.5f, CarController.Instance.transform.position.z);
+            CarController.Instance.transform.Rotate(new Vector3(0f, 0f, 0.05f));
+            rot += 0.05f;
+            yield return null;
+        }
         while (_finishLine.transform.position.y > 800)
         {
             if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
@@ -329,8 +334,8 @@ public class GameManager : MonoBehaviour
                 Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
             yield return null;
         }
-        yield return new WaitForSeconds(3);
         Final = false;
+        yield return new WaitForSeconds(3);
         Debug.Log("finish");
         OpenWindow();
     }

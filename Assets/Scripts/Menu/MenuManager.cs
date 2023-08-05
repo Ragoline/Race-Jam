@@ -16,14 +16,18 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _dailyGiftWindow;
     [SerializeField] private GameObject _dailyQuestWindow;
     [SerializeField] private GameObject _optionsWindow;
-    [SerializeField] private Slider _soundsVolume;
-    [SerializeField] private Slider _musicVolume;
     [SerializeField] private Toggle _instantMenu;
     [SerializeField] private Text _captionText;
+    [SerializeField] private Image _soundsImage;
+    [SerializeField] private Image _musicImage;
+    [SerializeField] private Sprite _musicOn;
+    [SerializeField] private Sprite _musicOff;
+    [SerializeField] private Sprite _soundsOn;
+    [SerializeField] private Sprite _soundsOff;
 
     private bool up = false;
-    public static int MusicVolume;
-    public static int SoundsVolume;
+    public static bool MusicOn;
+    public static bool SoundsOn;
     public static MenuManager Instance;
     public static bool InstantMenu;
 
@@ -66,7 +70,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            HideWindow(_storyWindow); // todo сделать мгновенное появление меню-машины, если стоит instant menu
+            HideWindow(_storyWindow);
             HideWindow(_racingWindow);
             HideWindow(_dailyGiftWindow);
             HideWindow(_dailyQuestWindow);
@@ -216,32 +220,42 @@ public class MenuManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Music"))
         {
-            MusicVolume = PlayerPrefs.GetInt("Music", 10);
-            _musicVolume.value = MusicVolume;
-            SoundsVolume = PlayerPrefs.GetInt("Sounds", 10);
-            _soundsVolume.value = SoundsVolume;
+            MusicOn = PlayerPrefs.GetInt("Music", 1) == 1 ? true : false;
+            SoundsOn = PlayerPrefs.GetInt("Sounds", 1) == 1 ? true : false;
         }
         else
         {
-            MusicVolume = PlayerPrefs.GetInt("Music", 10);
-            _musicVolume.value = MusicVolume;
-            SoundsVolume = PlayerPrefs.GetInt("Sounds", 10);
-            _soundsVolume.value = SoundsVolume;
+            MusicOn = PlayerPrefs.GetInt("Music", 1) == 1 ? true : false;
+            SoundsOn = PlayerPrefs.GetInt("Sounds", 1) == 1 ? true : false;
         }
+        ImagesUpdate();
     }
 
     public void ChangeVolume(bool music)
     {
         if (music)
         {
-            MusicVolume = (int)_musicVolume.value;
-            PlayerPrefs.SetInt("Music", MusicVolume);
+            MusicOn = !MusicOn;
+            PlayerPrefs.SetInt("Music", 1 - PlayerPrefs.GetInt("Music"));
         }
         else
         {
-            SoundsVolume = (int)_soundsVolume.value;
-            PlayerPrefs.SetInt("Sounds", SoundsVolume);
+            SoundsOn = !SoundsOn;
+            PlayerPrefs.SetInt("Sounds", 1 - PlayerPrefs.GetInt("Sounds"));
         }
+        ImagesUpdate();
+    }
+
+    private void ImagesUpdate()
+    {
+        if (MusicOn)
+            _musicImage.sprite = _musicOn;
+        else
+            _musicImage.sprite = _musicOff;
+        if (SoundsOn)
+            _soundsImage.sprite = _soundsOn;
+        else
+            _soundsImage.sprite = _soundsOff;
     }
 
     public void SwitchInstantMenu()

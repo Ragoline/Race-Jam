@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider nitro;
     [SerializeField] private Sprite _redHeart;
     [SerializeField] private Sprite _ironHeart;
+    [SerializeField] private Sprite _greenNitro;
+    [SerializeField] private Sprite _yellowNitro;
+    [SerializeField] private Sprite _redNitro;
+    [SerializeField] private Image _nitroBackground;
     private Opponent opponent;
     public static int OpponentCar;
     public static bool TimeFlows { get; private set; }
@@ -36,7 +40,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int Vehicle = -2;
     private int gears = 0;
-    public static int Health = 3, Nitro = 2;
+    public static int Health = 3, Nitro = 0;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 2f, sideObjectTime = 1f, _raceTime, begin = 3f, gear = 1f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
@@ -335,7 +339,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         Final = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         Debug.Log("finish");
         OpenWindow();
     }
@@ -460,33 +464,33 @@ public class GameManager : MonoBehaviour
         switch (Nitro)
         {
             case 3:
-                _nitro.GetComponent<Image>().color = Color.red;
+                _nitroBackground.sprite = _redNitro;
                 nitro.maxValue = 30f;
                 break;
             case 2:
-                _nitro.GetComponent<Image>().color = Color.yellow;
+                _nitroBackground.sprite = _yellowNitro;
                 nitro.maxValue = 20f;
                 break;
             case 1:
-                _nitro.GetComponent<Image>().color = Color.green;
+                _nitroBackground.sprite = _greenNitro;
                 nitro.maxValue = 10f;
                 break;
             case 0:
                 _nitro.SetActive(false);
                 break;
         }
-        nitro.value = nitro.maxValue;
+        //nitro.value = nitro.maxValue;
+        nitro.value = 0;
     }
 
     public void SwitchNitro()
     {
-        Debug.Log("switch");
-        nitro.value -= Time.deltaTime;
+        nitro.value += Time.deltaTime;
     }
 
     public bool GetNitro()
     {
-        return nitro.value > 0 ? true : false;
+        return nitro.value < nitro.maxValue ? true : false;
     }
 
     public void PickGear()

@@ -217,19 +217,10 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Options
-    // todo сделать кнопки переключения громкостей
     private void SetVolume()
     {
-        if (PlayerPrefs.HasKey("Music"))
-        {
-            MusicOn = PlayerPrefs.GetInt("Music", 1) == 1 ? true : false;
-            SoundsOn = PlayerPrefs.GetInt("Sounds", 1) == 1 ? true : false;
-        }
-        else
-        {
-            MusicOn = PlayerPrefs.GetInt("Music", 1) == 1 ? true : false;
-            SoundsOn = PlayerPrefs.GetInt("Sounds", 1) == 1 ? true : false;
-        }
+        MusicOn = PlayerPrefs.GetInt("Music", 1) == 1 ? true : false;
+        SoundsOn = PlayerPrefs.GetInt("Sounds", 1) == 1 ? true : false;
         ImagesUpdate();
     }
 
@@ -250,14 +241,10 @@ public class MenuManager : MonoBehaviour
 
     private void ImagesUpdate()
     {
-        if (MusicOn)
-            _musicImage.sprite = _musicOn;
-        else
-            _musicImage.sprite = _musicOff;
-        if (SoundsOn)
-            _soundsImage.sprite = _soundsOn;
-        else
-            _soundsImage.sprite = _soundsOff;
+        _musicImage.sprite = MusicOn ? _musicOn : _musicOff;
+        _soundsImage.sprite = SoundsOn ? _soundsOn : _soundsOff;
+        Debug.Log("music " + MusicOn);
+        Debug.Log("sounds " + SoundsOn);
     }
 
     public void SwitchInstantMenu()

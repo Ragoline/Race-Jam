@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +7,13 @@ public class Opponent : RoadObject
     [SerializeField] private float _speed;
     public static bool LetsGo = false;
     private float start = 200f, touchable = 0f;
-    public static GameObject Car;
+    public static Car Car;
+    public static GameObject TheCar;
 
     private void Start()
     {
-        Car = gameObject;
         Position = -1;
-        _speed = CarController.speed + 1f; // todo хрень - должно быть в зависимости от автомобиля
+        TheCar = gameObject;
     }
 
     private void Update()
@@ -29,10 +27,13 @@ public class Opponent : RoadObject
             }
             else
             {
-                if (touchable == 0f && _image.color.a < 1f)
+                if (touchable > 0f)
+                    touchable -= Time.deltaTime;
+                if (touchable <= 0f && _image.color.a < 1f)
                     _image.color = new Color(1f, 1f, 1f, 1f);
-                transform.position = new Vector2(transform.position.x, transform.position.y + _speed - CarController.speed);
-                if (touchable == 0f && ((Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 160 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 115)))
+                if (transform.position.y < 2000f)
+                    transform.position = new Vector2(transform.position.x, transform.position.y + _speed - CarController.speed);
+                if (touchable <= 0f && ((Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 160 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 115)))
                 {
                     CarController.Instance.Crash();
                     touchable = 2f;
@@ -42,11 +43,13 @@ public class Opponent : RoadObject
         }
     }
 
-    public void Create(int position, Sprite sprite)
+    public void Create(int position, Car car)
     {
-        Debug.Log("vehicle");
+        Car = car;
+        Debug.Log(Car.Name);
+        _speed = Car.Speed;
         Position = position;
-        _image.sprite = sprite;
+        _image.sprite = car.Look;
         transform.position = new Vector2(630, 200);
         VisualPosition();
     }

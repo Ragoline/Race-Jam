@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _gear;
     [SerializeField] private GameObject _pause;
     [SerializeField] private Text _countdown;
+    [SerializeField] private Text _gearsNumber;
     [SerializeField] private Slider _race;
     [SerializeField] private Slider nitro;
     [SerializeField] private Sprite _redHeart;
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Sprite _redNitro;
     [SerializeField] private Image _nitroBackground;
     private Opponent opponent;
-    public static int OpponentCar;
+    public static int OpponentCar = 0;
     public static bool TimeFlows { get; private set; }
     public static bool OpponentExists = true;
     public static GameManager Instance;
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
     private Sprite[] obstacles;
     private Sprite[] bigObstacles;
     private Sprite[] sideObjects;
-    private Sprite[] cars;
+    private Car[] cars;
 
     private void Awake()
     {
@@ -62,16 +63,20 @@ public class GameManager : MonoBehaviour
         n = Resources.LoadAll<Sprite>("Images/BigObstacles").Length;
         bigObstacles = new Sprite[n];
         bigObstacles = Resources.LoadAll<Sprite>("Images/BigObstacles");
-        n = Resources.LoadAll<Sprite>("Images/Cars").Length;
-        cars = new Sprite[n];
-        cars = Resources.LoadAll<Sprite>("Images/Cars");
+        n = AllCars.Cars.Length;
+        cars = new Car[n];
+        cars = AllCars.Cars;
         n = Resources.LoadAll<Sprite>("Images/SideObjects").Length;
         sideObjects = new Sprite[n];
         sideObjects = Resources.LoadAll<Sprite>("Images/SideObjects");
+
+        // todo delete:
+        CarController.Car = new RedCar();
     }
 
     private void Start()
     {
+        _gearsNumber.text = "00";
         _race.maxValue = Race;
         _countdown.gameObject.SetActive(true);
         Vehicle = -2;
@@ -251,7 +256,7 @@ public class GameManager : MonoBehaviour
     {
         var go = Instantiate(_opponent, Canvas.transform);
         go.transform.SetSiblingIndex(3);
-        go.GetComponent<Opponent>().Create(Vehicle, cars[/*Random.Range(0, vehicles.Length)*/OpponentCar]);
+        go.GetComponent<Opponent>().Create(Vehicle, cars[OpponentCar]);
     }
 
     private void CreateGear()
@@ -296,7 +301,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (Opponent.Car.transform.position.y < CarController.Instance.gameObject.transform.position.y)
+            if (Opponent.TheCar.transform.position.y < CarController.Instance.gameObject.transform.position.y)
             {
                 Debug.Log("victory");
                 victory = true;
@@ -315,7 +320,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CrashCutScene()
     {
-        _textWonLostCrushed.text = "Crushed";
+        _textWonLostCrushed.text = "Crashed";
         _textWonLostCrushed.color = Color.red;
         _textGears.text = "0";
         _textTheRace.text = "";
@@ -380,22 +385,22 @@ public class GameManager : MonoBehaviour
             {
                 _textWonLostCrushed.text = "Lost";
                 _textWonLostCrushed.color = Color.red;
-                if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
-                if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 500f)
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 20f);
-                if (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 3f);
+                if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 200f)
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 10f);
+                if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 500f)
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 20f);
+                if (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 200f)
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 3f);
                 else
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f);
             }
             _textGears.text = gears.ToString();
             yield return null;
         }
         Final = false;
-        while (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
+        while (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 200f)
         {
-            Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 1f);
+            Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 1f);
             yield return null;
         }
         Debug.Log("finish");
@@ -496,6 +501,7 @@ public class GameManager : MonoBehaviour
     public void PickGear()
     {
         gears++;
+        _gearsNumber.text = (gears < 10) ? "0" + gears : gears.ToString();
     }
 
     private void OpenWindow()

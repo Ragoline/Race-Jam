@@ -5,7 +5,8 @@ using UnityEngine;
 public class CarController : RoadObject
 {
     private bool moving = false, right, toMove = false, toRound = false, nitro = false;
-    public static float speed = 2f;
+    public static Car Car;
+    public static float speed, turnSpeed;
     public static CarController Instance;
     private float hold = 0f;
 
@@ -13,6 +14,8 @@ public class CarController : RoadObject
     {
         Instance = this;
         Position = 0;
+        speed = Car.Speed;
+        turnSpeed = Car.TurnSpeed;
     }
 
     Vector2 firstPressPos;
@@ -78,10 +81,10 @@ public class CarController : RoadObject
     private void MoveCar(bool right)
     {
         if (right)
-            transform.position = new Vector2(transform.position.x + 1f, transform.position.y);
+            transform.position = new Vector2(transform.position.x + turnSpeed, transform.position.y);
         else
-            transform.position = new Vector2(transform.position.x - 1f, transform.position.y);
-        move -= 1f;
+            transform.position = new Vector2(transform.position.x - turnSpeed, transform.position.y);
+        move -= turnSpeed;
 
         if (move <= 65f)
         {
@@ -101,8 +104,7 @@ public class CarController : RoadObject
     public void Crash()
     {
         GameManager.Instance.LoseHealth();
-
-            toRound = true;
+        toRound = true;
     }
 
     float round = 0f;

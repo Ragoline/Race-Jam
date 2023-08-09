@@ -395,6 +395,7 @@ public class GameManager : MonoBehaviour
                     Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f);
             }
             _textGears.text = gears.ToString();
+            GameContainer.Current.AddGears(gears);
             yield return null;
         }
         Final = false;
@@ -508,6 +509,7 @@ public class GameManager : MonoBehaviour
     {
         up = true;
         _window.SetActive(true);
+        SaveLoad.Save();
     }
 
     private void CloseWindow()

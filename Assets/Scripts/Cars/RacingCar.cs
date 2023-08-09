@@ -6,7 +6,7 @@ public class RacingCar : Car
 {
     public override string Name { get; set; }
     public override int Price { get; set; }
-    public override Sprite Look { get; set; }
+    public override string Look { get; set; }
     public override float Speed { get; set; }
     public override float TurnSpeed { get; set; }
 
@@ -14,7 +14,7 @@ public class RacingCar : Car
     {
         Name = "Racing";
         Price = 100;
-        Look = Resources.Load<Sprite>("Images/Cars/Racing");
+        Look = "Images/Cars/Racing";
         Speed = 10f;
         TurnSpeed = 10f;
     }

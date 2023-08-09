@@ -49,7 +49,7 @@ public class Opponent : RoadObject
         Debug.Log(Car.Name);
         _speed = Car.Speed;
         Position = position;
-        _image.sprite = car.Look;
+        _image.sprite = Resources.Load<Sprite>(car.Look);
         transform.position = new Vector2(630, 200);
         VisualPosition();
     }

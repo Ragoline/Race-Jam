@@ -33,6 +33,7 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
+        new GameContainer();
         SetVolume();
         Instance = this;
         switch (PlayerPrefs.GetInt("InstantMenu", 0))
@@ -49,6 +50,7 @@ public class MenuManager : MonoBehaviour
         _areas.maxValue = Enum.GetValues(typeof(Area)).Length-1;
         _opponents.maxValue = Enum.GetNames(typeof(Enemy)).Length-1;
         _lengths.maxValue = Enum.GetNames(typeof(Length)).Length-1;
+        SaveLoad.Load();
     }
 
     private void Update()
@@ -243,8 +245,6 @@ public class MenuManager : MonoBehaviour
     {
         _musicImage.sprite = MusicOn ? _musicOn : _musicOff;
         _soundsImage.sprite = SoundsOn ? _soundsOn : _soundsOff;
-        Debug.Log("music " + MusicOn);
-        Debug.Log("sounds " + SoundsOn);
     }
 
     public void SwitchInstantMenu()

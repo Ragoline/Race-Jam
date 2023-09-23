@@ -34,6 +34,8 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         new GameContainer();
+        Debug.Log(GameContainer.Current.BuyCar(new RedCar(), 0));
+        Debug.Log(GameContainer.Current.GetBoughtCars().Length);
         SetVolume();
         Instance = this;
         switch (PlayerPrefs.GetInt("InstantMenu", 0))
@@ -51,6 +53,7 @@ public class MenuManager : MonoBehaviour
         _opponents.maxValue = Enum.GetNames(typeof(Enemy)).Length-1;
         _lengths.maxValue = Enum.GetNames(typeof(Length)).Length-1;
         SaveLoad.Load();
+        Debug.Log("gears: " + GameContainer.Current.GetGears());
     }
 
     private void Update()

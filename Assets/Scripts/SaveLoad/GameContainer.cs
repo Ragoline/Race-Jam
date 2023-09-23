@@ -6,6 +6,8 @@ public class GameContainer
     public GameContainer()
     {
         Current = this;
+        BoughtCars = new Car[1];
+        //BoughtCars[0] = new RedCar();
     }
 
     public static GameContainer Current;
@@ -97,5 +99,31 @@ public class GameContainer
             default:
                 return true;
         }
+    }
+
+    public Car[] GetBoughtCars()
+    {
+        return BoughtCars;
+    }
+
+    public bool BuyCar(Car car, int price)
+    {
+        foreach (Car c in GetBoughtCars())
+        {
+            if (c == car)
+                return false;
+        }
+        if (GetGears() >= price)
+        {
+            var cars = new Car[BoughtCars.Length + 1];
+            for (int i = 0; i < BoughtCars.Length; i++)
+                cars[i] = BoughtCars[i];
+            cars[cars.Length - 1] = car;
+            BoughtCars = new Car[cars.Length];
+            BoughtCars = cars;
+            SaveLoad.Save();
+            return true;
+        }
+        return false;
     }
 }

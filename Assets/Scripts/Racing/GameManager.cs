@@ -333,14 +333,14 @@ public class GameManager : MonoBehaviour
         }
         while (_finishLine.transform.position.y > 800)
         {
-            if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 200f)
-                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 10f);
-            if (Opponent.Car.transform.position.y > _finishLine.transform.position.y + 500f)
-                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 20f);
-            if (Opponent.Car.transform.position.y < _finishLine.transform.position.y + 200f)
-                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 3f);
+            if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 200f)
+                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 10f);
+            if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 500f)
+                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 20f);
+            if (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 200f)
+                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 3f);
             else
-                Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y - 1f);
+                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f);
             yield return null;
         }
         Final = false;
@@ -376,10 +376,10 @@ public class GameManager : MonoBehaviour
             {
                 _textWonLostCrushed.text = "Won";
                 _textWonLostCrushed.color = Color.green;
-                if (Opponent.Car.transform.position.y > 0)
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 0.6f);
+                if (Opponent.TheCar.transform.position.y > 0)
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 0.6f);
                 else
-                    Opponent.Car.transform.position = new Vector2(Opponent.Car.transform.position.x, Opponent.Car.transform.position.y + 5f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 5f);
             }
             else
             {
@@ -410,6 +410,7 @@ public class GameManager : MonoBehaviour
 
     public void Continue()
     {
+        SaveLoad.Save();
         CloseWindow();
     }
 

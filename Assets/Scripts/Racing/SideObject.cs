@@ -24,7 +24,7 @@ public class SideObject : MonoBehaviour
 
     public void Create(int position, Sprite sprite)
     {
-        Debug.Log("side object " + position);
+        //Debug.Log("side object " + position);
         _image.sprite = sprite;
         transform.position = new Vector2(120 + 660 * position, 1800);
         if (position == 1)

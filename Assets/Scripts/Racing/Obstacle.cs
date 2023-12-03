@@ -33,7 +33,7 @@ public class Obstacle : RoadObject
 
     public void Create(int position, Sprite sprite)
     {
-        Debug.Log("obstacle");
+        //Debug.Log("obstacle");
         Length = 1;
         Position = position;
         _image.sprite = sprite;
@@ -43,7 +43,7 @@ public class Obstacle : RoadObject
 
     public void CreateBig(int position, Sprite sprite)
     {
-        Debug.Log("big obstacle");
+        //Debug.Log("big obstacle");
         Length = 2;
         Position = position;
         _image.sprite = sprite;

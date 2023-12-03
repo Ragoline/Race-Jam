@@ -51,7 +51,7 @@ public class Vehicle : RoadObject
 
     public void Create(int position, Sprite sprite)
     {
-        Debug.Log("vehicle");
+        //Debug.Log("vehicle");
         Length = 1;
         Position = position;
         _image.sprite = sprite;

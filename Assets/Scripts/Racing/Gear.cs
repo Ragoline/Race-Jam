@@ -34,7 +34,7 @@ public class Gear : MonoBehaviour
 
    public void Create()
     {
-        Debug.Log("gear");
+        //Debug.Log("gear");
         transform.position = new Vector2(450, 1800);
         var x = transform.position.x + Random.Range(-1, 2) * 180;
         transform.position = new Vector2(x, transform.position.y);

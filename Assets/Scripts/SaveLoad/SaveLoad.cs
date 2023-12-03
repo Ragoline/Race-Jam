@@ -10,6 +10,7 @@ public class SaveLoad : MonoBehaviour
     {
         Debug.Log("save");
         SavedGame = GameContainer.Current;
+        Debug.Log("g" + SavedGame.Gears);
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/savedGame.rj");
         bf.Serialize(file, SavedGame);
@@ -27,5 +28,11 @@ public class SaveLoad : MonoBehaviour
             file.Close();
             GameContainer.Current.Load(SavedGame);
         }
+    }
+
+    public static void Delete()
+    {
+        if (File.Exists(Application.persistentDataPath + "/savedGame.rj"))
+            File.Delete(Application.persistentDataPath + "/savedGame.rj");
     }
 }

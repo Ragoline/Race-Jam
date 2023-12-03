@@ -311,6 +311,9 @@ public class GameManager : MonoBehaviour
                 Debug.Log("defeat");
                 victory = false;
             }
+            _textGears.text = gears.ToString();
+            GameContainer.Current.AddGears(gears);
+            SaveLoad.Save();
             _finishLine.SetActive(true);
             CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
             _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 1800);
@@ -394,8 +397,6 @@ public class GameManager : MonoBehaviour
                 else
                     Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f);
             }
-            _textGears.text = gears.ToString();
-            GameContainer.Current.AddGears(gears);
             yield return null;
         }
         Final = false;
@@ -410,6 +411,7 @@ public class GameManager : MonoBehaviour
 
     public void Continue()
     {
+        Debug.Log("continue");
         SaveLoad.Save();
         CloseWindow();
     }
@@ -510,6 +512,7 @@ public class GameManager : MonoBehaviour
     {
         up = true;
         _window.SetActive(true);
+        Debug.Log("open window");
         SaveLoad.Save();
     }
 

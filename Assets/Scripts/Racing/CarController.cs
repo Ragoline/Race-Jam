@@ -70,7 +70,7 @@ public class CarController : RoadObject
     {
         if (!moving && ((right && Position < 1) || (!right && Position > -1)))
         {
-            Debug.Log("move");
+            //Debug.Log("move");
             moving = true;
             this.right = right;
             toMove = true;

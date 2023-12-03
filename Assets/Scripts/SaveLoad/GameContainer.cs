@@ -7,7 +7,7 @@ public class GameContainer
     {
         Current = this;
         BoughtCars = new Car[1];
-        //BoughtCars[0] = new RedCar();
+        BoughtCars[0] = new RedCar();
     }
 
     public static GameContainer Current;
@@ -37,33 +37,43 @@ public class GameContainer
         RedNitro = gc.RedNitro;
         Level = gc.Level;
         BoughtCars = gc.BoughtCars;
+
+        Current.Gears = gc.Gears;
+        Current.Coins = gc.Coins;
+        Current.Armour = gc.Armour;
+        Current.GreenNitro = gc.GreenNitro;
+        Current.YellowNitro = gc.YellowNitro;
+        Current.RedNitro = gc.RedNitro;
+        Current.Level = gc.Level;
+        Current.BoughtCars = gc.BoughtCars;
     }
 
     public void AddGears(int howMany)
     {
-        Gears += howMany;
+        UnityEngine.Debug.Log("add gears " + howMany);
+        Current.Gears += howMany;
     }
     public int GetGears()
     {
-        return Gears;
+        return Current.Gears;
     }
 
     public void AddCoins(int howMany)
     {
-        Coins += howMany;
+        Current.Coins += howMany;
     }
     public int GetCoins()
     {
-        return Coins;
+        return Current.Coins;
     }
 
     public void AddArmour(int howMany)
     {
-        Armour += howMany;
+        Current.Armour += howMany;
     }
     public int GetArmour()
     {
-        return Armour;
+        return Current.Armour;
     }
 
     public void AddNitro(int which)
@@ -71,15 +81,15 @@ public class GameContainer
         switch (which)
         {
             case 0:
-                GreenNitro = true;
+                Current.GreenNitro = true;
                 break;
 
             case 1:
-                YellowNitro = true;
+                Current.YellowNitro = true;
                 break;
 
             case 2:
-                RedNitro = true;
+                Current.RedNitro = true;
                 break;
         }
     }
@@ -88,13 +98,13 @@ public class GameContainer
         switch (which)
         {
             case 0:
-                return GreenNitro;
+                return Current.GreenNitro;
 
             case 1:
-                return YellowNitro;
+                return Current.YellowNitro;
 
             case 2:
-                return RedNitro;
+                return Current.RedNitro;
 
             default:
                 return true;
@@ -103,24 +113,28 @@ public class GameContainer
 
     public Car[] GetBoughtCars()
     {
-        return BoughtCars;
+        return Current.BoughtCars;
     }
 
     public bool BuyCar(Car car, int price)
     {
+        SaveLoad.Load();
         foreach (Car c in GetBoughtCars())
         {
-            if (c == car)
+            if (c.Name == car.Name)
+            {
+                UnityEngine.Debug.Log("car was bought already");
                 return false;
+            }
         }
         if (GetGears() >= price)
         {
-            var cars = new Car[BoughtCars.Length + 1];
-            for (int i = 0; i < BoughtCars.Length; i++)
-                cars[i] = BoughtCars[i];
+            var cars = new Car[Current.BoughtCars.Length + 1];
+            for (int i = 0; i < Current.BoughtCars.Length; i++)
+                cars[i] = Current.BoughtCars[i];
             cars[cars.Length - 1] = car;
-            BoughtCars = new Car[cars.Length];
-            BoughtCars = cars;
+            Current.BoughtCars = new Car[cars.Length];
+            Current.BoughtCars = cars;
             SaveLoad.Save();
             return true;
         }

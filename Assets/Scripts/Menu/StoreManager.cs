@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StoreManager : MonoBehaviour // по итогу надо обязательно сделать возможность фильтровать машины в магазине: можно выбрать все, купленные, не купленные; можно упорядочить по купленности, цене, скорости, скорости поворота
@@ -12,6 +13,8 @@ public class StoreManager : MonoBehaviour // по итогу надо обязательно сделать в
     [SerializeField] private Text nameText;
     [SerializeField] private Text priceText;
     [SerializeField] private Text buyText;
+    [SerializeField] private Text gearsText;
+    [SerializeField] private Text coinsText;
     [SerializeField] private Slider speedSlider;
     [SerializeField] private Slider turningSlider;
     private Car[] cars;
@@ -22,15 +25,24 @@ public class StoreManager : MonoBehaviour // по итогу надо обязательно сделать в
     {
         cars = new Car[AllCars.Cars.Length];
         looks = new Sprite[AllCars.Cars.Length];
+        gearsText.text = "" + GameContainer.Current.Gears;
+        coinsText.text = "" + GameContainer.Current.Coins;
     }
 
     private void Start()
     {
         for (int i = 0; i < AllCars.Cars.Length; i++)
         {
+            cars[i] = AllCars.Cars[i];
             looks[i] = Resources.Load<Sprite>(cars[i].Look);
         }
         SwitchCar();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+            SceneManager.LoadScene("Menu");
     }
 
     public void PrevCar()

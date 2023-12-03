@@ -2168,6 +2168,8 @@ MonoBehaviour:
   nameText: {fileID: 1261537812}
   priceText: {fileID: 697388616}
   buyText: {fileID: 715013007}
+  gearsText: {fileID: 285810273}
+  coinsText: {fileID: 198546485}
   speedSlider: {fileID: 397989951}
   turningSlider: {fileID: 1228442382}
 --- !u!4 &1737394961

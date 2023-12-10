@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StoreManager : MonoBehaviour // по итогу надо обязательно сделать возможность фильтровать машины в магазине: можно выбрать все, купленные, не купленные; можно упорядочить по купленности, цене, скорости, скорости поворота
-{ // у каждой машины в принципе есть три показателя: внешка (каждый решает для себя), скорость, скорость поворота
+public class StoreManager : MonoBehaviour // менять текст buy, название и цену
+{
     [SerializeField] private Image carImage;
     [SerializeField] private Button prevButton;
     [SerializeField] private Button nextButton;
@@ -62,10 +62,24 @@ public class StoreManager : MonoBehaviour // по итогу надо обязательно сделать в
     private void SwitchCar()
     {
         carImage.sprite = looks[num];
-        // speedSlider
-        // turningSlider
+        speedSlider.value = cars[num].Speed / 10f;
+        turningSlider.value = cars[num].TurnSpeed / 10f;
+        nameText.text = cars[num].Name;
+        priceText.text = "" + cars[num].Price;
+
+        for (int i = 0; i < GameContainer.Current.BoughtCars.Length; i++)
+            if (GameContainer.Current.BoughtCars[i].Name == cars[num].Name)
+            {
+                buyButton.interactable = false;
+                buyText.text = "Bought";
+            }
+            else
+            {
+                buyButton.interactable = true;
+                buyText.text = "Buy";
+            }
 
         prevButton.interactable = num == 0 ? false : true;
-        nextButton.interactable = num == (cars.Length-1) ? false : true;
+        nextButton.interactable = num == (cars.Length - 1) ? false : true;
     }
 }

@@ -5,17 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    [Header("Base")]
     [SerializeField] private GameObject _windows;
     [SerializeField] private GameObject _storyWindow;
-
+    [Header("Racing")]
     [SerializeField] private GameObject _racingWindow;
     [SerializeField] private Slider _areas;
     [SerializeField] private Slider _opponents;
     [SerializeField] private Slider _lengths;
-
+    [Header("Windows")]
     [SerializeField] private GameObject _dailyGiftWindow;
     [SerializeField] private GameObject _dailyQuestWindow;
     [SerializeField] private GameObject _optionsWindow;
+    [SerializeField] private GameObject _chooseWindow;
+    [Header("Choose")]
+    [SerializeField] private Button _greenNitro;
+    [SerializeField] private Button _yellowNitro;
+    [SerializeField] private Button _redNitro;
+    [SerializeField] private Button _oneShield;
+    [SerializeField] private Button _twoShields;
+    [SerializeField] private Image _anotherShield1;
+    [SerializeField] private Button _threeShields;
+    [SerializeField] private Image _anotherShield2;
+    [SerializeField] private Image _anotherShield3;
+    [Header("Rest")]
     [SerializeField] private Toggle _instantMenu;
     [SerializeField] private Text _captionText;
     [SerializeField] private Image _soundsImage;
@@ -30,12 +43,13 @@ public class MenuManager : MonoBehaviour
     public static bool SoundsOn;
     public static MenuManager Instance;
     public static bool InstantMenu;
+    private float wait = 0f;
+    private int step = 0, shields = 0, nitro = 0;
 
     private void Awake()
     {
         new GameContainer();
         Debug.Log(GameContainer.Current.BuyCar(new RedCar(), 0));
-        Debug.Log(GameContainer.Current.GetBoughtCars().Length);
         SetVolume();
         Instance = this;
         switch (PlayerPrefs.GetInt("InstantMenu", 0))
@@ -53,33 +67,59 @@ public class MenuManager : MonoBehaviour
         _opponents.maxValue = Enum.GetNames(typeof(Enemy)).Length-1;
         _lengths.maxValue = Enum.GetNames(typeof(Length)).Length-1;
         SaveLoad.Load();
-        Debug.Log("gears: " + GameContainer.Current.GetGears());
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
-            CloseWindows();
-        if (up)
+        if (wait > 0f)
         {
-            if (_storyWindow.activeSelf && _storyWindow.transform.position.y < Screen.height / 2f)
-                GameManager.Window(_storyWindow, 1);
-            if (_racingWindow.activeSelf && _racingWindow.transform.position.y < Screen.height / 2f)
-                GameManager.Window(_racingWindow, 1);
-            if (_dailyGiftWindow.activeSelf && _dailyGiftWindow.transform.position.y < Screen.height / 2f)
-                GameManager.Window(_dailyGiftWindow, 1);
-            if (_dailyQuestWindow.activeSelf && _dailyQuestWindow.transform.position.y < Screen.height / 2f)
-                GameManager.Window(_dailyQuestWindow, 1);
-            if (_optionsWindow.activeSelf && _optionsWindow.transform.position.y < Screen.height / 2f)
-                GameManager.Window(_optionsWindow, 1);
+            wait -= Time.deltaTime;
+            HideRacingWindow();
+            HideWindow(_chooseWindow);
         }
         else
         {
-            HideWindow(_storyWindow);
-            HideWindow(_racingWindow);
-            HideWindow(_dailyGiftWindow);
-            HideWindow(_dailyQuestWindow);
-            HideWindow(_optionsWindow);
+            if (step == 1)
+            {
+                wait = 0f;
+                step = 2;
+            }
+            else if (step == 2)
+            {
+                OpenWindow(6);
+                step = 0;
+            }
+            else if (step == 3)
+            {
+                SceneManager.LoadScene("Racing");
+            }
+
+            if (Input.GetKey(KeyCode.Escape))
+                CloseWindows();
+            if (up)
+            {
+                if (_storyWindow.activeSelf && _storyWindow.transform.position.y < Screen.height / 2f)
+                    GameManager.Window(_storyWindow, 1);
+                if (_racingWindow.activeSelf && _racingWindow.transform.position.y < Screen.height / 2f)
+                    GameManager.Window(_racingWindow, 1);
+                if (_dailyGiftWindow.activeSelf && _dailyGiftWindow.transform.position.y < Screen.height / 2f)
+                    GameManager.Window(_dailyGiftWindow, 1);
+                if (_dailyQuestWindow.activeSelf && _dailyQuestWindow.transform.position.y < Screen.height / 2f)
+                    GameManager.Window(_dailyQuestWindow, 1);
+                if (_optionsWindow.activeSelf && _optionsWindow.transform.position.y < Screen.height / 2f)
+                    GameManager.Window(_optionsWindow, 1);
+                if (_chooseWindow.activeSelf && _chooseWindow.transform.position.y < Screen.height / 2f)
+                    GameManager.Window(_chooseWindow, 1);
+            }
+            else
+            {
+                HideWindow(_storyWindow);
+                HideWindow(_racingWindow);
+                HideWindow(_dailyGiftWindow);
+                HideWindow(_dailyQuestWindow);
+                HideWindow(_optionsWindow);
+                HideWindow(_chooseWindow);
+            }
         }
     }
 
@@ -122,6 +162,7 @@ public class MenuManager : MonoBehaviour
         _dailyGiftWindow.SetActive(false);
         _dailyQuestWindow.SetActive(false);
         _optionsWindow.SetActive(false);
+        _chooseWindow.SetActive(false);
         switch (num)
         {
             case 0: // story window
@@ -148,6 +189,39 @@ public class MenuManager : MonoBehaviour
                 _dailyQuestWindow.transform.position = new Vector2(Screen.width / 2, Screen.height * (up ? -1 : 1));
                 _dailyQuestWindow.SetActive(true);
                 break;
+
+            case 6: // choose Window
+                if (GameContainer.Current.Armour >= 1)
+                {
+                    _oneShield.interactable = true;
+                }
+                if (GameContainer.Current.Armour >= 2)
+                {
+                    _twoShields.interactable = true;
+                    _anotherShield1.color = Color.white;
+                }
+                if (GameContainer.Current.Armour >= 3)
+                {
+                    _threeShields.interactable = true;
+                    _anotherShield2.color = Color.white;
+                    _anotherShield3.color = Color.white;
+                }
+                if (GameContainer.Current.GreenNitro)
+                {
+                    _greenNitro.interactable = true;
+                }
+                if (GameContainer.Current.YellowNitro)
+                {
+                    _yellowNitro.interactable = true;
+                }
+                if (GameContainer.Current.RedNitro)
+                {
+                    _redNitro.interactable = true;
+                }
+
+                _chooseWindow.transform.position = new Vector2(Screen.width / 2, Screen.height * (up ? -1 : 1));
+                _chooseWindow.SetActive(true);
+                break;
         }
     }
 
@@ -170,6 +244,20 @@ public class MenuManager : MonoBehaviour
                 _dailyGiftWindow.SetActive(false);
                 _dailyQuestWindow.SetActive(false);
                 _optionsWindow.SetActive(false);
+                _chooseWindow.SetActive(false);
+            }
+        }
+    }
+
+    private void HideRacingWindow()
+    {
+        if (_racingWindow.activeSelf)
+        {
+            if (_racingWindow.transform.position.y < Screen.height * 2f)
+                GameManager.Window(_racingWindow, 2);
+            else
+            {
+                _racingWindow.SetActive(false);
             }
         }
     }
@@ -206,18 +294,35 @@ public class MenuManager : MonoBehaviour
             _areas.value = UnityEngine.Random.Range(0, _areas.maxValue + 1);
             _opponents.value = UnityEngine.Random.Range(0, _opponents.maxValue + 1);
             _lengths.value = UnityEngine.Random.Range(0, _lengths.maxValue + 1);
-            new WaitForSeconds(1);
         }
         else
         {
-            
+
         }
+        CloseWindows();
+        step = 1;
+        wait = 0.1f;
+    }
+
+    public void HaveChosen()
+    {
+        step = 3;
+        wait = 0.5f;
         if (GameManager.Health < 3)
             GameManager.Health = 3;
         GameManager.Race = 40f + _lengths.value * 10f;
         GameManager.OpponentExists = true;
         GameManager.OpponentCar = (int)_opponents.value;
-        SceneManager.LoadScene("Racing");
+    }
+
+    public void ChooseShields(int howmany)
+    {
+        GameManager.Health = 3 + howmany;
+    }
+
+    public void ChooseNitro(int which)
+    {
+        GameManager.Nitro = which;
     }
     #endregion
 

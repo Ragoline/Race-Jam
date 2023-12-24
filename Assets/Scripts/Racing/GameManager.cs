@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public static int Health = 3, Nitro = 0;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
-    private float roadObjectTime = 2f, sideObjectTime = 1f, _raceTime, begin = 3f, gear = 1f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
+    private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
     public static float Race = 10f;
     private Sprite[] vehicles;
     private Sprite[] obstacles;
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
                 gear -= Time.deltaTime;
                 if (gear < 0f)
                 {
-                    gear += 1f;
+                    gear += 1.5f;
                     CreateGear();
                 }
 
@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
                     roadObjectTime -= Time.deltaTime;
                 else
                     roadObjectTime = 2f;
-                if (sideObjectTime == 1f)
+                if (sideObjectTime == 3f)
                 {
                     switch (Random.Range(0, 1000))
                     {
@@ -190,10 +190,10 @@ public class GameManager : MonoBehaviour
                             break;
                     }
                 }
-                if (sideObjectTime < 1f && sideObjectTime > 0f)
+                if (sideObjectTime < 3f && sideObjectTime > 0f)
                     sideObjectTime -= Time.deltaTime;
                 else
-                    sideObjectTime = 1f;
+                    sideObjectTime = 3f;
                 #endregion
             }
         }

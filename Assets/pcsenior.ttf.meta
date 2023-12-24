@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3822d3d9a02266445ab299de6eddeb11
+guid: 0ce267679207b6b47847ff25c825b1b3
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Undertale Battle Font
+  - PC Senior
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

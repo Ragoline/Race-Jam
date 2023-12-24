@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 {
+    [SerializeField] private GameObject consumablesWindow;
+    [SerializeField] private GameObject shieldButton;
+    [SerializeField] private GameObject greenNitroButton;
+    [SerializeField] private GameObject yellowNitroButton;
+    [SerializeField] private GameObject redNitroButton;
     [SerializeField] private Image carImage;
     [SerializeField] private Button prevButton;
     [SerializeField] private Button nextButton;
@@ -37,25 +42,91 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
             looks[i] = Resources.Load<Sprite>(cars[i].Look);
         }
         SwitchCar();
+        if (GameContainer.Current.Gears >= 10)
+        {
+            shieldButton.GetComponent<Button>().interactable = true;
+
+            if (GameContainer.Current.Gears >= 20)
+            {
+                if (!GameContainer.Current.GreenNitro)
+                    greenNitroButton.GetComponent<Button>().interactable = true;
+
+                if (GameContainer.Current.Gears >= 30)
+                {
+                    if (!GameContainer.Current.YellowNitro)
+                        yellowNitroButton.GetComponent<Button>().interactable = true;
+
+                    if (GameContainer.Current.Gears >= 40)
+                    {
+                        if (!GameContainer.Current.RedNitro)
+                            redNitroButton.GetComponent<Button>().interactable = true;
+                    }
+                }
+            }
+        }
     }
 
     private void Update()
     {
         if (Input.GetKey(KeyCode.Escape))
-            SceneManager.LoadScene("Menu");
+            if (consumablesWindow.activeSelf)
+                consumablesWindow.SetActive(false);
+            else
+                Close();
+    }
+
+    public void Close()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void OpenConsumablesWindow()
+    {
+        consumablesWindow.SetActive(true);
+    }
+
+    public void Buy(int what)
+    {
+        switch (what)
+        {
+            case 0:
+                GameContainer.Current.AddGears(-10);
+                GameContainer.Current.AddArmour(1);
+                gearsText.text = GameContainer.Current.GetGears() + "";
+                break;
+
+            case 1:
+                GameContainer.Current.AddGears(-20);
+                GameContainer.Current.AddNitro(0);
+                gearsText.text = GameContainer.Current.GetGears() + "";
+                break;
+
+            case 2:
+                GameContainer.Current.AddGears(-30);
+                GameContainer.Current.AddNitro(1);
+                gearsText.text = GameContainer.Current.GetGears() + "";
+                break;
+
+            case 3:
+                GameContainer.Current.AddGears(-40);
+                GameContainer.Current.AddNitro(2);
+                gearsText.text = GameContainer.Current.GetGears() + "";
+                break;
+        }
+        SaveLoad.Save();
     }
 
     public void PrevCar()
     {
         num--;
-        // внешне делать анимацию, как предыдущая машина уезжает вверх, а новая приезжает снизу
+        // внешне делать анимацию, как предыдущая машина уезжает вверх, а новая приезжает снизу todo
         SwitchCar();
     }
 
     public void NextCar()
     {
         num++;
-        // внешне делать анимацию, как предыдущая машина уезжает вверх, а новая приезжает снизу
+        // внешне делать анимацию, как предыдущая машина уезжает вверх, а новая приезжает снизу todo
         SwitchCar();
     }
 

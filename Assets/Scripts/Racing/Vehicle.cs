@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class Vehicle : RoadObject
 {
-    [SerializeField] private Image _image;
+    [SerializeField] private SpriteRenderer _image;
     public int Length { get; private set; }
     private bool obstacle = true, moving = false, right;
-    private float speed, move = 180f;
+    private float speed, move = 1.80f;
 
     private void Start()
     {
@@ -20,18 +20,18 @@ public class Vehicle : RoadObject
     {
         if (GameManager.TimeFlows)
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y - CarController.speed + speed);
-            if (transform.position.y < -800 || transform.position.y > 1800)
+            transform.position = new Vector2(transform.position.x, transform.position.y - CarController.speed * Time.deltaTime * GameManager.GameSpeed + speed * Time.deltaTime * GameManager.GameSpeed);
+            if (transform.position.y < -8 || transform.position.y > 18)
             {
                 Destroy(gameObject);
                 GameManager.Instance.Vehicle = -2;
             }
-            if (obstacle && ((Length == 1 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 213 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 150) || (Length == 2 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 125 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 275)))
+            /*if (obstacle && ((Length == 1 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 213 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 150) || (Length == 2 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 125 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 275)))
             {
                 CarController.Instance.Crash();
                 _image.color = new Color(1, 1, 1, 0.5f);
                 obstacle = false;
-            }
+            }*/
             if (!moving && move > 0f && Random.Range(0, 10000) == 10)
             {
                 Move();
@@ -45,7 +45,7 @@ public class Vehicle : RoadObject
         if (GameManager.Final)
         {
             //Destroy(gameObject);
-            transform.position = new Vector2(transform.position.x, transform.position.y - 1f);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
         }
     }
 
@@ -55,20 +55,19 @@ public class Vehicle : RoadObject
         Length = 1;
         Position = position;
         _image.sprite = sprite;
-        transform.position = new Vector2(450, 1800);
+        transform.position = new Vector2(0, 10);
         VisualPosition();
     }
 
     private void VisualPosition()
     {
-        var x = transform.position.x + Position * 180;
+        var x = transform.position.x + Position * 1.80f;
         transform.position = new Vector2(x, transform.position.y);
         gameObject.transform.SetParent(GameManager.Instance.Canvas.transform);
     }
 
     private void Move()
     {
-        Debug.Log("Move");
         moving = true;
         switch (Position)
         {
@@ -97,7 +96,7 @@ public class Vehicle : RoadObject
 
     private void Step()
     {
-        transform.position = new Vector2(transform.position.x + (right ? speed / 10f : -speed / 10f), transform.position.y);
+        transform.position = new Vector2(transform.position.x + (right ? speed / 10f : -speed / 10f) * Time.deltaTime * GameManager.GameSpeed, transform.position.y);
         move -= speed / 10f;
         if (move <= 0f)
             moving = false;

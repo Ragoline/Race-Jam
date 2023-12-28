@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CarController : RoadObject
 {
-    private bool moving = false, right, toMove = false, toRound = false, nitro = false;
+    [SerializeField] private Animator animator;
+    private bool moving = false, right, moved = false, nitro = false;
     public static Car Car;
     public static float speed, turnSpeed;
     public static CarController Instance;
@@ -59,10 +60,8 @@ public class CarController : RoadObject
                 hold = 0f;
             }
 
-            if (toMove)
+            if (moving)
                 MoveCar(right);
-            if (toRound)
-                Round();
         }
     }
 
@@ -70,62 +69,59 @@ public class CarController : RoadObject
     {
         if (!moving && ((right && Position < 1) || (!right && Position > -1)))
         {
-            //Debug.Log("move");
             moving = true;
             this.right = right;
-            toMove = true;
+            moved = false;
+            Debug.Log("move");
         }
     }
 
-    float move = 180f;
+    float move = 1.8f;
     private void MoveCar(bool right)
     {
         if (right)
-            transform.position = new Vector2(transform.position.x + turnSpeed, transform.position.y);
+            transform.position = new Vector2(transform.position.x + turnSpeed * Time.deltaTime * GameManager.GameSpeed, transform.position.y);
         else
-            transform.position = new Vector2(transform.position.x - turnSpeed, transform.position.y);
-        move -= turnSpeed;
+            transform.position = new Vector2(transform.position.x - turnSpeed * Time.deltaTime * GameManager.GameSpeed, transform.position.y);
+        move -= turnSpeed * Time.deltaTime * GameManager.GameSpeed;
 
-        if (move <= 65f)
+        if (move <= 0.65f && !moved)
         {
+            moved = true;
             if (right)
                 Position++;
             else
                 Position--;
         }
-        if (move == 0f)
+        if (move <= 0f)
         {
             moving = false;
-            toMove = false;
-            move = 180f;
+            moved = false;
+            move = 1.8f;
         }
     }
 
     public void Crash()
     {
         GameManager.Instance.LoseHealth();
-        toRound = true;
+        animator.Play("Crash");
     }
 
-    float round = 0f;
-    private void Round()
+    public void LoseAnimation()
     {
-        if (round < 390f)
+        animator.Play("Lose");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.name.Contains("Gear"))
         {
-            round += 1.5f;
-            transform.Rotate(new Vector3(0f, 0f, 1.5f));
+            Destroy(collision.gameObject);
+            GameManager.Instance.PickGear();
         }
-        //round = 0f;
-        if (round < 420f && round >= 390f)
-        {
-            round += 0.5f;
-            transform.Rotate(new Vector3(0f, 0f, -0.5f));
-        }
-        if (round == 420f)
-        {
-            toRound = false;
-            round = 0f;
-        }
+        else
+            Crash();
     }
 
     public void Nitro(bool enable)

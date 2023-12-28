@@ -6,17 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] public Canvas Canvas;
+    [SerializeField] public GameObject Canvas;
     [SerializeField] private GameObject[] _health;
     [SerializeField] private GameObject _nitro;
     [SerializeField] private GameObject _window;
-    [SerializeField] private Text _textWonLostCrushed;
+    [SerializeField] private Text _textWonLostCrashed;
     [SerializeField] private Text _textTheRace;
     [SerializeField] private Text _textGears;
     [SerializeField] private GameObject _finalWindow;
     [SerializeField] private GameObject _finishLine;
     [SerializeField] private GameObject _road;
     [SerializeField] private GameObject _upperRoad;
+    [SerializeField] private GameObject _lowerRoad;
     [SerializeField] private GameObject _sideObject;
     [SerializeField] private GameObject _obstacle;
     [SerializeField] private GameObject _bigObstacle;
@@ -44,13 +45,15 @@ public class GameManager : MonoBehaviour
     public static int Health = 3, Nitro = 0;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
-    private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
+    private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
     public static float Race = 10f;
     private Sprite[] vehicles;
     private Sprite[] obstacles;
     private Sprite[] bigObstacles;
     private Sprite[] sideObjects;
     private Car[] cars;
+
+    public static float GameSpeed = 4f;
 
     private void Awake()
     {
@@ -117,30 +120,33 @@ public class GameManager : MonoBehaviour
                 }
 
                 #region road
-                _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y - CarController.speed);
-                _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y - CarController.speed);
-                if (_road.transform.position.y <= -800)
-                    _road.transform.position = new Vector2(_road.transform.position.x, _upperRoad.transform.position.y + 1600f);
-                if (_upperRoad.transform.position.y <= -800)
-                    _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _road.transform.position.y + 1600f);
+                _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
+                _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
+                _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
+                if (_road.transform.position.y <= -16)
+                    _road.transform.position = new Vector2(_road.transform.position.x, _upperRoad.transform.position.y + 16f);
+                if (_upperRoad.transform.position.y <= -16)
+                    _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _road.transform.position.y + 16f);
+                if (_lowerRoad.transform.position.y <= -24)
+                    _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y + 8f);
                 #endregion
 
                 #region finish line
                 if (Final)
                 {
-                    if (_finishLine.transform.position.y > -1000)
-                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - CarController.speed);
+                    if (_finishLine.transform.position.y > -10)
+                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
                     else
                     {
-                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 2000);
+                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 10);
                         _finishLine.SetActive(false);
                         Final = false;
                     }
                 }
                 else
                 {
-                    if (_finishLine.transform.position.y > -800)
-                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - CarController.speed);
+                    if (_finishLine.transform.position.y > -10)
+                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
                 }
                 #endregion finish line
 
@@ -173,7 +179,7 @@ public class GameManager : MonoBehaviour
                 gear -= Time.deltaTime;
                 if (gear < 0f)
                 {
-                    gear += 1.5f;
+                    gear += 3f;
                     CreateGear();
                 }
 
@@ -297,6 +303,10 @@ public class GameManager : MonoBehaviour
             victory = false;
             _finishLine.SetActive(false);
             CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
+            _textWonLostCrashed.text = "Crashed";
+            _textWonLostCrashed.color = Color.red;
+            _textGears.text = "0";
+            _textTheRace.text = "";
             StartCoroutine(CrashCutScene());
         }
         else
@@ -312,41 +322,18 @@ public class GameManager : MonoBehaviour
                 victory = false;
             }
             _textGears.text = gears.ToString();
-            GameContainer.Current.AddGears(gears);
+            //GameContainer.Current.AddGears(gears);
             SaveLoad.Save();
             _finishLine.SetActive(true);
             CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
-            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 1800);
+            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 0);
             StartCoroutine(FinalCutScene());
         }
     }
 
     private IEnumerator CrashCutScene()
     {
-        _textWonLostCrushed.text = "Crashed";
-        _textWonLostCrushed.color = Color.red;
-        _textGears.text = "0";
-        _textTheRace.text = "";
-        var rot = 0f;
-        while (rot < 45f) {
-            CarController.Instance.transform.position = new Vector3(CarController.Instance.transform.position.x, CarController.Instance.transform.position.y + 0.5f, CarController.Instance.transform.position.z);
-            CarController.Instance.transform.Rotate(new Vector3(0f, 0f, 0.05f));
-            rot += 0.05f;
-            yield return null;
-        }
-        while (_finishLine.transform.position.y > 800)
-        {
-            if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 200f)
-                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 10f);
-            if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 500f)
-                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 20f);
-            if (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 200f)
-                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 3f);
-            else
-                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f);
-            yield return null;
-        }
-        Final = false;
+        CarController.Instance.LoseAnimation();
         yield return new WaitForSeconds(1);
         Debug.Log("finish");
         OpenWindow();
@@ -354,55 +341,56 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FinalCutScene()
     {
+        Debug.Log("fuck");
         yield return null;
-        while (_finishLine.transform.position.y > 800)
+        while (_finishLine.transform.position.y > 8f)
         {
-            if (CarController.Instance.transform.position.x < 450)
+            if (CarController.Instance.transform.position.x < 0f)
             {
-                CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x + 1f, CarController.Instance.transform.position.y);
+                CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x + 1f * Time.deltaTime * GameManager.GameSpeed, CarController.Instance.transform.position.y);
             }
-            else if (CarController.Instance.transform.position.x > 450)
+            else if (CarController.Instance.transform.position.x > 0f)
             {
-                CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x - 1f, CarController.Instance.transform.position.y);
+                CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x - 1f * Time.deltaTime * GameManager.GameSpeed, CarController.Instance.transform.position.y);
             }
-            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - 1f);
-            CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x, CarController.Instance.transform.position.y + 0.8f);
+            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x, CarController.Instance.transform.position.y + 0.8f * Time.deltaTime * GameManager.GameSpeed);
 
-            _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y - 1f);
-            _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y - 1f);
-            if (_road.transform.position.y <= -800)
-                _road.transform.position = new Vector2(_road.transform.position.x, _upperRoad.transform.position.y + 1600f);
-            if (_upperRoad.transform.position.y <= -800)
-                _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _road.transform.position.y + 1600f);
+            _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            if (_road.transform.position.y <= -8)
+                _road.transform.position = new Vector2(_road.transform.position.x, _upperRoad.transform.position.y + 16f * Time.deltaTime * GameManager.GameSpeed);
+            if (_upperRoad.transform.position.y <= -8)
+                _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _road.transform.position.y + 16f * Time.deltaTime * GameManager.GameSpeed);
 
             if (victory)
             {
-                _textWonLostCrushed.text = "Won";
-                _textWonLostCrushed.color = Color.green;
+                _textWonLostCrashed.text = "Won";
+                _textWonLostCrashed.color = Color.green;
                 if (Opponent.TheCar.transform.position.y > 0)
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 0.6f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 0.6f * Time.deltaTime * GameManager.GameSpeed);
                 else
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 5f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 5f * Time.deltaTime * GameManager.GameSpeed);
             }
             else
             {
-                _textWonLostCrushed.text = "Lost";
-                _textWonLostCrushed.color = Color.red;
+                _textWonLostCrashed.text = "Lost";
+                _textWonLostCrashed.color = Color.red;
                 if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 200f)
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 10f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 10f * Time.deltaTime * GameManager.GameSpeed);
                 if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 500f)
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 20f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 20f * Time.deltaTime * GameManager.GameSpeed);
                 if (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 200f)
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 3f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 3f * Time.deltaTime * GameManager.GameSpeed);
                 else
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
             }
             yield return null;
         }
         Final = false;
-        while (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 200f)
+        while (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 2f)
         {
-            Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 1f);
+            Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 1f * Time.deltaTime * GameManager.GameSpeed);
             yield return null;
         }
         Debug.Log("finish");

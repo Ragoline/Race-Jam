@@ -48,6 +48,12 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
+        float unitsPerPixel = 900f / Screen.width;
+
+        float desiredHalfHeight = 0.5f * unitsPerPixel * Screen.height;
+
+        Camera.main.orthographicSize = desiredHalfHeight;
+
         new GameContainer();
         Debug.Log(GameContainer.Current.BuyCar(new RedCar(), 0));
         SetVolume();
@@ -64,7 +70,7 @@ public class MenuManager : MonoBehaviour
                 break;
         }
         _areas.maxValue = Enum.GetValues(typeof(Area)).Length-1;
-        _opponents.maxValue = Enum.GetNames(typeof(Enemy)).Length-1;
+        _opponents.maxValue = AllCars.Cars.Length - 1;
         _lengths.maxValue = Enum.GetNames(typeof(Length)).Length-1;
         SaveLoad.Load();
     }
@@ -279,7 +285,7 @@ public class MenuManager : MonoBehaviour
                 _captionText.text = ((Area)_areas.value).ToString();
                 break;
             case 1:
-                _captionText.text = ((Enemy)_opponents.value).ToString();
+                _captionText.text = AllCars.Cars[(int)_opponents.value].Name;
                 break;
             case 2:
                 _captionText.text = ((Length)_lengths.value).ToString();

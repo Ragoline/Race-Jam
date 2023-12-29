@@ -18,7 +18,7 @@ public class SideObject : MonoBehaviour
         if (GameManager.Final)
         {
             //Destroy(gameObject);
-            transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            //transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
         }
     }
 

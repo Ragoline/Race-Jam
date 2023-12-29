@@ -14,7 +14,7 @@ public class Obstacle : RoadObject
         if (GameManager.TimeFlows)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - CarController.speed * Time.deltaTime * GameManager.GameSpeed);
-            if (transform.position.y < -8)
+            if (transform.position.y < -16)
                 Destroy(gameObject);
             /*if (obstacle && ((Length == 1 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 160 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 115) || (Length == 2 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 125 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 275)))
             {
@@ -27,13 +27,12 @@ public class Obstacle : RoadObject
         if (GameManager.Final)
         {
             //Destroy(gameObject);
-            transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            //transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
         }
     }
 
     public void Create(int position, Sprite sprite)
     {
-        //Debug.Log("obstacle");
         Length = 1;
         Position = position;
         _image.sprite = sprite;
@@ -43,7 +42,6 @@ public class Obstacle : RoadObject
 
     public void CreateBig(int position, Sprite sprite)
     {
-        //Debug.Log("big obstacle");
         Length = 2;
         Position = position;
         _image.sprite = sprite;
@@ -54,14 +52,18 @@ public class Obstacle : RoadObject
         else
         {
             transform.Rotate(new Vector3(0f, 180f, 0f));
-            transform.position = new Vector2(0, 18);
+            transform.position = new Vector2(0, 20);
         }
         VisualPosition();
     }
 
     private void VisualPosition()
     {
-        var x = transform.position.x + Position * 1.80f;
+        float x;
+        if (Length == 1)
+            x = transform.position.x + Position * 1.80f;
+        else
+            x = transform.position.x + Position * 1.3f;
         transform.position = new Vector2(x, transform.position.y);
         gameObject.transform.SetParent(GameManager.Instance.Canvas.transform);
     }

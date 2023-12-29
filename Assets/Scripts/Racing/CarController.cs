@@ -103,8 +103,8 @@ public class CarController : RoadObject
 
     public void Crash()
     {
-        GameManager.Instance.LoseHealth();
-        animator.Play("Crash");
+        if (GameManager.Instance.LoseHealth() > 0)
+            animator.Play("Crash");
     }
 
     public void LoseAnimation()
@@ -114,7 +114,6 @@ public class CarController : RoadObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name.Contains("Gear"))
         {
             Destroy(collision.gameObject);

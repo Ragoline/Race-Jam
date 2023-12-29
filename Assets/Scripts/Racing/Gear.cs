@@ -9,7 +9,7 @@ public class Gear : MonoBehaviour
         if (GameManager.TimeFlows)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - CarController.speed * Time.deltaTime * GameManager.GameSpeed);
-            if (transform.position.y < -8f)
+            if (transform.position.y < -16f)
                 Destroy(gameObject);
         }
         else
@@ -18,7 +18,7 @@ public class Gear : MonoBehaviour
             //Destroy(gameObject);
             if (transform.position.y >= Screen.height)
                 Destroy(gameObject);
-            transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            //transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
         }
     }
 

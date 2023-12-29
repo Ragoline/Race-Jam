@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
                     begin = 0f;
                     Begin();
                 }
-
+                // todo машина не поворачивает - проблема в аниматоре, верхняя и нижняя дорога не успевает перемещаться, дважды проигрывается анимация поражения подряд
                 #region road
                 _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
                 _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
@@ -134,18 +134,18 @@ public class GameManager : MonoBehaviour
                 #region finish line
                 if (Final)
                 {
-                    if (_finishLine.transform.position.y > -10)
+                    if (_finishLine.transform.position.y > -16)
                         _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
                     else
                     {
-                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 10);
+                        _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 16);
                         _finishLine.SetActive(false);
                         Final = false;
                     }
                 }
                 else
                 {
-                    if (_finishLine.transform.position.y > -10)
+                    if (_finishLine.transform.position.y > -16)
                         _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
                 }
                 #endregion finish line
@@ -176,6 +176,11 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
+                if (roadObjectTime < 2f && roadObjectTime >= 0f)
+                    roadObjectTime += Time.deltaTime;
+                else
+                    roadObjectTime = 2f;
+
                 gear -= Time.deltaTime;
                 if (gear < 0f)
                 {
@@ -183,10 +188,6 @@ public class GameManager : MonoBehaviour
                     CreateGear();
                 }
 
-                if (roadObjectTime < 2f && roadObjectTime > 0f)
-                    roadObjectTime -= Time.deltaTime;
-                else
-                    roadObjectTime = 2f;
                 if (sideObjectTime == 3f)
                 {
                     switch (Random.Range(0, 1000))
@@ -223,17 +224,19 @@ public class GameManager : MonoBehaviour
 
     private void CreateObstacle()
     {
+        roadObjectTime = 0f;
         int r = Random.Range(-1, 2);
         while (r == Vehicle)
             r = Random.Range(-1, 2);
         var go = Instantiate(_obstacle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
         go.GetComponent<Obstacle>().Create(r, obstacles[Random.Range(0, obstacles.Length)]);
-        roadObjectTime -= Time.deltaTime;
+        roadObjectTime += Time.deltaTime;
     }
 
     private void CreateBigObstacle()
     {
+        roadObjectTime = 0f;
         var go = Instantiate(_bigObstacle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
         switch (Random.Range(-1, 1))
@@ -246,16 +249,17 @@ public class GameManager : MonoBehaviour
                 go.GetComponent<Obstacle>().CreateBig(1, bigObstacles[Random.Range(0, bigObstacles.Length)]);
                 break;
         }
-        roadObjectTime -= Time.deltaTime;
+        roadObjectTime += Time.deltaTime;
     }
 
     private void CreateVehicle()
     {
+        roadObjectTime = 0f;
         Vehicle = Random.Range(-1, 2);
         var go = Instantiate(_vehicle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
         go.GetComponent<Vehicle>().Create(Vehicle, vehicles[Random.Range(0, vehicles.Length)]);
-        roadObjectTime -= Time.deltaTime;
+        roadObjectTime += Time.deltaTime;
     }
 
     private void CreateOpponent()
@@ -334,14 +338,13 @@ public class GameManager : MonoBehaviour
     private IEnumerator CrashCutScene()
     {
         CarController.Instance.LoseAnimation();
-        yield return new WaitForSeconds(1);
-        Debug.Log("finish");
+        yield return new WaitForSeconds(2);
+        Debug.Log("crashed");
         OpenWindow();
     }
 
     private IEnumerator FinalCutScene()
     {
-        Debug.Log("fuck");
         yield return null;
         while (_finishLine.transform.position.y > 8f)
         {
@@ -404,14 +407,16 @@ public class GameManager : MonoBehaviour
         CloseWindow();
     }
 
-    public void LoseHealth()
+    public int LoseHealth()
     {
         Health--;
         SetHealth();
         if (Health <= 0)
         {
             Finish(true);
+            return 0;
         }
+        return Health;
     }
 
     private void SetHealth()
@@ -516,6 +521,6 @@ public class GameManager : MonoBehaviour
 
     public static void Window(GameObject window, int speed)
     {
-        window.transform.position = new Vector2(Screen.width / 2, (PlayerPrefs.GetInt("InstantMenu", 0) == 0 ? window.transform.position.y + speed * 10f : (speed == 1 ? Screen.height / 2f : Screen.height * 2f)));
+        window.transform.position = new Vector2(Screen.width / 2, (PlayerPrefs.GetInt("InstantMenu", 0) == 0 ? window.transform.position.y + speed * 500f * Time.deltaTime * GameManager.GameSpeed : (speed == 1 ? Screen.height / 2f : Screen.height * 2f)));
     }
 }

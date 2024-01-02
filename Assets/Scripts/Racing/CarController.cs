@@ -5,6 +5,7 @@ using UnityEngine;
 public class CarController : RoadObject
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer sprite;
     private bool moving = false, right, moved = false, nitro = false;
     public static Car Car;
     public static float speed, turnSpeed;
@@ -13,6 +14,7 @@ public class CarController : RoadObject
 
     private void Start()
     {
+        sprite.sprite = Resources.Load<Sprite>(Car.Look);
         Instance = this;
         Position = 0;
         speed = Car.Speed;
@@ -72,7 +74,6 @@ public class CarController : RoadObject
             moving = true;
             this.right = right;
             moved = false;
-            Debug.Log("move");
         }
     }
 
@@ -114,13 +115,14 @@ public class CarController : RoadObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name.Contains("Gear"))
-        {
-            Destroy(collision.gameObject);
-            GameManager.Instance.PickGear();
-        }
-        else
-            Crash();
+        if (!GameManager.Final)
+            if (collision.gameObject.name.Contains("Gear"))
+            {
+                Destroy(collision.gameObject);
+                GameManager.Instance.PickGear();
+            }
+            else
+                Crash();
     }
 
     public void Nitro(bool enable)

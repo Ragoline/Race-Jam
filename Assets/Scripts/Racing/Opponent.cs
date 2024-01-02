@@ -16,6 +16,7 @@ public class Opponent : RoadObject
         TheCar = gameObject;
     }
 
+    float deltaSpeed;
     private void Update()
     {
         if (GameManager.TimeFlows && LetsGo)
@@ -31,8 +32,11 @@ public class Opponent : RoadObject
                     touchable -= Time.deltaTime;
                 if (touchable <= 0f && _image.color.a < 1f)
                     _image.color = new Color(1f, 1f, 1f, 1f);
-                if (transform.position.y < 20f)
-                    transform.position = new Vector2(transform.position.x, transform.position.y + _speed - CarController.speed * Time.deltaTime * GameManager.GameSpeed);
+                deltaSpeed = _speed * Time.deltaTime * GameManager.GameSpeed - CarController.speed * Time.deltaTime * GameManager.GameSpeed;
+                if (transform.position.y < 20f && deltaSpeed > 0)
+                    transform.position = new Vector2(transform.position.x, transform.position.y + deltaSpeed);
+                else if (transform.position.y > -20f && deltaSpeed < 0)
+                    transform.position = new Vector2(transform.position.x, transform.position.y + deltaSpeed);
                 /*if (touchable <= 0f && ((Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 160 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 115)))
                 {
                     CarController.Instance.Crash();

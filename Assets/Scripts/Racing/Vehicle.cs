@@ -13,7 +13,10 @@ public class Vehicle : RoadObject
     private void Start()
     {
         Length = 1;
-        speed = Random.Range(1.2f, 1.7f);
+        if (CarController.speed > 5f)
+            speed = CarController.speed - Random.Range(0.7f, 1f);
+        else
+            speed = CarController.speed - Random.Range(0.2f, 0.6f);
     }
 
     private void Update()
@@ -32,7 +35,7 @@ public class Vehicle : RoadObject
                 _image.color = new Color(1, 1, 1, 0.5f);
                 obstacle = false;
             }*/
-            if (!moving && move > 0f && Random.Range(0, 10000) == 10)
+            if (!moving && move > 0f && Random.Range(0, 2000) == 10)
             {
                 Move();
             }
@@ -45,7 +48,8 @@ public class Vehicle : RoadObject
         if (GameManager.Final)
         {
             //Destroy(gameObject);
-            //transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 3f * Time.deltaTime * GameManager.GameSpeed);
+            Debug.Log("vehicle final");
         }
     }
 
@@ -97,8 +101,10 @@ public class Vehicle : RoadObject
     private void Step()
     {
         transform.position = new Vector2(transform.position.x + (right ? speed / 10f : -speed / 10f) * Time.deltaTime * GameManager.GameSpeed, transform.position.y);
-        move -= speed / 10f;
+        move -= speed / 10f * Time.deltaTime * GameManager.GameSpeed;
         if (move <= 0f)
+        {
             moving = false;
+        }
     }
 }

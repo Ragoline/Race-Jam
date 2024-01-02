@@ -45,8 +45,8 @@ public class GameManager : MonoBehaviour
     public static int Health = 3, Nitro = 0;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
-    private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки
-    public static float Race = 10f;
+    private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки; можно сделать так, чтобы игрок, играющий несколько одинаковых гонок подряд, получал увеличенную сложность
+    public static float Race = 20f;
     private Sprite[] vehicles;
     private Sprite[] obstacles;
     private Sprite[] bigObstacles;
@@ -118,17 +118,16 @@ public class GameManager : MonoBehaviour
                     begin = 0f;
                     Begin();
                 }
-                // todo машина не поворачивает - проблема в аниматоре, верхняя и нижняя дорога не успевает перемещаться, дважды проигрывается анимация поражения подряд
                 #region road
                 _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
                 _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
                 _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y - CarController.speed * Time.deltaTime * GameSpeed);
-                if (_road.transform.position.y <= -16)
-                    _road.transform.position = new Vector2(_road.transform.position.x, _upperRoad.transform.position.y + 16f);
-                if (_upperRoad.transform.position.y <= -16)
-                    _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _road.transform.position.y + 16f);
-                if (_lowerRoad.transform.position.y <= -24)
-                    _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y + 8f);
+                if (_upperRoad.transform.position.y <= 2)
+                    _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y + 16f);
+                if (_road.transform.position.y <= -14)
+                    _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y + 16f);
+                if (_lowerRoad.transform.position.y <= -30)
+                    _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y + 16f);
                 #endregion
 
                 #region finish line
@@ -158,7 +157,7 @@ public class GameManager : MonoBehaviour
                 #region objects
                 if (roadObjectTime == 2f)
                 {
-                    switch (Random.Range(0, 1000))
+                    switch (Random.Range(0, 100))
                     {
                         case 0:
                             CreateObstacle();
@@ -190,7 +189,7 @@ public class GameManager : MonoBehaviour
 
                 if (sideObjectTime == 3f)
                 {
-                    switch (Random.Range(0, 1000))
+                    switch (Random.Range(0, 100))
                     {
                         case 0:
                             CreateSideObject();
@@ -231,7 +230,7 @@ public class GameManager : MonoBehaviour
         var go = Instantiate(_obstacle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
         go.GetComponent<Obstacle>().Create(r, obstacles[Random.Range(0, obstacles.Length)]);
-        roadObjectTime += Time.deltaTime;
+        //roadObjectTime += Time.deltaTime;
     }
 
     private void CreateBigObstacle()
@@ -249,7 +248,7 @@ public class GameManager : MonoBehaviour
                 go.GetComponent<Obstacle>().CreateBig(1, bigObstacles[Random.Range(0, bigObstacles.Length)]);
                 break;
         }
-        roadObjectTime += Time.deltaTime;
+        //roadObjectTime += Time.deltaTime;
     }
 
     private void CreateVehicle()
@@ -259,7 +258,7 @@ public class GameManager : MonoBehaviour
         var go = Instantiate(_vehicle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
         go.GetComponent<Vehicle>().Create(Vehicle, vehicles[Random.Range(0, vehicles.Length)]);
-        roadObjectTime += Time.deltaTime;
+        //roadObjectTime += Time.deltaTime;
     }
 
     private void CreateOpponent()
@@ -306,7 +305,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("defeat");
             victory = false;
             _finishLine.SetActive(false);
-            CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
+            //CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
             _textWonLostCrashed.text = "Crashed";
             _textWonLostCrashed.color = Color.red;
             _textGears.text = "0";
@@ -326,11 +325,11 @@ public class GameManager : MonoBehaviour
                 victory = false;
             }
             _textGears.text = gears.ToString();
-            //GameContainer.Current.AddGears(gears);
+            GameContainer.Current.AddGears(gears);
             SaveLoad.Save();
             _finishLine.SetActive(true);
-            CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
-            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 0);
+            //CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
+            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, 16f);
             StartCoroutine(FinalCutScene());
         }
     }
@@ -346,7 +345,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator FinalCutScene()
     {
         yield return null;
-        while (_finishLine.transform.position.y > 8f)
+        while (_finishLine.transform.position.y > 0f)
         {
             if (CarController.Instance.transform.position.x < 0f)
             {
@@ -356,37 +355,41 @@ public class GameManager : MonoBehaviour
             {
                 CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x - 1f * Time.deltaTime * GameManager.GameSpeed, CarController.Instance.transform.position.y);
             }
-            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
-            CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x, CarController.Instance.transform.position.y + 0.8f * Time.deltaTime * GameManager.GameSpeed);
+            _finishLine.transform.position = new Vector2(_finishLine.transform.position.x, _finishLine.transform.position.y - 2f * Time.deltaTime * GameManager.GameSpeed);
+            CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x, CarController.Instance.transform.position.y + 1f * Time.deltaTime * GameManager.GameSpeed);
 
             _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
             _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
-            if (_road.transform.position.y <= -8)
-                _road.transform.position = new Vector2(_road.transform.position.x, _upperRoad.transform.position.y + 16f * Time.deltaTime * GameManager.GameSpeed);
-            if (_upperRoad.transform.position.y <= -8)
-                _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _road.transform.position.y + 16f * Time.deltaTime * GameManager.GameSpeed);
+            _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            if (_road.transform.position.y <= -14)
+                _road.transform.position = new Vector2(_road.transform.position.x, _road.transform.position.y + 16f * Time.deltaTime * GameManager.GameSpeed);
+            if (_upperRoad.transform.position.y <= 2)
+                _upperRoad.transform.position = new Vector2(_upperRoad.transform.position.x, _upperRoad.transform.position.y + 16f * Time.deltaTime * GameManager.GameSpeed);
+            if (_lowerRoad.transform.position.y <= -30)
+                _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y + 16f * Time.deltaTime * GameManager.GameSpeed);
 
             if (victory)
             {
                 _textWonLostCrashed.text = "Won";
                 _textWonLostCrashed.color = Color.green;
                 if (Opponent.TheCar.transform.position.y > 0)
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 0.6f * Time.deltaTime * GameManager.GameSpeed);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 1f * Time.deltaTime * GameManager.GameSpeed);
                 else
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 5f * Time.deltaTime * GameManager.GameSpeed);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 2f * Time.deltaTime * GameManager.GameSpeed);
             }
             else
             {
                 _textWonLostCrashed.text = "Lost";
                 _textWonLostCrashed.color = Color.red;
-                if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 200f)
+                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, _finishLine.transform.position.y + 2f); //todo это возможная замена решению
+                /*if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 2f)
                     Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 10f * Time.deltaTime * GameManager.GameSpeed);
-                if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 500f)
+                if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 5f)
                     Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 20f * Time.deltaTime * GameManager.GameSpeed);
-                if (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 200f)
+                if (Opponent.TheCar.transform.position.y < _finishLine.transform.position.y + 2f)
                     Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 3f * Time.deltaTime * GameManager.GameSpeed);
                 else
-                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+                    Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);*/
             }
             yield return null;
         }

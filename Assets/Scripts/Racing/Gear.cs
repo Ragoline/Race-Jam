@@ -18,7 +18,8 @@ public class Gear : MonoBehaviour
             //Destroy(gameObject);
             if (transform.position.y >= Screen.height)
                 Destroy(gameObject);
-            //transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 3f * Time.deltaTime * GameManager.GameSpeed);
+            Debug.Log("gear final");
         }
     }
 

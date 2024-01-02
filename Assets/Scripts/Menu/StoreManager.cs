@@ -42,6 +42,30 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
             looks[i] = Resources.Load<Sprite>(cars[i].Look);
         }
         SwitchCar();
+        UpdateButtons();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+            if (consumablesWindow.activeSelf)
+                consumablesWindow.SetActive(false);
+            else
+                Close();
+    }
+
+    public void Close()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void OpenConsumablesWindow()
+    {
+        consumablesWindow.SetActive(true);
+    }
+
+    private void UpdateButtons()
+    {
         if (GameContainer.Current.Gears >= 10)
         {
             shieldButton.GetComponent<Button>().interactable = true;
@@ -64,25 +88,6 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                 }
             }
         }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Escape))
-            if (consumablesWindow.activeSelf)
-                consumablesWindow.SetActive(false);
-            else
-                Close();
-    }
-
-    public void Close()
-    {
-        SceneManager.LoadScene("Menu");
-    }
-
-    public void OpenConsumablesWindow()
-    {
-        consumablesWindow.SetActive(true);
     }
 
     public void Buy(int what)
@@ -114,6 +119,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                 break;
         }
         SaveLoad.Save();
+        UpdateButtons();
     }
 
     public void PrevCar()

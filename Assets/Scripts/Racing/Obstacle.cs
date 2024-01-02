@@ -27,7 +27,8 @@ public class Obstacle : RoadObject
         if (GameManager.Final)
         {
             //Destroy(gameObject);
-            //transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 3f * Time.deltaTime * GameManager.GameSpeed);
+            Debug.Log("obstacle final");
         }
     }
 
@@ -36,7 +37,7 @@ public class Obstacle : RoadObject
         Length = 1;
         Position = position;
         _image.sprite = sprite;
-        transform.position = new Vector2(0, 10);
+        transform.position = new Vector2(0, 12);
         VisualPosition();
     }
 
@@ -47,12 +48,12 @@ public class Obstacle : RoadObject
         _image.sprite = sprite;
         if (Position == 1)
         {
-            transform.position = new Vector2(0, 18);
+            transform.position = new Vector2(0, 12);
         }
         else
         {
             transform.Rotate(new Vector3(0f, 180f, 0f));
-            transform.position = new Vector2(0, 20);
+            transform.position = new Vector2(0, 12);
         }
         VisualPosition();
     }

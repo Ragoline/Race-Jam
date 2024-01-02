@@ -11,14 +11,15 @@ public class SideObject : MonoBehaviour
         if (GameManager.TimeFlows)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - CarController.speed * Time.deltaTime * GameManager.GameSpeed);
-            if (transform.position.y < -8)
+            if (transform.position.y < -12)
                 Destroy(gameObject);
         }
         else
         if (GameManager.Final)
         {
             //Destroy(gameObject);
-            //transform.position = new Vector2(transform.position.x, transform.position.y - 1f * Time.deltaTime * GameManager.GameSpeed);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 3f * Time.deltaTime * GameManager.GameSpeed);
+            Debug.Log("side object final");
         }
     }
 

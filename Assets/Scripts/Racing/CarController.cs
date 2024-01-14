@@ -122,7 +122,11 @@ public class CarController : RoadObject
                 GameManager.Instance.PickGear();
             }
             else
+            {
                 Crash();
+                collision.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+                Destroy(collision.gameObject.GetComponent<BoxCollider2D>());
+            }
     }
 
     public void Nitro(bool enable)

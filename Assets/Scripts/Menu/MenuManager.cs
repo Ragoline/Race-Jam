@@ -383,4 +383,10 @@ public class MenuManager : MonoBehaviour
     {
         SaveLoad.Delete();
     }
+
+    public void AddCoin()
+    {
+        GameContainer.Current.AddCoins(1);
+        SaveLoad.Save();
+    }
 }

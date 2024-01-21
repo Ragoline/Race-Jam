@@ -30,8 +30,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     {
         cars = new Car[AllCars.Cars.Length];
         looks = new Sprite[AllCars.Cars.Length];
-        gearsText.text = "" + GameContainer.Current.Gears;
-        coinsText.text = "" + GameContainer.Current.Coins;
+        UpdateResources();
     }
 
     private void Start()
@@ -52,6 +51,12 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                 consumablesWindow.SetActive(false);
             else
                 Close();
+    }
+
+    private void UpdateResources()
+    {
+        gearsText.text = "" + GameContainer.Current.Gears;
+        coinsText.text = "" + GameContainer.Current.Coins;
     }
 
     public void Close()
@@ -97,27 +102,24 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
             case 0:
                 GameContainer.Current.AddGears(-10);
                 GameContainer.Current.AddArmour(1);
-                gearsText.text = GameContainer.Current.GetGears() + "";
                 break;
 
             case 1:
                 GameContainer.Current.AddGears(-20);
                 GameContainer.Current.AddNitro(0);
-                gearsText.text = GameContainer.Current.GetGears() + "";
                 break;
 
             case 2:
                 GameContainer.Current.AddGears(-30);
                 GameContainer.Current.AddNitro(1);
-                gearsText.text = GameContainer.Current.GetGears() + "";
                 break;
 
             case 3:
                 GameContainer.Current.AddGears(-40);
                 GameContainer.Current.AddNitro(2);
-                gearsText.text = GameContainer.Current.GetGears() + "";
                 break;
         }
+        UpdateResources();
         SaveLoad.Save();
         UpdateButtons();
     }
@@ -149,6 +151,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
             {
                 buyButton.interactable = false;
                 buyText.text = "Bought";
+                break;
             }
             else
             {
@@ -158,5 +161,14 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 
         prevButton.interactable = num == 0 ? false : true;
         nextButton.interactable = num == (cars.Length - 1) ? false : true;
+    }
+
+    public void BuyCar()
+    {
+        if (GameContainer.Current.BuyCar(cars[num], cars[num].Price))
+        {
+            Debug.Log("bought!");
+            UpdateResources();
+        }
     }
 }

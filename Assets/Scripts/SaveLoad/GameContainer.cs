@@ -127,8 +127,9 @@ public class GameContainer
                 return false;
             }
         }
-        if (GetGears() >= price)
+        if (GetCoins() >= price)
         {
+            AddCoins(-price);
             var cars = new Car[Current.BoughtCars.Length + 1];
             for (int i = 0; i < Current.BoughtCars.Length; i++)
                 cars[i] = Current.BoughtCars[i];

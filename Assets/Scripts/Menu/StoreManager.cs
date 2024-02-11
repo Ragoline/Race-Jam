@@ -71,6 +71,11 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 
     private void UpdateButtons()
     {
+        shieldButton.GetComponent<Button>().interactable = false;
+        greenNitroButton.GetComponent<Button>().interactable = false;
+        yellowNitroButton.GetComponent<Button>().interactable = false;
+        redNitroButton.GetComponent<Button>().interactable = false;
+
         if (GameContainer.Current.Gears >= 10)
         {
             shieldButton.GetComponent<Button>().interactable = true;
@@ -106,17 +111,17 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 
             case 1:
                 GameContainer.Current.AddGears(-20);
-                GameContainer.Current.AddNitro(0);
+                GameContainer.Current.AddNitro(0, true);
                 break;
 
             case 2:
                 GameContainer.Current.AddGears(-30);
-                GameContainer.Current.AddNitro(1);
+                GameContainer.Current.AddNitro(1, true);
                 break;
 
             case 3:
                 GameContainer.Current.AddGears(-40);
-                GameContainer.Current.AddNitro(2);
+                GameContainer.Current.AddNitro(2, true);
                 break;
         }
         UpdateResources();

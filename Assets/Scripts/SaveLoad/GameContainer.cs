@@ -76,20 +76,20 @@ public class GameContainer
         return Current.Armour;
     }
 
-    public void AddNitro(int which)
+    public void AddNitro(int which, bool add)
     {
         switch (which)
         {
             case 0:
-                Current.GreenNitro = true;
+                Current.GreenNitro = add ? true : false;
                 break;
 
             case 1:
-                Current.YellowNitro = true;
+                Current.YellowNitro = add ? true : false;
                 break;
 
             case 2:
-                Current.RedNitro = true;
+                Current.RedNitro = add ? true : false;
                 break;
         }
     }

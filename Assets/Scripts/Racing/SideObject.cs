@@ -27,7 +27,7 @@ public class SideObject : MonoBehaviour
     {
         //Debug.Log("side object " + position);
         _image.sprite = sprite;
-        transform.position = new Vector2(-3.2f + 6.4f * position, 10);
+        transform.position = new Vector2(-3.2f + 6.4f * position, 12);
         if (position == 1)
             transform.Rotate(0, 180f, 0);
     }

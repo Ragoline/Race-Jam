@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int Vehicle = -2;
     private int gears = 0;
-    public static int Health = 3, Nitro = 0;
+    public static int Health, Nitro; // hp всё првавильно считается, но не отображаются железные
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки; можно сделать так, чтобы игрок, играющий несколько одинаковых гонок подряд, получал увеличенную сложность
@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
         n = Resources.LoadAll<Sprite>("Images/SideObjects").Length;
         sideObjects = new Sprite[n];
         sideObjects = Resources.LoadAll<Sprite>("Images/SideObjects");
+
+        begin = 3f;
 
         // todo delete:
         CarController.Car = new RedCar();

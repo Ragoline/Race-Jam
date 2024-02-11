@@ -59,7 +59,7 @@ public class Vehicle : RoadObject
         Length = 1;
         Position = position;
         _image.sprite = sprite;
-        transform.position = new Vector2(0, 10);
+        transform.position = new Vector2(0, 12);
         VisualPosition();
     }
 

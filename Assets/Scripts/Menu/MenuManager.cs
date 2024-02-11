@@ -197,6 +197,9 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case 6: // choose Window
+                _anotherShield1.color = Color.gray;
+                _anotherShield2.color = Color.gray;
+                _anotherShield3.color = Color.gray;
                 if (GameContainer.Current.Armour >= 1)
                 {
                     _oneShield.interactable = true;
@@ -319,16 +322,25 @@ public class MenuManager : MonoBehaviour
         GameManager.Race = 40f + _lengths.value * 10f;
         GameManager.OpponentExists = true;
         GameManager.OpponentCar = (int)_opponents.value;
+        if (shields > 0)
+            GameContainer.Current.AddArmour(-shields);
+        shields = 0;
+        if (nitro > 0)
+            GameContainer.Current.AddNitro(nitro-1, false);
+        nitro = 0;
+        SaveLoad.Save();
     }
 
     public void ChooseShields(int howmany)
     {
         GameManager.Health = 3 + howmany;
+        shields = howmany;
     }
 
     public void ChooseNitro(int which)
     {
         GameManager.Nitro = which;
+        nitro = which;
     }
     #endregion
 
@@ -387,6 +399,7 @@ public class MenuManager : MonoBehaviour
     public void AddCoin()
     {
         GameContainer.Current.AddCoins(1);
+        GameContainer.Current.AddGears(10);
         SaveLoad.Save();
     }
 }

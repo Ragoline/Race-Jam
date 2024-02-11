@@ -12,6 +12,7 @@ public class Opponent : RoadObject
 
     private void Start()
     {
+        LetsGo = false;
         Position = -1;
         TheCar = gameObject;
     }

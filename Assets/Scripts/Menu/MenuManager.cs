@@ -29,6 +29,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Image _anotherShield2;
     [SerializeField] private Image _anotherShield3;
     [Header("Rest")]
+    [SerializeField] private Image _carImage;
+    [SerializeField] private Button _previousCar;
+    [SerializeField] private Button _nextCar;
     [SerializeField] private Toggle _instantMenu;
     [SerializeField] private Text _captionText;
     [SerializeField] private Image _soundsImage;
@@ -45,6 +48,8 @@ public class MenuManager : MonoBehaviour
     public static bool InstantMenu;
     private float wait = 0f;
     private int step = 0, shields = 0, nitro = 0;
+    private Car[] boughtCars;
+    private int currentCar = 0;
 
     private void Awake()
     {
@@ -55,6 +60,23 @@ public class MenuManager : MonoBehaviour
         Camera.main.orthographicSize = desiredHalfHeight;
 
         new GameContainer();
+
+        _areas.maxValue = Enum.GetValues(typeof(Area)).Length-1;
+        _opponents.maxValue = AllCars.Cars.Length - 1;
+        _lengths.maxValue = Enum.GetNames(typeof(Length)).Length-1;
+        SaveLoad.Load();
+        Debug.Log(GameContainer.Current.BoughtCars.Length);
+        boughtCars = new Car[GameContainer.Current.BoughtCars.Length];
+        int cars = 0;
+        for (int i = 0; i < GameContainer.Current.BoughtCars.Length; i++)
+        {
+            boughtCars[cars] = GameContainer.Current.BoughtCars[i];
+            cars++;
+            Debug.Log("car " + boughtCars[cars - 1].Name + " was added");
+            currentCar = cars - 1;
+        }
+        _carImage.sprite = Resources.Load<Sprite>(boughtCars[currentCar].Look);
+
         Debug.Log(GameContainer.Current.BuyCar(new RedCar(), 0));
         SetVolume();
         Instance = this;
@@ -69,10 +91,6 @@ public class MenuManager : MonoBehaviour
                 _instantMenu.isOn = true;
                 break;
         }
-        _areas.maxValue = Enum.GetValues(typeof(Area)).Length-1;
-        _opponents.maxValue = AllCars.Cars.Length - 1;
-        _lengths.maxValue = Enum.GetNames(typeof(Length)).Length-1;
-        SaveLoad.Load();
     }
 
     private void Update()
@@ -329,6 +347,28 @@ public class MenuManager : MonoBehaviour
             GameContainer.Current.AddNitro(nitro-1, false);
         nitro = 0;
         SaveLoad.Save();
+        GameManager.Player = boughtCars[currentCar];
+    }
+
+    public void ChooseCar(bool next)
+    {
+        if (next)
+        {
+            currentCar++;
+        }
+        else
+        {
+            currentCar--;
+        }
+        _carImage.sprite = Resources.Load<Sprite>(boughtCars[currentCar].Look);
+        if (currentCar + 1 == boughtCars.Length)
+            _nextCar.interactable = false;
+        else
+            _nextCar.interactable = true;
+        if (currentCar == 0)
+            _previousCar.interactable = false;
+        else
+            _previousCar.interactable = true;
     }
 
     public void ChooseShields(int howmany)

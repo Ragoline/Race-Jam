@@ -1852,10 +1852,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: StoreManager, Assembly-CSharp
-        m_MethodName: PrevCar
-        m_Mode: 1
+      - m_Target: {fileID: 1433745797}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: ChooseCar
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2190,7 +2190,7 @@ RectTransform:
   - {fileID: 692951041}
   - {fileID: 1043280757}
   m_Father: {fileID: 1203147241}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -2441,7 +2441,7 @@ RectTransform:
   m_Children:
   - {fileID: 955551321}
   m_Father: {fileID: 1203147241}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3410,7 +3410,7 @@ RectTransform:
   - {fileID: 283949185}
   - {fileID: 626148113}
   m_Father: {fileID: 1203147241}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5207,7 +5207,7 @@ RectTransform:
   m_Children:
   - {fileID: 638138715}
   m_Father: {fileID: 1203147241}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5563,10 +5563,10 @@ RectTransform:
   - {fileID: 1969926076}
   - {fileID: 830977033}
   - {fileID: 709050087}
-  - {fileID: 806053657}
-  - {fileID: 625420597}
   - {fileID: 631231073}
   - {fileID: 1084740820}
+  - {fileID: 806053657}
+  - {fileID: 625420597}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6550,6 +6550,9 @@ MonoBehaviour:
   _threeShields: {fileID: 1339234799}
   _anotherShield2: {fileID: 1517310695}
   _anotherShield3: {fileID: 1313213356}
+  _carImage: {fileID: 888488966}
+  _previousCar: {fileID: 588193203}
+  _nextCar: {fileID: 1820839696}
   _instantMenu: {fileID: 912654339}
   _captionText: {fileID: 341680430}
   _soundsImage: {fileID: 676728278}
@@ -7808,22 +7811,22 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1820839697}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: StoreManager, Assembly-CSharp
-        m_MethodName: NextCar
-        m_Mode: 1
+      - m_Target: {fileID: 1433745797}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: ChooseCar
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1820839697
 MonoBehaviour:

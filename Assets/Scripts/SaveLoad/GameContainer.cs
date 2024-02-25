@@ -118,7 +118,7 @@ public class GameContainer
 
     public bool BuyCar(Car car, int price)
     {
-        SaveLoad.Load();
+        //SaveLoad.Load();
         foreach (Car c in GetBoughtCars())
         {
             if (c.Name == car.Name)

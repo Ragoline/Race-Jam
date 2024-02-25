@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     private Sprite[] bigObstacles;
     private Sprite[] sideObjects;
     private Car[] cars;
+    public static Car Player;
 
     public static float GameSpeed = 4f;
 
@@ -75,8 +76,7 @@ public class GameManager : MonoBehaviour
 
         begin = 3f;
 
-        // todo delete:
-        CarController.Car = new RedCar();
+        CarController.Car = Player;
     }
 
     private void Start()

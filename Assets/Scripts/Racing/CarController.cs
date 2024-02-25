@@ -43,13 +43,13 @@ public class CarController : RoadObject
             {
                 secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
-                if (secondPressPos.x - firstPressPos.x > 200 && (firstPressPos.x > 0f || firstPressPos.y > 0f))
+                if (secondPressPos.x - firstPressPos.x > 100 && (firstPressPos.x > 0f || firstPressPos.y > 0f))
                 {
                     firstPressPos = new Vector2();
                     secondPressPos = new Vector2();
                     Move(true);
                 }
-                else if (firstPressPos.x - secondPressPos.x > 200)
+                else if (firstPressPos.x - secondPressPos.x > 100)
                 {
                     firstPressPos = new Vector2();
                     secondPressPos = new Vector2();

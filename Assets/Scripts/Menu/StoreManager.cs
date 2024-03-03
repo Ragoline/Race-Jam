@@ -174,6 +174,19 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
         {
             Debug.Log("bought!");
             UpdateResources();
+
+            for (int i = 0; i < GameContainer.Current.BoughtCars.Length; i++)
+                if (GameContainer.Current.BoughtCars[i].Name == cars[num].Name)
+                {
+                    buyButton.interactable = false;
+                    buyText.text = "Bought";
+                    break;
+                }
+                else
+                {
+                    buyButton.interactable = true;
+                    buyText.text = "Buy";
+                }
         }
     }
 }

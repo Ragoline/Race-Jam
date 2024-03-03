@@ -13,17 +13,17 @@ public class Vehicle : RoadObject
     private void Start()
     {
         Length = 1;
-        if (CarController.speed > 5f)
-            speed = CarController.speed - Random.Range(0.7f, 1f);
+        if (CarController.Car.Speed > 5f)
+            speed = CarController.Car.Speed  - Random.Range(0.7f, 1f);
         else
-            speed = CarController.speed - Random.Range(0.2f, 0.6f);
+            speed = CarController.Car.Speed - Random.Range(0.2f, 0.6f);
     }
 
     private void Update()
     {
         if (GameManager.TimeFlows)
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y - CarController.speed * Time.deltaTime * GameManager.GameSpeed + speed * Time.deltaTime * GameManager.GameSpeed);
+            transform.position = new Vector2(transform.position.x, transform.position.y - CarController.Car.Speed * Time.deltaTime * GameManager.GameSpeed + speed * Time.deltaTime * GameManager.GameSpeed);
             if (transform.position.y < -16 || transform.position.y > 18)
             {
                 Destroy(gameObject);

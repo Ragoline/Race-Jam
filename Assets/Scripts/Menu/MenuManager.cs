@@ -28,6 +28,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button _threeShields;
     [SerializeField] private Image _anotherShield2;
     [SerializeField] private Image _anotherShield3;
+    [SerializeField] private Transform _choiceShield;
+    [SerializeField] private Transform _choiceNitro;
     [Header("Rest")]
     [SerializeField] private Image _carImage;
     [SerializeField] private Button _previousCar;
@@ -375,12 +377,42 @@ public class MenuManager : MonoBehaviour
     {
         GameManager.Health = 3 + howmany;
         shields = howmany;
+        switch (howmany)
+        {
+            case 0:
+                _choiceShield.localPosition = new Vector3(-200, -100, 0);
+                break;
+            case 1:
+                _choiceShield.localPosition = new Vector3(-70, -100, 0);
+                break;
+            case 2:
+                _choiceShield.localPosition = new Vector3(65, -100, 0);
+                break;
+            case 3:
+                _choiceShield.localPosition = new Vector3(195, -100, 0);
+                break;
+        }
     }
 
     public void ChooseNitro(int which)
     {
         GameManager.Nitro = which;
         nitro = which;
+        switch (which)
+        {
+            case 0:
+                _choiceNitro.localPosition = new Vector3(-200, -100, 0);
+                break;
+            case 1:
+                _choiceNitro.localPosition = new Vector3(-70, -100, 0);
+                break;
+            case 2:
+                _choiceNitro.localPosition = new Vector3(70, -100, 0);
+                break;
+            case 3:
+                _choiceNitro.localPosition = new Vector3(200, -100, 0);
+                break;
+        }
     }
     #endregion
 

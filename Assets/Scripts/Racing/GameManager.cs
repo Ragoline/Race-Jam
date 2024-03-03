@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int Vehicle = -2;
     private int gears = 0;
-    public static int Health, Nitro; // hp всё првавильно считается, но не отображаются железные
+    public static int Health, Nitro;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки; можно сделать так, чтобы игрок, играющий несколько одинаковых гонок подряд, получал увеличенную сложность
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     private Sprite[] sideObjects;
     private Car[] cars;
     public static Car Player;
-
+    
     public static float GameSpeed = 4f;
 
     private void Awake()
@@ -344,7 +344,7 @@ public class GameManager : MonoBehaviour
         OpenWindow();
     }
 
-    private IEnumerator FinalCutScene()
+    private IEnumerator FinalCutScene() // todo: в финале сделать так, чтобы всё вокруг теряло альфу
     {
         yield return null;
         while (_finishLine.transform.position.y > 0f)

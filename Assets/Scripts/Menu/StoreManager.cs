@@ -25,6 +25,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     private Car[] cars;
     private Sprite[] looks;
     private int num = 0;
+    private static int BoughtFilter = 0, SpeedFilter = 0, TurningFilter = 0;
 
     private void Awake()
     {
@@ -188,5 +189,66 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                     buyText.text = "Buy";
                 }
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="which">0 - cancel all; 1 - bought; 2 - speed; 3 - turning</param>
+    public void SetFilter(int which)
+    {
+        int j = 0;
+        num = 0;
+        switch (which)
+        {
+            case 0:
+                for (int i = 0; i < AllCars.Cars.Length; i++)
+                {
+                    cars[i] = AllCars.Cars[i];
+                    looks[i] = Resources.Load<Sprite>(cars[i].Look);
+                }
+                break;
+
+            case 1:
+                int k = 0;
+                foreach (Car c in AllCars.Cars)
+                {
+                    foreach (Car car in GameContainer.Current.BoughtCars)
+                        if (c.Name == car.Name)
+                        {
+                            cars[j] = AllCars.Cars[k];
+                            looks[j] = Resources.Load<Sprite>(cars[k].Look);
+                            j++;
+                        }
+                    k++;
+                }
+                Debug.Log(j);
+                k = 0;
+                foreach (Car c in AllCars.Cars)
+                {
+                    bool ok = true;
+                    foreach (Car car in GameContainer.Current.BoughtCars)
+                        if (c.Name == car.Name)
+                        {
+                            ok = false;
+                        }
+                    if (ok)
+                    {
+                        cars[j] = AllCars.Cars[k];
+                        looks[j] = Resources.Load<Sprite>(cars[k].Look);
+                        j++;
+                    }
+                    k++;
+                    Debug.Log(k + " " + c.Name + " " + ok);
+                }
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+        }
+        SwitchCar();
     }
 }

@@ -9,6 +9,7 @@ public class Vehicle : RoadObject
     public int Length { get; private set; }
     private bool obstacle = true, moving = false, right;
     private float speed, move = 1.80f;
+    float a = 1f;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class Vehicle : RoadObject
         if (GameManager.TimeFlows)
         {
             transform.position = new Vector2(transform.position.x, transform.position.y - CarController.Car.Speed * Time.deltaTime * GameManager.GameSpeed + speed * Time.deltaTime * GameManager.GameSpeed);
-            if (transform.position.y < -16 || transform.position.y > 18)
+            if (transform.position.y < -18 || transform.position.y > 18)
             {
                 Destroy(gameObject);
                 GameManager.Instance.Vehicle = -2;
@@ -47,6 +48,8 @@ public class Vehicle : RoadObject
         else
         if (GameManager.Final)
         {
+            a -= Time.deltaTime;
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, a);
             //Destroy(gameObject);
             transform.position = new Vector2(transform.position.x, transform.position.y - 3f * Time.deltaTime * GameManager.GameSpeed);
             Debug.Log("vehicle final");

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Gear : MonoBehaviour
 {
+    float a = 1f;
     private void Update()
     {
         if (GameManager.TimeFlows)
@@ -15,6 +16,8 @@ public class Gear : MonoBehaviour
         else
         if (GameManager.Final)
         {
+            a -= Time.deltaTime;
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, a);
             //Destroy(gameObject);
             if (transform.position.y >= Screen.height)
                 Destroy(gameObject);

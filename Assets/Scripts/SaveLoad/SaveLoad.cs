@@ -10,6 +10,7 @@ public class SaveLoad : MonoBehaviour
     {
         Debug.Log("save");
         SavedGame = GameContainer.Current;
+        Debug.Log(SavedGame.Coins);
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/savedGame.rj");
         bf.Serialize(file, SavedGame);

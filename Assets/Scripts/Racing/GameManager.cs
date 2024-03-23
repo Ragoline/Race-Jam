@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text _textWonLostCrashed;
     [SerializeField] private Text _textTheRace;
     [SerializeField] private Text _textGears;
+    [SerializeField] private Text _textCoins;
     [SerializeField] private GameObject _finalWindow;
     [SerializeField] private GameObject _finishLine;
     [SerializeField] private GameObject _road;
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     public static bool OpponentExists = true;
     public static GameManager Instance;
     public int Vehicle = -2;
-    private int gears = 0;
+    private int gears = 0, coins = 0;
     public static int Health, Nitro;
     public static bool Final = false;
     private bool victory = false, pausable = true, up = true;
@@ -311,6 +312,7 @@ public class GameManager : MonoBehaviour
             _textWonLostCrashed.text = "Crashed";
             _textWonLostCrashed.color = Color.red;
             _textGears.text = "0";
+            _textCoins.text = "0";
             _textTheRace.text = "";
             StartCoroutine(CrashCutScene());
         }
@@ -319,6 +321,7 @@ public class GameManager : MonoBehaviour
             if (Opponent.TheCar.transform.position.y < CarController.Instance.gameObject.transform.position.y)
             {
                 Debug.Log("victory");
+                coins = 1;
                 victory = true;
             }
             else
@@ -327,7 +330,9 @@ public class GameManager : MonoBehaviour
                 victory = false;
             }
             _textGears.text = gears.ToString();
+            _textCoins.text = coins.ToString();
             GameContainer.Current.AddGears(gears);
+            GameContainer.Current.AddCoins(coins);
             SaveLoad.Save();
             _finishLine.SetActive(true);
             //CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
@@ -349,11 +354,11 @@ public class GameManager : MonoBehaviour
         yield return null;
         while (_finishLine.transform.position.y > 0f)
         {
-            if (CarController.Instance.transform.position.x < 0f)
+            if (CarController.Instance.transform.position.x < -0.5f)
             {
                 CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x + 1f * Time.deltaTime * GameManager.GameSpeed, CarController.Instance.transform.position.y);
             }
-            else if (CarController.Instance.transform.position.x > 0f)
+            else if (CarController.Instance.transform.position.x > 0.5f)
             {
                 CarController.Instance.transform.position = new Vector2(CarController.Instance.transform.position.x - 1f * Time.deltaTime * GameManager.GameSpeed, CarController.Instance.transform.position.y);
             }
@@ -373,6 +378,7 @@ public class GameManager : MonoBehaviour
             if (victory)
             {
                 _textWonLostCrashed.text = "Won";
+                //coins = 1;
                 _textWonLostCrashed.color = Color.green;
                 if (Opponent.TheCar.transform.position.y > 0)
                     Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y + 1f * Time.deltaTime * GameManager.GameSpeed);

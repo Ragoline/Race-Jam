@@ -8,6 +8,7 @@ public class Obstacle : RoadObject
     [SerializeField] private SpriteRenderer _image;
     public int Length { get; private set; }
     private bool obstacle = true;
+    float a = 1f;
 
     private void Update()
     {
@@ -26,6 +27,8 @@ public class Obstacle : RoadObject
         else
         if (GameManager.Final)
         {
+            a -= Time.deltaTime;
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, a);
             //Destroy(gameObject);
             transform.position = new Vector2(transform.position.x, transform.position.y - 3f * Time.deltaTime * GameManager.GameSpeed);
             Debug.Log("obstacle final");

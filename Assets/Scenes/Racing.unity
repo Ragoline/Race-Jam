@@ -1130,6 +1130,7 @@ MonoBehaviour:
   _textWonLostCrashed: {fileID: 1236260200}
   _textTheRace: {fileID: 2048827347}
   _textGears: {fileID: 54360787}
+  _textCoins: {fileID: 1077011051}
   _finalWindow: {fileID: 938984074}
   _finishLine: {fileID: 1688871526}
   _road: {fileID: 1059809245}
@@ -3964,7 +3965,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 7.986755
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

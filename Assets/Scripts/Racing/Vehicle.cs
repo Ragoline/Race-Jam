@@ -24,7 +24,7 @@ public class Vehicle : RoadObject
     {
         if (GameManager.TimeFlows)
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y - CarController.Car.Speed * Time.deltaTime * GameManager.GameSpeed + speed * Time.deltaTime * GameManager.GameSpeed);
+            transform.position = new Vector2(transform.position.x, transform.position.y - CarController.speed * Time.deltaTime * GameManager.GameSpeed + speed * Time.deltaTime * GameManager.GameSpeed);
             if (transform.position.y < -18 || transform.position.y > 18)
             {
                 Destroy(gameObject);

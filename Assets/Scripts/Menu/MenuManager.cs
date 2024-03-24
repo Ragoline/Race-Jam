@@ -78,6 +78,10 @@ public class MenuManager : MonoBehaviour
             currentCar = cars - 1;
         }
         _carImage.sprite = Resources.Load<Sprite>(boughtCars[currentCar].Look);
+        if (currentCar == 0)
+            _previousCar.interactable = false;
+        else
+            _previousCar.interactable = true;
 
         Debug.Log(GameContainer.Current.BuyCar(new RedCar(), 0));
         SetVolume();
@@ -125,17 +129,17 @@ public class MenuManager : MonoBehaviour
             if (up)
             {
                 if (_storyWindow.activeSelf && _storyWindow.transform.position.y < Screen.height / 2f)
-                    GameManager.Window(_storyWindow, 1);
+                    GameManager.Window(_storyWindow, 3);
                 if (_racingWindow.activeSelf && _racingWindow.transform.position.y < Screen.height / 2f)
-                    GameManager.Window(_racingWindow, 1);
+                    GameManager.Window(_racingWindow, 3);
                 if (_dailyGiftWindow.activeSelf && _dailyGiftWindow.transform.position.y < Screen.height / 2f)
-                    GameManager.Window(_dailyGiftWindow, 1);
+                    GameManager.Window(_dailyGiftWindow, 3);
                 if (_dailyQuestWindow.activeSelf && _dailyQuestWindow.transform.position.y < Screen.height / 2f)
-                    GameManager.Window(_dailyQuestWindow, 1);
+                    GameManager.Window(_dailyQuestWindow, 3);
                 if (_optionsWindow.activeSelf && _optionsWindow.transform.position.y < Screen.height / 2f)
-                    GameManager.Window(_optionsWindow, 1);
+                    GameManager.Window(_optionsWindow, 3);
                 if (_chooseWindow.activeSelf && _chooseWindow.transform.position.y < Screen.height / 2f)
-                    GameManager.Window(_chooseWindow, 1);
+                    GameManager.Window(_chooseWindow, 3);
             }
             else
             {
@@ -264,7 +268,7 @@ public class MenuManager : MonoBehaviour
         if (go.activeSelf)
         {
             if (go.transform.position.y < Screen.height * 2f)
-                GameManager.Window(go, 2);
+                GameManager.Window(go, 5);
             else
             {
                 _windows.SetActive(false);

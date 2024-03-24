@@ -532,6 +532,6 @@ public class GameManager : MonoBehaviour
 
     public static void Window(GameObject window, int speed)
     {
-        window.transform.position = new Vector2(Screen.width / 2, (PlayerPrefs.GetInt("InstantMenu", 0) == 0 ? window.transform.position.y + speed * 500f * Time.deltaTime * GameManager.GameSpeed : (speed == 1 ? Screen.height / 2f : Screen.height * 2f)));
+        window.transform.position = new Vector2(Screen.width / 2, (PlayerPrefs.GetInt("InstantMenu", 0) == 0 ? window.transform.position.y + speed * 500f * Time.deltaTime * GameManager.GameSpeed : (speed == 2 ? Screen.height / 2f : Screen.height * 2f)));
     }
 }

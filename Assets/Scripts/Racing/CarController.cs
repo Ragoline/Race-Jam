@@ -135,7 +135,7 @@ public class CarController : RoadObject
         {
             if (!nitro)
             {
-                if (GameManager.Nitro > 0)
+                if (GameManager.Nitro > 0 && GameManager.Instance.GetNitro())
                 {
                     Debug.Log("nitro");
                     speed += 2f;
@@ -145,6 +145,11 @@ public class CarController : RoadObject
             else if (GameManager.Instance.GetNitro())
             {
                 GameManager.Instance.SwitchNitro();
+            }
+            else
+            {
+                speed -= 2f;
+                nitro = false;
             }
         }
         else

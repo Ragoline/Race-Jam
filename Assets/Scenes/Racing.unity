@@ -1046,7 +1046,7 @@ RectTransform:
   - {fileID: 1326686769}
   - {fileID: 781635184}
   m_Father: {fileID: 1071279833}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1450,7 +1450,7 @@ RectTransform:
   m_Children:
   - {fileID: 393154429}
   m_Father: {fileID: 1071279833}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1604,7 +1604,7 @@ RectTransform:
   m_Children:
   - {fileID: 1059726011}
   m_Father: {fileID: 1071279833}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2209,10 +2209,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 849476160}
   - {fileID: 801948130}
   - {fileID: 457506629}
   - {fileID: 1166138532}
+  - {fileID: 849476160}
   - {fileID: 170592361}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -2543,7 +2543,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1071279833}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3965,7 +3965,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.986755
+  orthographic size: 9.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

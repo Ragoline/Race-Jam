@@ -10,9 +10,9 @@ public class RetroCar : Car
     public RetroCar()
     {
         Name = "Retro";
-        Price = 5;
+        Price = 40;
         Look = "Images/Cars/Retro";
-        Speed = 3f;
-        TurnSpeed = 3f;
+        Speed = 2.5f;
+        TurnSpeed = 3.5f;
     }
 }

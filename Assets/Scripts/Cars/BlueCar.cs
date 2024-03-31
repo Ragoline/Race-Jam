@@ -12,7 +12,7 @@ public class BlueCar : Car
         Name = "Blue";
         Price = 5;
         Look = "Images/Cars/Blue";
-        Speed = 3f;
-        TurnSpeed = 3f;
+        Speed = 2f;
+        TurnSpeed = 2f;
     }
 }

@@ -10,9 +10,9 @@ public class SportCar : Car
     public SportCar()
     {
         Name = "Sport";
-        Price = 5;
+        Price = 60;
         Look = "Images/Cars/Sport";
-        Speed = 3f;
+        Speed = 3.5f;
         TurnSpeed = 3f;
     }
 }

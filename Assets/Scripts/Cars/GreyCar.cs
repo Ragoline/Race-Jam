@@ -10,9 +10,9 @@ public class GreyCar : Car
     public GreyCar()
     {
         Name = "Grey";
-        Price = 5;
+        Price = 2;
         Look = "Images/Cars/Grey";
-        Speed = 3f;
-        TurnSpeed = 3f;
+        Speed = 1.3f;
+        TurnSpeed = 1.5f;
     }
 }

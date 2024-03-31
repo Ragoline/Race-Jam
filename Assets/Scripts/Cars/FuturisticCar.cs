@@ -10,9 +10,9 @@ public class FuturisticCar : Car
     public FuturisticCar()
     {
         Name = "Futuristic";
-        Price = 5;
+        Price = 25;
         Look = "Images/Cars/Futuristic";
-        Speed = 3f;
-        TurnSpeed = 3f;
+        Speed = 3.3f;
+        TurnSpeed = 2.6f;
     }
 }

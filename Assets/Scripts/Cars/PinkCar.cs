@@ -10,9 +10,9 @@ public class PinkCar : Car
     public PinkCar()
     {
         Name = "Pink";
-        Price = 5;
+        Price = 50;
         Look = "Images/Cars/Pink";
         Speed = 3f;
-        TurnSpeed = 3f;
+        TurnSpeed = 3.5f;
     }
 }

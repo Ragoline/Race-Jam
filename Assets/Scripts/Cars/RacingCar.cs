@@ -13,6 +13,6 @@ public class RacingCar : Car
         Price = 100;
         Look = "Images/Cars/Racing";
         Speed = 4f;
-        TurnSpeed = 4f;
+        TurnSpeed = 3.5f;
     }
 }

@@ -327,10 +327,11 @@ public class MenuManager : MonoBehaviour
             _areas.value = UnityEngine.Random.Range(0, _areas.maxValue + 1);
             _opponents.value = UnityEngine.Random.Range(0, _opponents.maxValue + 1);
             _lengths.value = UnityEngine.Random.Range(0, _lengths.maxValue + 1);
+            GameManager.RandomBonus = true;
         }
         else
         {
-
+            GameManager.RandomBonus = false;
         }
         CloseWindows();
         step = 1;

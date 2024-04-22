@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public int Vehicle = -2;
     private int gears = 0, coins = 0;
     public static int Health, Nitro;
-    public static bool Final = false;
+    public static bool Final = false, RandomBonus = false;
     private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки; можно сделать так, чтобы игрок, играющий несколько одинаковых гонок подряд, получал увеличенную сложность
     public static float Race = 20f;
@@ -322,6 +322,20 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("victory");
                 coins = 1;
+                if (Opponent.Car.Speed > CarController.Car.Speed)
+                {
+                    coins = 5;
+                }
+                else if (CarController.Car.Speed == Opponent.Car.Speed)
+                {
+                    coins = 3;
+                }
+                else if (CarController.Car.Speed - Opponent.Car.Speed < 0.5f)
+                {
+                    coins = 2;
+                }
+                if (RandomBonus)
+                    coins *= 2;
                 victory = true;
             }
             else

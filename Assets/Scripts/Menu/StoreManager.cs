@@ -147,8 +147,8 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     private void SwitchCar()
     {
         carImage.sprite = looks[num];
-        speedSlider.value = cars[num].Speed / 10f;
-        turningSlider.value = cars[num].TurnSpeed / 10f;
+        speedSlider.value = cars[num].Speed / 4f;
+        turningSlider.value = cars[num].TurnSpeed / 4f;
         nameText.text = cars[num].Name;
         priceText.text = "" + cars[num].Price;
 

@@ -119,7 +119,7 @@ public class CarController : RoadObject
             if (collision.gameObject.name.Contains("Gear"))
             {
                 Destroy(collision.gameObject);
-                GameManager.Instance.PickGear();
+                GameManager.Instance.PickUpGear();
             }
             else
             {

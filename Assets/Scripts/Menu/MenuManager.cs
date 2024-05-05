@@ -333,6 +333,7 @@ public class MenuManager : MonoBehaviour
         {
             GameManager.RandomBonus = false;
         }
+        GameManager.Area = ((Area)_areas.value).ToString();
         CloseWindows();
         step = 1;
         wait = 0.1f;

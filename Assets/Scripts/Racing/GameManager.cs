@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private bool victory = false, pausable = true, up = true;
     private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки; можно сделать так, чтобы игрок, играющий несколько одинаковых гонок подряд, получал увеличенную сложность
     public static float Race = 20f;
+    public static string Area = "City";
     private Sprite[] vehicles;
     private Sprite[] obstacles;
     private Sprite[] bigObstacles;
@@ -74,6 +75,8 @@ public class GameManager : MonoBehaviour
         n = Resources.LoadAll<Sprite>("Images/SideObjects").Length;
         sideObjects = new Sprite[n];
         sideObjects = Resources.LoadAll<Sprite>("Images/SideObjects");
+        _road.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Roads/" + Area);
+        Debug.Log("Images/Roads/" + Area);
 
         begin = 3f;
 
@@ -82,6 +85,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _upperRoad.GetComponent<SpriteRenderer>().sprite = _road.GetComponent<SpriteRenderer>().sprite;
+        _lowerRoad.GetComponent<SpriteRenderer>().sprite = _road.GetComponent<SpriteRenderer>().sprite;
         _gearsNumber.text = "00";
         _race.maxValue = Race;
         _countdown.gameObject.SetActive(true);
@@ -520,7 +525,7 @@ public class GameManager : MonoBehaviour
         return nitro.value < nitro.maxValue ? true : false;
     }
 
-    public void PickGear()
+    public void PickUpGear()
     {
         gears++;
         _gearsNumber.text = (gears < 10) ? "0" + gears : gears.ToString();

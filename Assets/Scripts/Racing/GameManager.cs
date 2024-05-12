@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Sprite _yellowNitro;
     [SerializeField] private Sprite _redNitro;
     [SerializeField] private Image _nitroBackground;
+    [SerializeField] private AudioSource _sounds;
+    [SerializeField] private AudioSource _music;
     private Opponent opponent;
     public static int OpponentCar = 0;
     public static bool TimeFlows { get; private set; }
@@ -99,6 +101,7 @@ public class GameManager : MonoBehaviour
         }
         SetHealth();
         SetNitro();
+        AudioUpdate();
     }
 
     void Update()
@@ -552,5 +555,19 @@ public class GameManager : MonoBehaviour
     public static void Window(GameObject window, int speed)
     {
         window.transform.position = new Vector2(Screen.width / 2, (PlayerPrefs.GetInt("InstantMenu", 0) == 0 ? window.transform.position.y + speed * 500f * Time.deltaTime * GameManager.GameSpeed : (speed == 1 ? Screen.height / 2f : Screen.height * 2f)));
+    }
+
+    private void AudioUpdate()
+    {
+        _music.volume = MenuManager.MusicOn ? 1f : 0f;
+        _sounds.volume = MenuManager.MusicOn ? 1f : 0f;
+        if (MenuManager.MusicOn)
+        {
+            AudioClip[] music = new AudioClip[3];
+            music = Resources.LoadAll<AudioClip>("Music/Racing Music");
+            Debug.Log(music.Length);
+            _music.clip = music[Random.Range(0, music.Length)];
+            _music.Play();
+        }
     }
 }

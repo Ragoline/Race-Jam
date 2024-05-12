@@ -30,18 +30,21 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Image _anotherShield3;
     [SerializeField] private Transform _choiceShield;
     [SerializeField] private Transform _choiceNitro;
-    [Header("Rest")]
-    [SerializeField] private Image _carImage;
-    [SerializeField] private Button _previousCar;
-    [SerializeField] private Button _nextCar;
-    [SerializeField] private Toggle _instantMenu;
-    [SerializeField] private Text _captionText;
+    [Header("Audio")]
     [SerializeField] private Image _soundsImage;
     [SerializeField] private Image _musicImage;
     [SerializeField] private Sprite _musicOn;
     [SerializeField] private Sprite _musicOff;
     [SerializeField] private Sprite _soundsOn;
     [SerializeField] private Sprite _soundsOff;
+    [SerializeField] private AudioSource _sounds;
+    [SerializeField] private AudioSource _music;
+    [Header("Rest")]
+    [SerializeField] private Image _carImage;
+    [SerializeField] private Button _previousCar;
+    [SerializeField] private Button _nextCar;
+    [SerializeField] private Toggle _instantMenu;
+    [SerializeField] private Text _captionText;
 
     private bool up = false;
     public static bool MusicOn;
@@ -448,7 +451,9 @@ public class MenuManager : MonoBehaviour
     private void ImagesUpdate()
     {
         _musicImage.sprite = MusicOn ? _musicOn : _musicOff;
+        _music.volume = MusicOn ? 1f : 0f;
         _soundsImage.sprite = SoundsOn ? _soundsOn : _soundsOff;
+        _sounds.volume = MusicOn ? 1f : 0f;
     }
 
     public void SwitchInstantMenu()

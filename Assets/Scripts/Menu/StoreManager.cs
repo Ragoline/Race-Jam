@@ -22,6 +22,8 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     [SerializeField] private Text coinsText;
     [SerializeField] private Slider speedSlider;
     [SerializeField] private Slider turningSlider;
+    [SerializeField] private AudioSource _sounds;
+    [SerializeField] private AudioSource _music;
     private Car[] cars;
     private Sprite[] looks;
     private int num = 0;
@@ -43,6 +45,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
         }
         SwitchCar();
         UpdateButtons();
+        AudioUpdate();
     }
 
     private void Update()
@@ -250,5 +253,11 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                 break;
         }
         SwitchCar();
+    }
+
+    private void AudioUpdate()
+    {
+        _music.volume = MenuManager.MusicOn ? 1f : 0f;
+        _sounds.volume = MenuManager.MusicOn ? 1f : 0f;
     }
 }

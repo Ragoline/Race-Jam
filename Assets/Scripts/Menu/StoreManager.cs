@@ -28,6 +28,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     private Sprite[] looks;
     private int num = 0;
     private static int BoughtFilter = 0, SpeedFilter = 0, TurningFilter = 0;
+    private AudioClip[] sounds = new AudioClip[2];
 
     private void Awake()
     {

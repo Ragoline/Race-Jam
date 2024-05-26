@@ -57,8 +57,8 @@ public class GameManager : MonoBehaviour
     private Sprite[] sideObjects;
     private Car[] cars;
     public static Car Player;
-    
     public static float GameSpeed = 4f;
+    private AudioClip[] sounds = new AudioClip[5];
 
     private void Awake()
     {

@@ -55,6 +55,7 @@ public class MenuManager : MonoBehaviour
     private int step = 0, shields = 0, nitro = 0;
     private Car[] boughtCars;
     private int currentCar = 0;
+    private AudioClip[] sounds = new AudioClip[2];
 
     private void Awake()
     {
@@ -158,6 +159,7 @@ public class MenuManager : MonoBehaviour
 
     public void ButtonClick(int num)
     {
+        PlaySound(0);
         switch (num)
         {
             case 0: // story button
@@ -184,6 +186,7 @@ public class MenuManager : MonoBehaviour
                 OpenWindow(5);
                 break;
         }
+        PlaySound(1);
     }
 
     private void OpenWindow(int num)
@@ -464,6 +467,16 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("InstantMenu", 0);
     }
     #endregion
+
+    /// <summary>
+    /// Play certain sound
+    /// </summary>
+    /// <param name="n">0 - click; 1 - car drives little</param>
+    private void PlaySound(int n)
+    {
+        _sounds.clip = sounds[n];
+        _sounds.Play();
+    }
 
     #region Daily Gift
     // todo сделать проверку, когда игрок последний раз забирал подарок, и выдавать ему его при клике на соответствующую кнопку

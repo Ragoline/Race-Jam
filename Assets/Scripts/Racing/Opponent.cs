@@ -5,6 +5,7 @@ public class Opponent : RoadObject
 {
     [SerializeField] private SpriteRenderer _image;
     [SerializeField] private float _speed;
+
     public static bool LetsGo = false;
     private float start = 2f, touchable = 0f;
     public static Car Car;

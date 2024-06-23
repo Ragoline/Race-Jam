@@ -331,7 +331,7 @@ public class MenuManager : MonoBehaviour
     {
         if (random)
         {
-            _areas.value = UnityEngine.Random.Range(0, _areas.maxValue + 1);
+            _areas.value = UnityEngine.Random.Range(0, 2/*_areas.maxValue + 1*/);
             _opponents.value = UnityEngine.Random.Range(0, _opponents.maxValue + 1);
             _lengths.value = UnityEngine.Random.Range(0, _lengths.maxValue + 1);
             GameManager.RandomBonus = true;

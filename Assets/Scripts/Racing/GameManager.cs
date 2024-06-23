@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Image _nitroBackground;
     [SerializeField] private AudioSource _sounds;
     [SerializeField] private AudioSource _music;
+    [SerializeField] private AudioSource _playerCar;
+    [SerializeField] private AudioSource _opponentCar;
     private Opponent opponent;
     public static int OpponentCar = 0;
     public static bool TimeFlows { get; private set; }
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
     private Car[] cars;
     public static Car Player;
     public static float GameSpeed = 4f;
-    private AudioClip[] sounds = new AudioClip[5];
+    [SerializeField] private AudioClip[] sounds = new AudioClip[8];
 
     private void Awake()
     {
@@ -117,10 +119,22 @@ public class GameManager : MonoBehaviour
         }
         if (TimeFlows)
         {
-            if (begin > 0f)
+            if (begin > 0f) // countdown
             {
                 begin -= Time.deltaTime;
-                _countdown.text = ((int)begin).ToString();
+                if (begin > 2.95f && begin < 3.00f)
+                    PlaySound(1);
+                else if (begin > 1.99f && begin < 2.01f)
+                    PlaySound(1); // todo подправить звук? сделать его продолжительнее - чтобы он был на секунду
+                else if (begin > 0.99f && begin < 1.01f)
+                    PlaySound(1);
+                else if (begin >= 0f && begin < 0.01f)
+                {
+                    PlaySound(2);
+                    PlaySound(5);
+                    PlaySound(7);
+                }
+                _countdown.text = ((int)(begin + 1f)).ToString();
             }
             else
             {
@@ -212,6 +226,8 @@ public class GameManager : MonoBehaviour
                 else
                     sideObjectTime = 3f;
                 #endregion
+
+                _opponentCar.volume = ((10.0f - Mathf.Abs(_opponent.transform.position.y + 6.0f)) / 10.0f) + 0.2f;
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -277,6 +293,8 @@ public class GameManager : MonoBehaviour
         var go = Instantiate(_opponent, Canvas.transform);
         go.transform.SetSiblingIndex(3);
         go.GetComponent<Opponent>().Create(Vehicle, cars[OpponentCar]);
+        _opponent = go;
+        _opponentCar = go.GetComponent<AudioSource>();
     }
 
     private void CreateGear()
@@ -290,6 +308,7 @@ public class GameManager : MonoBehaviour
     {
         if (pausable)
         {
+            PlaySound(0);
             TimeFlows = !TimeFlows;
             _pause.SetActive(!_pause.activeSelf);
         }
@@ -311,6 +330,8 @@ public class GameManager : MonoBehaviour
         Final = true;
         pausable = false;
         Opponent.LetsGo = false;
+        _playerCar.Stop();
+        _opponentCar.Stop();
         if (crash)
         {
             Debug.Log("defeat");
@@ -326,6 +347,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            PlaySound(4);
             if (Opponent.TheCar.transform.position.y < CarController.Instance.gameObject.transform.position.y)
             {
                 Debug.Log("victory");
@@ -371,7 +393,7 @@ public class GameManager : MonoBehaviour
         OpenWindow();
     }
 
-    private IEnumerator FinalCutScene() // todo: в финале сделать так, чтобы всё вокруг теряло альфу
+    private IEnumerator FinalCutScene() // todo: выключить звуки всех машин
     {
         yield return null;
         while (_finishLine.transform.position.y > 0f)
@@ -442,6 +464,7 @@ public class GameManager : MonoBehaviour
 
     public int LoseHealth()
     {
+        PlaySound(3);
         Health--;
         SetHealth();
         if (Health <= 0)
@@ -549,6 +572,7 @@ public class GameManager : MonoBehaviour
 
     public void Exit()
     {
+        PlaySound(0);
         SceneManager.LoadScene("Menu");
     }
 
@@ -568,6 +592,30 @@ public class GameManager : MonoBehaviour
             Debug.Log(music.Length);
             _music.clip = music[Random.Range(0, music.Length)];
             _music.Play();
+        }
+    }
+
+    /// <summary>
+    /// Play the sound
+    /// </summary>
+    /// <param name="n">0 - click; 1 - countdown; 2 - countdownfinish; 3 - crash; 4 - finish; 5 - your car; 6 - vehicle; 7 - enemy car</param>
+    private void PlaySound(int n)
+    {
+        if (n < 5)
+        {
+            _sounds.clip = sounds[n];
+            _sounds.Play();
+        }
+        else if (n == 5)
+        {
+            _playerCar.clip = sounds[5]; // todo изменить звук
+            _playerCar.Play();
+        }
+        else if (n == 7)
+        {
+            _opponentCar.clip = sounds[7];
+            _opponentCar.Play();
+            // todo сделать звук машины врага, который будет становится громче при приближении и туше при отдалении
         }
     }
 }

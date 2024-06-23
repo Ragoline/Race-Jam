@@ -1,9 +1,9 @@
 public enum Area
 {
-    Bridge,
     City,
-    Winter,
+    Winter/*,
     Desert,
     Beach,
-    Town
+    Town,
+    Bridge*/
 }

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Vehicle : RoadObject
 {
     [SerializeField] private SpriteRenderer _image;
+    [SerializeField] private AudioSource _sound;
     public int Length { get; private set; }
     private bool obstacle = true, moving = false, right;
     private float speed, move = 1.80f;
@@ -18,6 +20,7 @@ public class Vehicle : RoadObject
             speed = CarController.Car.Speed  - Random.Range(0.7f, 1f);
         else
             speed = CarController.Car.Speed - Random.Range(0.2f, 0.6f);
+        _sound.Play();
     }
 
     private void Update()
@@ -44,10 +47,12 @@ public class Vehicle : RoadObject
             {
                 Step();
             }
+            _sound.volume = ((10.0f - Mathf.Abs(transform.position.y + 6.0f)) / 10.0f) + 0.1f;
         }
         else
         if (GameManager.Final)
         {
+            _sound.Stop();
             a -= Time.deltaTime;
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, a);
             //Destroy(gameObject);

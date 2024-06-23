@@ -368,7 +368,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: -62}
+  m_AnchoredPosition: {x: -309, y: 0}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &162599966
@@ -1507,7 +1507,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: -125}
+  m_AnchoredPosition: {x: 310, y: -70}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &433290016
@@ -7083,6 +7083,9 @@ MonoBehaviour:
   _soundsOff: {fileID: 21300000, guid: 3b1f32641e2de264194933f8f36b46e8, type: 3}
   _sounds: {fileID: 657118733}
   _music: {fileID: 596023698}
+  sounds:
+  - {fileID: 8300000, guid: f1db3bdac371a664aaf075afb8046d1e, type: 3}
+  - {fileID: 8300000, guid: dbe5595c875958b46ae22f211c06a883, type: 3}
   _carImage: {fileID: 888488966}
   _previousCar: {fileID: 588193203}
   _nextCar: {fileID: 1820839696}

@@ -39,6 +39,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Sprite _soundsOff;
     [SerializeField] private AudioSource _sounds;
     [SerializeField] private AudioSource _music;
+    [SerializeField] private AudioClip[] sounds = new AudioClip[2];
     [Header("Rest")]
     [SerializeField] private Image _carImage;
     [SerializeField] private Button _previousCar;
@@ -55,7 +56,6 @@ public class MenuManager : MonoBehaviour
     private int step = 0, shields = 0, nitro = 0;
     private Car[] boughtCars;
     private int currentCar = 0;
-    private AudioClip[] sounds = new AudioClip[2];
 
     private void Awake()
     {
@@ -267,6 +267,7 @@ public class MenuManager : MonoBehaviour
     public void CloseWindows()
     {
         up = false;
+        PlaySound(1);
     }
 
     private void HideWindow(GameObject go)
@@ -343,10 +344,12 @@ public class MenuManager : MonoBehaviour
         CloseWindows();
         step = 1;
         wait = 0.1f;
+        PlaySound(0);
     }
 
     public void HaveChosen()
     {
+        PlaySound(0);
         step = 3;
         wait = 0.5f;
         if (GameManager.Health < 3)
@@ -366,6 +369,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChooseCar(bool next)
     {
+        PlaySound(0);
         if (next)
         {
             currentCar++;
@@ -387,6 +391,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChooseShields(int howmany)
     {
+        PlaySound(0);
         GameManager.Health = 3 + howmany;
         shields = howmany;
         switch (howmany)
@@ -408,6 +413,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChooseNitro(int which)
     {
+        PlaySound(0);
         GameManager.Nitro = which;
         nitro = which;
         switch (which)
@@ -438,6 +444,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeVolume(bool music)
     {
+        PlaySound(0);
         if (music)
         {
             MusicOn = !MusicOn;
@@ -456,11 +463,12 @@ public class MenuManager : MonoBehaviour
         _musicImage.sprite = MusicOn ? _musicOn : _musicOff;
         _music.volume = MusicOn ? 1f : 0f;
         _soundsImage.sprite = SoundsOn ? _soundsOn : _soundsOff;
-        _sounds.volume = MusicOn ? 1f : 0f;
+        _sounds.volume = SoundsOn ? 1f : 0f;
     }
 
     public void SwitchInstantMenu()
     {
+        PlaySound(0);
         if (_instantMenu.isOn)
             PlayerPrefs.SetInt("InstantMenu", 1);
         else

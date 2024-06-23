@@ -28,7 +28,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     private Sprite[] looks;
     private int num = 0;
     private static int BoughtFilter = 0, SpeedFilter = 0, TurningFilter = 0;
-    private AudioClip[] sounds = new AudioClip[2];
+    [SerializeField] private AudioClip[] sounds = new AudioClip[2];
 
     private void Awake()
     {
@@ -66,12 +66,14 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 
     public void Close()
     {
+        PlaySound(0);
         SceneManager.LoadScene("Menu");
     }
 
     public void OpenConsumablesWindow()
     {
         consumablesWindow.SetActive(true);
+        PlaySound(0);
     }
 
     private void UpdateButtons()
@@ -112,21 +114,25 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
             case 0:
                 GameContainer.Current.AddGears(-10);
                 GameContainer.Current.AddArmour(1);
+                PlaySound(0);
                 break;
 
             case 1:
                 GameContainer.Current.AddGears(-20);
                 GameContainer.Current.AddNitro(0, true);
+                PlaySound(0);
                 break;
 
             case 2:
                 GameContainer.Current.AddGears(-30);
                 GameContainer.Current.AddNitro(1, true);
+                PlaySound(0);
                 break;
 
             case 3:
                 GameContainer.Current.AddGears(-40);
                 GameContainer.Current.AddNitro(2, true);
+                PlaySound(0);
                 break;
         }
         UpdateResources();
@@ -137,13 +143,15 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     public void PrevCar()
     {
         num--;
-        // внешне делать анимацию, как предыдущая машина уезжает вверх, а новая приезжает снизу todo
+        PlaySound(0);
+        // todo внешне делать анимацию, как предыдущая машина уезжает вверх, а новая приезжает снизу todo
         SwitchCar();
     }
 
     public void NextCar()
     {
         num++;
+        PlaySound(0);
         // внешне делать анимацию, как предыдущая машина уезжает вверх, а новая приезжает снизу todo
         SwitchCar();
     }
@@ -178,6 +186,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
         if (GameContainer.Current.BuyCar(cars[num], cars[num].Price))
         {
             Debug.Log("bought!");
+            PlaySound(1);
             UpdateResources();
 
             for (int i = 0; i < GameContainer.Current.BoughtCars.Length; i++)
@@ -193,6 +202,12 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                     buyText.text = "Buy";
                 }
         }
+    }
+
+    private void PlaySound(int n)
+    {
+        _sounds.clip = sounds[n];
+        _sounds.Play();
     }
 
     /// <summary>

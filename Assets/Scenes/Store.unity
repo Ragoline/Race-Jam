@@ -4682,6 +4682,9 @@ MonoBehaviour:
   turningSlider: {fileID: 1228442382}
   _sounds: {fileID: 207338051}
   _music: {fileID: 2021537255}
+  sounds:
+  - {fileID: 8300000, guid: f1db3bdac371a664aaf075afb8046d1e, type: 3}
+  - {fileID: 8300000, guid: 01f5b5a560b227345bbf1c40a0178a4d, type: 3}
 --- !u!4 &1737394961
 Transform:
   m_ObjectHideFlags: 0

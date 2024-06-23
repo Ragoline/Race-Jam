@@ -65,18 +65,18 @@ public class GameManager : MonoBehaviour
         var n = Resources.LoadAll<Sprite>("Images/Vehicles").Length;
         vehicles = new Sprite[n];
         vehicles = Resources.LoadAll<Sprite>("Images/Vehicles");
-        n = Resources.LoadAll<Sprite>("Images/Obstacles").Length;
+        n = Resources.LoadAll<Sprite>("Images/Obstacles/" + Area).Length;
         obstacles = new Sprite[n];
-        obstacles = Resources.LoadAll<Sprite>("Images/Obstacles");
-        n = Resources.LoadAll<Sprite>("Images/BigObstacles").Length;
+        obstacles = Resources.LoadAll<Sprite>("Images/Obstacles/" + Area);
+        n = Resources.LoadAll<Sprite>("Images/BigObstacles/" + Area).Length;
         bigObstacles = new Sprite[n];
-        bigObstacles = Resources.LoadAll<Sprite>("Images/BigObstacles");
+        bigObstacles = Resources.LoadAll<Sprite>("Images/BigObstacles/" + Area);
         n = AllCars.Cars.Length;
         cars = new Car[n];
         cars = AllCars.Cars;
-        n = Resources.LoadAll<Sprite>("Images/SideObjects").Length;
+        n = Resources.LoadAll<Sprite>("Images/SideObjects/" + Area).Length;
         sideObjects = new Sprite[n];
-        sideObjects = Resources.LoadAll<Sprite>("Images/SideObjects");
+        sideObjects = Resources.LoadAll<Sprite>("Images/SideObjects/" + Area);
         _road.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Roads/" + Area);
         Debug.Log("Images/Roads/" + Area);
 

@@ -607,6 +607,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 656871806}
   sprite: {fileID: 385146594}
+  _sound: {fileID: 385146597}
 --- !u!61 &304417027
 BoxCollider2D:
   m_ObjectHideFlags: 0

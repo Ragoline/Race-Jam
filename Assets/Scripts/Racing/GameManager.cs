@@ -227,7 +227,10 @@ public class GameManager : MonoBehaviour
                     sideObjectTime = 3f;
                 #endregion
 
-                _opponentCar.volume = ((10.0f - Mathf.Abs(_opponent.transform.position.y + 6.0f)) / 10.0f) + 0.2f;
+                if (MenuManager.SoundsOn)
+                    _opponentCar.volume = ((10.0f - Mathf.Abs(_opponent.transform.position.y + 6.0f)) / 10.0f) + 0.2f;
+                else
+                    _opponentCar.volume = 0f;
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -584,7 +587,7 @@ public class GameManager : MonoBehaviour
     private void AudioUpdate()
     {
         _music.volume = MenuManager.MusicOn ? 1f : 0f;
-        _sounds.volume = MenuManager.MusicOn ? 1f : 0f;
+        _sounds.volume = MenuManager.SoundsOn ? 1f : 0f;
         if (MenuManager.MusicOn)
         {
             AudioClip[] music = new AudioClip[3];

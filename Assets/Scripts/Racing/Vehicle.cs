@@ -20,7 +20,8 @@ public class Vehicle : RoadObject
             speed = CarController.Car.Speed  - Random.Range(0.7f, 1f);
         else
             speed = CarController.Car.Speed - Random.Range(0.2f, 0.6f);
-        _sound.Play();
+        if (MenuManager.SoundsOn)
+            _sound.Play();
     }
 
     private void Update()

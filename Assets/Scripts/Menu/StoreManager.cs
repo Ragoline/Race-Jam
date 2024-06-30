@@ -274,6 +274,6 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     private void AudioUpdate()
     {
         _music.volume = MenuManager.MusicOn ? 1f : 0f;
-        _sounds.volume = MenuManager.MusicOn ? 1f : 0f;
+        _sounds.volume = MenuManager.SoundsOn ? 1f : 0f;
     }
 }

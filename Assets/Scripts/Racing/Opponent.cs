@@ -52,7 +52,6 @@ public class Opponent : RoadObject
     public void Create(int position, Car car)
     {
         Car = car;
-        Debug.Log(Car.Name);
         _speed = Car.Speed;
         Position = position;
         _image.sprite = Resources.Load<Sprite>(car.Look);

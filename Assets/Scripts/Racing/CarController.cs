@@ -6,6 +6,7 @@ public class CarController : RoadObject
 {
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private AudioSource _sound;
     private bool moving = false, right, moved = false, nitro = false;
     public static Car Car;
     public static float speed, turnSpeed;
@@ -19,6 +20,8 @@ public class CarController : RoadObject
         Position = 0;
         speed = Car.Speed;
         turnSpeed = Car.TurnSpeed;
+        if (!MenuManager.SoundsOn)
+            _sound.volume = 0f;
     }
 
     Vector2 firstPressPos;

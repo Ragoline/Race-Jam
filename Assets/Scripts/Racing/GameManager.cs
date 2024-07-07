@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     private Car[] cars;
     public static Car Player;
     public static float GameSpeed = 4f;
-    [SerializeField] private AudioClip[] sounds = new AudioClip[8];
+    [SerializeField] private AudioClip[] sounds = new AudioClip[10];
 
     private void Awake()
     {
@@ -244,11 +244,14 @@ public class GameManager : MonoBehaviour
 
     private void CreateSideObject()
     {
-        var go = Instantiate(_sideObject, Canvas.transform);
-        go.transform.SetSiblingIndex(3);
-        int r = Random.Range(0, 2);
-        go.GetComponent<SideObject>().Create(r, sideObjects[Random.Range(0, sideObjects.Length)]);
-        sideObjectTime -= Time.deltaTime;
+        if (sideObjects.Length > 0)
+        {
+            var go = Instantiate(_sideObject, Canvas.transform);
+            go.transform.SetSiblingIndex(3);
+            int r = Random.Range(0, 2);
+            go.GetComponent<SideObject>().Create(r, sideObjects[Random.Range(0, sideObjects.Length)]);
+            sideObjectTime -= Time.deltaTime;
+        }
     }
 
     private void CreateObstacle()
@@ -465,6 +468,11 @@ public class GameManager : MonoBehaviour
         CloseWindow();
     }
 
+    public void NitroSound()
+    {
+        PlaySound(8);
+    }
+
     public int LoseHealth()
     {
         PlaySound(3);
@@ -557,6 +565,7 @@ public class GameManager : MonoBehaviour
     public void PickUpGear()
     {
         gears++;
+        PlaySound(9);
         _gearsNumber.text = (gears < 10) ? "0" + gears : gears.ToString();
     }
 
@@ -601,7 +610,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Play the sound
     /// </summary>
-    /// <param name="n">0 - click; 1 - countdown; 2 - countdownfinish; 3 - crash; 4 - finish; 5 - your car; 6 - vehicle; 7 - enemy car</param>
+    /// <param name="n">0 - click; 1 - countdown; 2 - countdownfinish; 3 - crash; 4 - finish; 5 - your car; 6 - vehicle; 7 - enemy car; 8 - nitro sound; 9 - gear picked up</param>
     private void PlaySound(int n)
     {
         if (n < 5)
@@ -611,14 +620,18 @@ public class GameManager : MonoBehaviour
         }
         else if (n == 5)
         {
-            _playerCar.clip = sounds[5]; // todo изменить звук
+            _playerCar.clip = sounds[5];
             _playerCar.Play();
         }
         else if (n == 7)
         {
             _opponentCar.clip = sounds[7];
             _opponentCar.Play();
-            // todo сделать звук машины врага, который будет становится громче при приближении и туше при отдалении
+        }
+        else
+        {
+            _sounds.clip = sounds[n];
+            _sounds.Play();
         }
     }
 }

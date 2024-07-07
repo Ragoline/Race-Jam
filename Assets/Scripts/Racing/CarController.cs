@@ -141,6 +141,7 @@ public class CarController : RoadObject
                 if (GameManager.Nitro > 0 && GameManager.Instance.GetNitro())
                 {
                     Debug.Log("nitro");
+                    GameManager.Instance.NitroSound();
                     speed += 2f;
                     nitro = true;
                 }

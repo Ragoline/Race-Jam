@@ -165,4 +165,15 @@ public class CarController : RoadObject
             }
         }
     }
+
+    public void Finish()
+    {
+        animator.enabled = false;
+        SoundsOff(true);
+    }
+
+    public void SoundsOff(bool off)
+    {
+        _sound.volume = off ? 0f : 1f;
+    }
 }

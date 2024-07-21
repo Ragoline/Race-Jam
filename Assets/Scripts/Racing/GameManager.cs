@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
     public static bool TimeFlows { get; private set; }
     public static bool OpponentExists = true;
     public static GameManager Instance;
-    public int Vehicle = -2;
+    public int vehicle = -2;
     private int gears = 0, coins = 0;
     public static int Health, Nitro;
     public static bool Final = false, RandomBonus = false;
@@ -94,7 +95,7 @@ public class GameManager : MonoBehaviour
         _gearsNumber.text = "00";
         _race.maxValue = Race;
         _countdown.gameObject.SetActive(true);
-        Vehicle = -2;
+        vehicle = -2;
         Instance = this;
         TimeFlows = true;
         if (OpponentExists)
@@ -189,12 +190,12 @@ public class GameManager : MonoBehaviour
                             break;
 
                         case 1:
-                            if (Vehicle == -2)
+                            if (vehicle == -2)
                                 CreateBigObstacle();
                             break;
 
                         case 2:
-                            if (Vehicle == -2)
+                            if (vehicle == -2)
                                 CreateVehicle();
                             break;
                     }
@@ -258,7 +259,7 @@ public class GameManager : MonoBehaviour
     {
         roadObjectTime = 0f;
         int r = Random.Range(-1, 2);
-        while (r == Vehicle)
+        while (r == vehicle)
             r = Random.Range(-1, 2);
         var go = Instantiate(_obstacle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
@@ -287,10 +288,10 @@ public class GameManager : MonoBehaviour
     private void CreateVehicle()
     {
         roadObjectTime = 0f;
-        Vehicle = Random.Range(-1, 2);
+        vehicle = Random.Range(-1, 2);
         var go = Instantiate(_vehicle, Canvas.transform);
         go.transform.SetSiblingIndex(3);
-        go.GetComponent<Vehicle>().Create(Vehicle, vehicles[Random.Range(0, vehicles.Length)]);
+        go.GetComponent<Vehicle>().Create(vehicle, vehicles[Random.Range(0, vehicles.Length)]);
         //roadObjectTime += Time.deltaTime;
     }
 
@@ -298,7 +299,7 @@ public class GameManager : MonoBehaviour
     {
         var go = Instantiate(_opponent, Canvas.transform);
         go.transform.SetSiblingIndex(3);
-        go.GetComponent<Opponent>().Create(Vehicle, cars[OpponentCar]);
+        go.GetComponent<Opponent>().Create(vehicle, cars[OpponentCar]);
         _opponent = go;
         _opponentCar = go.GetComponent<AudioSource>();
     }
@@ -317,6 +318,9 @@ public class GameManager : MonoBehaviour
             PlaySound(0);
             TimeFlows = !TimeFlows;
             _pause.SetActive(!_pause.activeSelf);
+            Vehicle.Instance.SoundsOff(!TimeFlows);
+            SoundsOff(!TimeFlows);
+            CarController.Instance.SoundsOff(!TimeFlows);
         }
     }
 
@@ -401,6 +405,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FinalCutScene() // todo: выключить звуки всех машин
     {
+        Vehicle.Instance.SoundsOff(true);
+        SoundsOff(true);
+        CarController.Instance.Finish();
         yield return null;
         while (_finishLine.transform.position.y > 0f)
         {
@@ -633,5 +640,10 @@ public class GameManager : MonoBehaviour
             _sounds.clip = sounds[n];
             _sounds.Play();
         }
+    }
+
+    public void SoundsOff(bool off)
+    {
+        _opponentCar.volume = off ? 0f : 1f;
     }
 }

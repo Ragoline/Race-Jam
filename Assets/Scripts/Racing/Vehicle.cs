@@ -9,12 +9,14 @@ public class Vehicle : RoadObject
     [SerializeField] private SpriteRenderer _image;
     [SerializeField] private AudioSource _sound;
     public int Length { get; private set; }
+    public static Vehicle Instance;
     private bool obstacle = true, moving = false, right;
     private float speed, move = 1.80f;
     float a = 1f;
 
     private void Start()
     {
+        Instance = this;
         Length = 1;
         if (CarController.Car.Speed > 5f)
             speed = CarController.Car.Speed  - Random.Range(0.7f, 1f);
@@ -32,7 +34,7 @@ public class Vehicle : RoadObject
             if (transform.position.y < -18 || transform.position.y > 18)
             {
                 Destroy(gameObject);
-                GameManager.Instance.Vehicle = -2;
+                GameManager.Instance.vehicle = -2;
             }
             /*if (obstacle && ((Length == 1 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 213 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 150) || (Length == 2 && Mathf.Abs(transform.position.y - CarController.Instance.gameObject.transform.position.y) < 125 && Mathf.Abs(transform.position.x - CarController.Instance.gameObject.transform.position.x) < 275)))
             {
@@ -104,7 +106,7 @@ public class Vehicle : RoadObject
             Position++;
         else
             Position--;
-        GameManager.Instance.Vehicle = Position;
+        GameManager.Instance.vehicle = Position;
     }
 
     private void Step()
@@ -115,5 +117,10 @@ public class Vehicle : RoadObject
         {
             moving = false;
         }
+    }
+
+    public void SoundsOff(bool off)
+    {
+        _sound.volume = off ? 0f : 1f;
     }
 }

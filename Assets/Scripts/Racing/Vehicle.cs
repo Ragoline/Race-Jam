@@ -121,6 +121,7 @@ public class Vehicle : RoadObject
 
     public void SoundsOff(bool off)
     {
+        if (_sound != null)
         _sound.volume = off ? 0f : 1f;
     }
 }

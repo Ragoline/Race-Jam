@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 [Serializable]
 public class GameContainer
@@ -26,6 +27,7 @@ public class GameContainer
     /// </summary>
     public int Level;
     public Car[] BoughtCars;
+    public DateTime DailyGift;
 
     public void Load(GameContainer gc)
     {
@@ -46,6 +48,7 @@ public class GameContainer
         Current.RedNitro = gc.RedNitro;
         Current.Level = gc.Level;
         Current.BoughtCars = gc.BoughtCars;
+        Current.DailyGift = gc.DailyGift;
     }
 
     public void AddGears(int howMany)
@@ -140,5 +143,12 @@ public class GameContainer
             return true;
         }
         return false;
+    }
+    
+    public void SetDailies()
+    {
+        DailyGift = new DateTime();
+        DailyGift = DateTime.Now;
+        UnityEngine.Debug.Log(DailyGift);
     }
 }

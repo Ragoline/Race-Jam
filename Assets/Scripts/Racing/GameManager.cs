@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Sprite _redNitro;
     [SerializeField] private Image _nitroBackground;
     [SerializeField] private AudioSource _sounds;
+    [SerializeField] private AudioSource _sounds2;
     [SerializeField] private AudioSource _music;
     [SerializeField] private AudioSource _playerCar;
     [SerializeField] private AudioSource _opponentCar;
@@ -123,11 +124,11 @@ public class GameManager : MonoBehaviour
             if (begin > 0f) // countdown
             {
                 begin -= Time.deltaTime;
-                if (begin > 2.95f && begin < 3.00f)
+                if (begin > 2.90f && begin < 3.00f)
                     PlaySound(1);
-                else if (begin > 1.99f && begin < 2.01f)
-                    PlaySound(1); // todo подправить звук? сделать его продолжительнее - чтобы он был на секунду
-                else if (begin > 0.99f && begin < 1.01f)
+                else if (begin > 1.95f && begin < 2.05f)
+                    PlaySound(1);
+                else if (begin > 0.95f && begin < 1.05f)
                     PlaySound(1);
                 else if (begin >= 0f && begin < 0.01f)
                 {
@@ -634,6 +635,11 @@ public class GameManager : MonoBehaviour
         {
             _opponentCar.clip = sounds[7];
             _opponentCar.Play();
+        }
+        else if (n == 9)
+        {
+            _sounds2.clip = sounds[9];
+            _sounds2.Play();
         }
         else
         {

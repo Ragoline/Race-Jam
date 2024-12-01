@@ -42,10 +42,15 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private AudioClip[] sounds = new AudioClip[2];
     [Header("Rest")]
     [SerializeField] private Image _carImage;
+    [SerializeField] private Image _dailyGiftImage;
+    [SerializeField] private Sprite _dgbColoured;
+    [SerializeField] private Sprite _dgbBlacknWhite;
     [SerializeField] private Button _previousCar;
     [SerializeField] private Button _nextCar;
+    [SerializeField] private Button _dailyGiftButton;
     [SerializeField] private Toggle _instantMenu;
     [SerializeField] private Text _captionText;
+    [SerializeField] private Animator _dailyGiftAnimator;
 
     private bool up = false;
     public static bool MusicOn;
@@ -101,6 +106,7 @@ public class MenuManager : MonoBehaviour
                 _instantMenu.isOn = true;
                 break;
         }
+        CheckDailyGift();
     }
 
     private void Update()
@@ -136,8 +142,8 @@ public class MenuManager : MonoBehaviour
                     GameManager.Window(_storyWindow, 1);
                 if (_racingWindow.activeSelf && _racingWindow.transform.position.y < Screen.height / 2f)
                     GameManager.Window(_racingWindow, 1);
-                if (_dailyGiftWindow.activeSelf && _dailyGiftWindow.transform.position.y < Screen.height / 2f)
-                    GameManager.Window(_dailyGiftWindow, 1);
+                /*if (_dailyGiftWindow.activeSelf && _dailyGiftWindow.transform.position.y < Screen.height / 2f)
+                    GameManager.Window(_dailyGiftWindow, 1);*/
                 if (_dailyQuestWindow.activeSelf && _dailyQuestWindow.transform.position.y < Screen.height / 2f)
                     GameManager.Window(_dailyQuestWindow, 1);
                 if (_optionsWindow.activeSelf && _optionsWindow.transform.position.y < Screen.height / 2f)
@@ -175,7 +181,8 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case 3: // daily gift button
-                OpenWindow(3);
+                //OpenWindow(3);
+                GetDailyGift();
                 break;
 
             case 4: // store button
@@ -195,7 +202,7 @@ public class MenuManager : MonoBehaviour
         _windows.SetActive(true);
         _storyWindow.SetActive(false);
         _racingWindow.SetActive(false);
-        _dailyGiftWindow.SetActive(false);
+        //_dailyGiftWindow.SetActive(false);
         _dailyQuestWindow.SetActive(false);
         _optionsWindow.SetActive(false);
         _chooseWindow.SetActive(false);
@@ -217,8 +224,8 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case 3: // daily gift window
-                _dailyGiftWindow.transform.position = new Vector2(Screen.width / 2, Screen.height * (up ? -1 : 1));
-                _dailyGiftWindow.SetActive(true);
+                /*_dailyGiftWindow.transform.position = new Vector2(Screen.width / 2, Screen.height * (up ? -1 : 1));
+                _dailyGiftWindow.SetActive(true);*/
                 break;
 
             case 5: // daily quest window
@@ -487,7 +494,35 @@ public class MenuManager : MonoBehaviour
     }
 
     #region Daily Gift
-    // todo сделать проверку, когда игрок последний раз забирал подарок, и выдавать ему его при клике на соответствующую кнопку
+    private void CheckDailyGift()
+    {
+        if (GameContainer.Current.DailyGift.Day < DateTime.Now.Day)
+        {
+            _dailyGiftImage.sprite = _dgbColoured;
+            Debug.Log("new gift");
+            _dailyGiftButton.interactable = true;
+        }
+        else
+        {
+            _dailyGiftImage.sprite = _dgbBlacknWhite;
+            Debug.Log("less than a day");
+            _dailyGiftButton.interactable = false;
+        }
+    }
+
+    public void GetDailyGift()
+    {
+        if (_dailyGiftImage.sprite == _dgbColoured)
+        {
+            _dailyGiftImage.sprite = _dgbBlacknWhite;
+            _dailyGiftButton.interactable = false;
+            GameContainer.Current.AddGears(10);
+            GameContainer.Current.SetDailies();
+            SaveLoad.Save();
+            if (!InstantMenu)
+                _dailyGiftAnimator.Play("DailyGift");
+        }
+    }
     #endregion
 
     #region Daily Quest

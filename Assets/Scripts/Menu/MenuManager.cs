@@ -107,6 +107,7 @@ public class MenuManager : MonoBehaviour
                 break;
         }
         CheckDailyGift();
+        CheckDailyQuest();
     }
 
     private void Update()
@@ -526,6 +527,24 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Daily Quest
+    private void CheckDailyQuest()
+    {
+        if (GameContainer.Current.DailyQuest.Day < DateTime.Now.Day)
+        {
+            Debug.Log("new day");
+            GameContainer.Current.GenerateQuest();
+        }
+        else
+        {
+            Debug.Log("same day");
+            SetDailyQuest();
+        }
+    }
+
+    public void SetDailyQuest()
+    {
+        Debug.Log(GameContainer.Current.DailyQuest + " " + GameContainer.Current.WhichQuest + " " + GameContainer.Current.WhichLevel);
+    }
     // todo сделать проверку следующего дня, сделать генерацию квеста
     // Идеи квестов: использовать закись азота в течение # секунд; проехать # чистых (без трат сердец) поездок; выиграть # гонок; заработать # шестерёнок
     #endregion

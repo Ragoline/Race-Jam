@@ -28,6 +28,10 @@ public class GameContainer
     public int Level;
     public Car[] BoughtCars;
     public DateTime DailyGift;
+    public DateTime DailyQuest;
+    public int WhichQuest; // 0 - play 5/10/20 races; 1 - win 3/5/7 races; 2 - spend 50/100/150 gears; 3 - spend 1/3/5 coins
+    public int Completed; 
+    public int WhichLevel; // 0-2
 
     public void Load(GameContainer gc)
     {
@@ -49,6 +53,10 @@ public class GameContainer
         Current.Level = gc.Level;
         Current.BoughtCars = gc.BoughtCars;
         Current.DailyGift = gc.DailyGift;
+        Current.DailyQuest = gc.DailyQuest;
+        Current.WhichQuest = gc.WhichQuest;
+        Current.Completed = gc.Completed;
+        Current.WhichLevel = gc.WhichLevel;
     }
 
     public void AddGears(int howMany)
@@ -150,5 +158,16 @@ public class GameContainer
         DailyGift = new DateTime();
         DailyGift = DateTime.Now;
         UnityEngine.Debug.Log(DailyGift);
+    }
+
+    public void GenerateQuest()
+    {
+        WhichQuest = UnityEngine.Random.Range(0, 4);
+        WhichLevel = UnityEngine.Random.Range(0, 3);
+        Completed = 0;
+        DailyQuest = new DateTime();
+        DailyQuest = DateTime.Now;
+        MenuManager.Instance.SetDailyQuest();
+        SaveLoad.Save();
     }
 }

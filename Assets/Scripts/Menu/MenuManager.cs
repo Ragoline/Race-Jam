@@ -50,6 +50,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button _dailyGiftButton;
     [SerializeField] private Toggle _instantMenu;
     [SerializeField] private Text _captionText;
+    [SerializeField] private Text _questText;
     [SerializeField] private Animator _dailyGiftAnimator;
 
     private bool up = false;
@@ -533,6 +534,7 @@ public class MenuManager : MonoBehaviour
         {
             Debug.Log("new day");
             GameContainer.Current.GenerateQuest();
+            SetDailyQuest();
         }
         else
         {
@@ -541,12 +543,119 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    private void CheckQuestProgress()
+    {
+        if (GameContainer.Current.Completed >= GameContainer.Current.Goal)
+        {
+            if (GameContainer.Current.SoftCurrency)
+                switch (GameContainer.Current.WhichLevel)
+                {
+                    case 0:
+                        GameContainer.Current.AddGears(100);
+                        break;
+
+                    case 1:
+                        GameContainer.Current.AddGears(150);
+                        break;
+
+                    case 2:
+                        GameContainer.Current.AddGears(250);
+                        break;
+                }
+            else
+                switch (GameContainer.Current.WhichLevel)
+                {
+                    case 0:
+                        GameContainer.Current.AddCoins(2);
+                        break;
+
+                    case 1:
+                        GameContainer.Current.AddCoins(4);
+                        break;
+
+                    case 2:
+                        GameContainer.Current.AddCoins(7);
+                        break;
+                }
+            CloseWindows();
+            // todo animation
+        }
+    }
+
     public void SetDailyQuest()
     {
         Debug.Log(GameContainer.Current.DailyQuest + " " + GameContainer.Current.WhichQuest + " " + GameContainer.Current.WhichLevel);
+        switch (GameContainer.Current.WhichQuest)
+        {
+            case 0:
+                switch (GameContainer.Current.WhichLevel)
+                {
+                    case 0:
+                        _questText.text = "Play " + GameContainer.Current.Completed + "/5 races";
+                        break;
+
+                    case 1:
+                        _questText.text = "Play " + GameContainer.Current.Completed + "/10 races";
+                        break;
+
+                    case 2:
+                        _questText.text = "Play " + GameContainer.Current.Completed + "/20 races";
+                        break;
+                }
+                break;
+
+            case 1:
+                switch (GameContainer.Current.WhichLevel)
+                {
+                    case 0:
+                        _questText.text = "Win " + GameContainer.Current.Completed + "/3 races";
+                        break;
+
+                    case 1:
+                        _questText.text = "Win " + GameContainer.Current.Completed + "/5 races";
+                        break;
+
+                    case 2:
+                        _questText.text = "Win " + GameContainer.Current.Completed + "/8 races";
+                        break;
+                }
+                break;
+
+            case 2:
+                switch (GameContainer.Current.WhichLevel)
+                {
+                    case 0:
+                        _questText.text = "Spend " + GameContainer.Current.Completed + "/50 gears";
+                        break;
+
+                    case 1:
+                        _questText.text = "Spend " + GameContainer.Current.Completed + "/100 gears";
+                        break;
+
+                    case 2:
+                        _questText.text = "Spend " + GameContainer.Current.Completed + "/200 gears";
+                        break;
+                }
+                break;
+
+            case 3:
+                switch (GameContainer.Current.WhichLevel)
+                {
+                    case 0:
+                        _questText.text = "Spend " + GameContainer.Current.Completed + "/1 coin";
+                        break;
+
+                    case 1:
+                        _questText.text = "Spend " + GameContainer.Current.Completed + "/3 coins";
+                        break;
+
+                    case 2:
+                        _questText.text = "Spend " + GameContainer.Current.Completed + "/6 coins";
+                        break;
+                }
+                break;
+        }
     }
-    // todo сделать проверку следующего дня, сделать генерацию квеста
-    // Идеи квестов: использовать закись азота в течение # секунд; проехать # чистых (без трат сердец) поездок; выиграть # гонок; заработать # шестерёнок
     #endregion
 
     public void DeleteProgress()

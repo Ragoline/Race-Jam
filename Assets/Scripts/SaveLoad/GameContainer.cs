@@ -29,9 +29,11 @@ public class GameContainer
     public Car[] BoughtCars;
     public DateTime DailyGift;
     public DateTime DailyQuest;
-    public int WhichQuest; // 0 - play 5/10/20 races; 1 - win 3/5/7 races; 2 - spend 50/100/150 gears; 3 - spend 1/3/5 coins
-    public int Completed; 
+    public int WhichQuest; // 0 - play 5/10/20 races; 1 - win 3/5/8 races; 2 - spend 50/100/170 gears; 3 - spend 1/3/6 coins
+    public int Completed;
+    public int Goal;
     public int WhichLevel; // 0-2
+    public bool SoftCurrency;
 
     public void Load(GameContainer gc)
     {
@@ -56,7 +58,9 @@ public class GameContainer
         Current.DailyQuest = gc.DailyQuest;
         Current.WhichQuest = gc.WhichQuest;
         Current.Completed = gc.Completed;
+        Current.Goal = gc.Goal;
         Current.WhichLevel = gc.WhichLevel;
+        Current.SoftCurrency = gc.SoftCurrency;
     }
 
     public void AddGears(int howMany)
@@ -164,7 +168,78 @@ public class GameContainer
     {
         WhichQuest = UnityEngine.Random.Range(0, 4);
         WhichLevel = UnityEngine.Random.Range(0, 3);
+        SoftCurrency = UnityEngine.Random.Range(0, 2) == 0 ? false : true;
         Completed = 0;
+        switch (WhichQuest)
+        {
+            case 0:
+                switch (WhichLevel)
+                {
+                    case 0:
+                        Goal = 5;
+                        break;
+
+                    case 2:
+                        Goal = 10;
+                        break;
+
+                    case 3:
+                        Goal = 20;
+                        break;
+                }
+                break;
+
+            case 1:
+                switch (WhichLevel)
+                {
+                    case 0:
+                        Goal = 3;
+                        break;
+
+                    case 2:
+                        Goal = 5;
+                        break;
+
+                    case 3:
+                        Goal = 8;
+                        break;
+                }
+                break;
+
+            case 2:
+                switch (WhichLevel)
+                {
+                    case 0:
+                        Goal = 50;
+                        break;
+
+                    case 2:
+                        Goal = 100;
+                        break;
+
+                    case 3:
+                        Goal = 200;
+                        break;
+                }
+                break;
+
+            case 3:
+                switch (WhichLevel)
+                {
+                    case 0:
+                        Goal = 1;
+                        break;
+
+                    case 2:
+                        Goal = 3;
+                        break;
+
+                    case 3:
+                        Goal = 6;
+                        break;
+                }
+                break;
+        }
         DailyQuest = new DateTime();
         DailyQuest = DateTime.Now;
         MenuManager.Instance.SetDailyQuest();

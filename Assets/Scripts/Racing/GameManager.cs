@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource _music;
     [SerializeField] private AudioSource _playerCar;
     [SerializeField] private AudioSource _opponentCar;
+    [SerializeField] private BoxCollider2D _collider;
     private Opponent opponent;
     public static int OpponentCar = 0;
     public static bool TimeFlows { get; private set; }
@@ -358,6 +359,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Destroy(_collider);
             PlaySound(4);
             if (Opponent.TheCar.transform.position.y < CarController.Instance.gameObject.transform.position.y)
             {
@@ -388,6 +390,11 @@ public class GameManager : MonoBehaviour
             _textCoins.text = coins.ToString();
             GameContainer.Current.AddGears(gears);
             GameContainer.Current.AddCoins(coins);
+            if (GameContainer.Current.WhichQuest == 2)
+                GameContainer.Current.Completed += gears;
+            else
+            if (GameContainer.Current.WhichQuest == 3)
+                GameContainer.Current.Completed += coins;
             SaveLoad.Save();
             _finishLine.SetActive(true);
             //CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
@@ -404,11 +411,13 @@ public class GameManager : MonoBehaviour
         OpenWindow();
     }
 
-    private IEnumerator FinalCutScene() // todo: выключить звуки всех машин
+    private IEnumerator FinalCutScene()
     {
         Vehicle.Instance.SoundsOff(true);
         SoundsOff(true);
         CarController.Instance.Finish();
+        if (GameContainer.Current.WhichQuest == 0)
+            GameContainer.Current.Completed++;
         yield return null;
         while (_finishLine.transform.position.y > 0f)
         {
@@ -435,6 +444,8 @@ public class GameManager : MonoBehaviour
 
             if (victory)
             {
+                if (GameContainer.Current.WhichQuest == 1)
+                    GameContainer.Current.Completed++;
                 _textWonLostCrashed.text = "Won";
                 //coins = 1;
                 _textWonLostCrashed.color = Color.green;

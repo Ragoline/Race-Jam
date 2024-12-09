@@ -1384,6 +1384,7 @@ MonoBehaviour:
   _music: {fileID: 1337320762}
   _playerCar: {fileID: 385146597}
   _opponentCar: {fileID: 4504297708121197568, guid: b8e2f6075b68caa4ea1a893f2b42e903, type: 3}
+  _collider: {fileID: 304417027}
   vehicle: -2
   sounds:
   - {fileID: 8300000, guid: f1db3bdac371a664aaf075afb8046d1e, type: 3}
@@ -4335,7 +4336,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.986755
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

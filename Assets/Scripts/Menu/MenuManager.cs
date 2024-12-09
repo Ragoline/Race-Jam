@@ -233,6 +233,7 @@ public class MenuManager : MonoBehaviour
             case 5: // daily quest window
                 _dailyQuestWindow.transform.position = new Vector2(Screen.width / 2, Screen.height * (up ? -1 : 1));
                 _dailyQuestWindow.SetActive(true);
+                CheckQuestProgress();
                 break;
 
             case 6: // choose Window
@@ -578,7 +579,17 @@ public class MenuManager : MonoBehaviour
                         break;
                 }
             CloseWindows();
-            // todo animation
+            if (!InstantMenu)
+            { 
+                if (GameContainer.Current.SoftCurrency)
+                    _dailyGiftAnimator.Play("DailyQuestGear");
+                else
+                    _dailyGiftAnimator.Play("DailyQuestCoin");
+            }
+            GameContainer.Current.WhichQuest = -1;
+            GameContainer.Current.Goal = -1;
+            GameContainer.Current.Completed = -2;
+            SaveLoad.Save();
         }
     }
 

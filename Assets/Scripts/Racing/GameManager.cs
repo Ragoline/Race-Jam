@@ -632,30 +632,32 @@ public class GameManager : MonoBehaviour
     /// <param name="n">0 - click; 1 - countdown; 2 - countdownfinish; 3 - crash; 4 - finish; 5 - your car; 6 - vehicle; 7 - enemy car; 8 - nitro sound; 9 - gear picked up</param>
     private void PlaySound(int n)
     {
-        if (n < 5)
-        {
-            _sounds.clip = sounds[n];
-            _sounds.Play();
-        }
-        else if (n == 5)
-        {
-            _playerCar.clip = sounds[5];
-            _playerCar.Play();
-        }
-        else if (n == 7)
-        {
-            _opponentCar.clip = sounds[7];
-            _opponentCar.Play();
-        }
-        else if (n == 9)
-        {
-            _sounds2.clip = sounds[9];
-            _sounds2.Play();
-        }
-        else
-        {
-            _sounds.clip = sounds[n];
-            _sounds.Play();
+        if (_sounds) {
+            if (n < 5)
+            {
+                _sounds.clip = sounds[n];
+                _sounds.Play();
+            }
+            else if (n == 5)
+            {
+                _playerCar.clip = sounds[5];
+                _playerCar.Play();
+            }
+            else if (n == 7)
+            {
+                _opponentCar.clip = sounds[7];
+                _opponentCar.Play();
+            }
+            else if (n == 9)
+            {
+                _sounds2.clip = sounds[9];
+                _sounds2.Play();
+            }
+            else
+            {
+                _sounds.clip = sounds[n];
+                _sounds.Play();
+            }
         }
     }
 

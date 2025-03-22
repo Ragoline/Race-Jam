@@ -499,7 +499,7 @@ public class MenuManager : MonoBehaviour
     #region Daily Gift
     private void CheckDailyGift()
     {
-        if (GameContainer.Current.DailyGift.Day < DateTime.Now.Day)
+        if (GameContainer.Current.DailyGift.Day < DateTime.Now.Day || GameContainer.Current.DailyGift.Month < DateTime.Now.Month || GameContainer.Current.DailyGift.Year < DateTime.Now.Year)
         {
             _dailyGiftImage.sprite = _dgbColoured;
             Debug.Log("new gift");
@@ -531,7 +531,7 @@ public class MenuManager : MonoBehaviour
     #region Daily Quest
     private void CheckDailyQuest()
     {
-        if (GameContainer.Current.DailyQuest.Day < DateTime.Now.Day)
+        if (GameContainer.Current.DailyQuest.Day < DateTime.Now.Day || GameContainer.Current.DailyQuest.Month < DateTime.Now.Month || GameContainer.Current.DailyQuest.Year < DateTime.Now.Year)
         {
             Debug.Log("new day");
             GameContainer.Current.GenerateQuest();
@@ -636,15 +636,15 @@ public class MenuManager : MonoBehaviour
                 switch (GameContainer.Current.WhichLevel)
                 {
                     case 0:
-                        _questText.text = "Spend " + GameContainer.Current.Completed + "/50 gears";
+                        _questText.text = "Get " + GameContainer.Current.Completed + "/50 gears";
                         break;
 
                     case 1:
-                        _questText.text = "Spend " + GameContainer.Current.Completed + "/100 gears";
+                        _questText.text = "Get " + GameContainer.Current.Completed + "/100 gears";
                         break;
 
                     case 2:
-                        _questText.text = "Spend " + GameContainer.Current.Completed + "/200 gears";
+                        _questText.text = "Get " + GameContainer.Current.Completed + "/200 gears";
                         break;
                 }
                 break;
@@ -653,15 +653,15 @@ public class MenuManager : MonoBehaviour
                 switch (GameContainer.Current.WhichLevel)
                 {
                     case 0:
-                        _questText.text = "Spend " + GameContainer.Current.Completed + "/1 coin";
+                        _questText.text = "Get " + GameContainer.Current.Completed + "/1 coin";
                         break;
 
                     case 1:
-                        _questText.text = "Spend " + GameContainer.Current.Completed + "/3 coins";
+                        _questText.text = "Get " + GameContainer.Current.Completed + "/3 coins";
                         break;
 
                     case 2:
-                        _questText.text = "Spend " + GameContainer.Current.Completed + "/6 coins";
+                        _questText.text = "Get " + GameContainer.Current.Completed + "/6 coins";
                         break;
                 }
                 break;

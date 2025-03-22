@@ -650,8 +650,8 @@ public class GameManager : MonoBehaviour
             }
             else if (n == 9)
             {
-                _sounds2.clip = sounds[9];
-                _sounds2.Play();
+                _sounds.clip = sounds[9];
+                _sounds.Play();
             }
             else
             {

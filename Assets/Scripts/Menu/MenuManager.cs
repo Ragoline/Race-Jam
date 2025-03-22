@@ -171,7 +171,8 @@ public class MenuManager : MonoBehaviour
         switch (num)
         {
             case 0: // story button
-                OpenWindow(0);
+                //OpenWindow(0);
+                SceneManager.LoadScene("Tutorial");
                 break;
 
             case 1: // racing button

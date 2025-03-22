@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,12 @@ using UnityEngine.SceneManagement;
 public class Tutorial : MonoBehaviour
 {
     [SerializeField] private GameObject _obstacle;
+    [SerializeField] private GameObject _opponent;
     [SerializeField] private GameObject _road;
     [SerializeField] private GameObject _upperRoad;
     [SerializeField] private GameObject _lowerRoad;
+    [SerializeField] private Transform _player;
+    [SerializeField] private AudioSource _sounds;
 
     private float GameSpeed = 15f;
     private bool pause = false, obstacle = false;
@@ -20,7 +24,7 @@ public class Tutorial : MonoBehaviour
     {
         if (!pause)
             wait -= Time.deltaTime;
-        if (wait <= 0f)
+        if (wait <= 0f && stage == 0)
             stage++;
         if (stage == 0 && wait <= 0.3f)
             obstacle = true;
@@ -59,16 +63,53 @@ public class Tutorial : MonoBehaviour
                 stage++;
                 break;
 
+            case 2:
+                if (_obstacle.transform.position.y <= -5f)
+                {
+                    Destroy(_obstacle);
+                    stage++;
+                }
+                if (_player.position.x < 0)
+                {
+                    if (_player.position.x > -2f)
+                        _player.position = new Vector2(_player.position.x - 0.05f, _player.position.y);
+                    else
+                        stage++;
+                }
+                else if (_player.position.x > 0)
+                {
+                    if (_player.position.x < 2f)
+                        _player.position = new Vector2(_player.position.x + 0.05f, _player.position.y);
+                    else
+                        stage++;
+                }
+                break;
+
             case 3:
+                if (wait <= 0.3f)
+                    _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - 0.01f);
+                if (wait <= 0f)
+                {
+                    stage++;
+                    wait = 1f;
+                }
+                break;
+
+            case 4:
                 pause = true;
                 Debug.Log("на центральной полосе появляется машина соперника и надпись 'задержи палец, чтобы использовать нитро'");
-
-                wait = 5f;
-                stage++;
+                Hold();
                 break;
 
             case 5:
-                Debug.Log("как только игрок обгонит машину соперника, тутор заканчивается");
+                if (_opponent.transform.position.y <= -10f)
+                {
+                    Destroy(_opponent);
+                    stage++;
+                }
+                break;
+
+            case 6:
                 SceneManager.LoadScene("Menu");
                 break;
         }
@@ -85,21 +126,47 @@ public class Tutorial : MonoBehaviour
             if (_lowerRoad.transform.position.y <= -30)
                 _lowerRoad.transform.position = new Vector2(_lowerRoad.transform.position.x, _lowerRoad.transform.position.y + 16f);
 
-            if (obstacle && (stage == 0 || stage == 2))
+            if (obstacle && (stage == 0 || stage == 2 || stage == 3))
                 _obstacle.transform.position = new Vector2(_obstacle.transform.position.x, _obstacle.transform.position.y - Time.deltaTime * GameSpeed);
+            if (stage == 5)
+                _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - Time.deltaTime * GameSpeed * 0.01f);
+            
+            // в целом: пока игрок держит палец на экране, машина врага двигается вниз, и пауза = фолс, если не держит - нет этого
+            // todo надо сделать часть с нитро так, чтобы когдла игрок перестаёт держать палец на экране, ставится на паузу; а машина врага двигается вниз быстрее
+        }
+    }
+
+    private void Hold()
+    {
+        wait -= Time.deltaTime;
+        if (Input.GetMouseButtonDown(0) && wait <= 0f)
+        {
+            // вкл нитро
+
+            Debug.Log("nitro");
+            _sounds.Play();
+            GameSpeed += 10f;
         }
     }
 
     private void Swipe(bool right)
     {
+        pause = false;
         if (right)
         {
-
+            Debug.Log("swipe right");
+            _player.position = new Vector2(_player.position.x + 0.05f, _player.position.y);
         }
         else
         {
-
+            Debug.Log("swipe left");
+            _player.position = new Vector2(_player.position.x - 0.05f, _player.position.y);
         }
-        stage++;
+        wait = 3f;
+    }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }

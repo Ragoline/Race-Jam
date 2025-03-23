@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour
 {
+    [SerializeField] private Slider _nitro;
+    [SerializeField] private GameObject _dialogSwipe;
+    [SerializeField] private GameObject _dialogHold;
     [SerializeField] private GameObject _obstacle;
     [SerializeField] private GameObject _opponent;
     [SerializeField] private GameObject _road;
@@ -15,7 +19,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private AudioSource _sounds;
 
     private float GameSpeed = 15f;
-    private bool pause = false, obstacle = false;
+    private bool pause = false, obstacle = false, nitro = false;
     private float wait = 2f;
     private int stage = 0;
     private Vector2 firstPressPos, secondPressPos;
@@ -58,7 +62,7 @@ public class Tutorial : MonoBehaviour
         {
             case 1:
                 pause = true;
-                Debug.Log("тут возникнет препятствие и надпись 'свайпни, чтобы объехать'"); // игрок может свайпнуть как влево, так и вправо
+                _dialogSwipe.SetActive(true);
                 wait = 3f;
                 stage++;
                 break;
@@ -87,7 +91,7 @@ public class Tutorial : MonoBehaviour
 
             case 3:
                 if (wait <= 0.3f)
-                    _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - 0.01f);
+                    _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - 0.02f);
                 if (wait <= 0f)
                 {
                     stage++;
@@ -97,7 +101,7 @@ public class Tutorial : MonoBehaviour
 
             case 4:
                 pause = true;
-                Debug.Log("на центральной полосе появляется машина соперника и надпись 'задержи палец, чтобы использовать нитро'");
+                _dialogHold.SetActive(true);
                 Hold();
                 break;
 
@@ -106,6 +110,22 @@ public class Tutorial : MonoBehaviour
                 {
                     Destroy(_opponent);
                     stage++;
+                }
+                if (Input.GetMouseButtonDown(0))
+                    _sounds.Play();
+                if (Input.GetMouseButton(0))
+                {
+                    pause = false;
+                    GameSpeed = 20f;
+
+                    _nitro.value = 1f - (_opponent.transform.position.y + 10f) / 17.3f; // 7.3f -10f
+
+                    if (_opponent.transform.position.y < 6f)
+                        _dialogHold.SetActive(false);
+                }
+                else
+                {
+                    GameSpeed = 15f;
                 }
                 break;
 
@@ -129,23 +149,26 @@ public class Tutorial : MonoBehaviour
             if (obstacle && (stage == 0 || stage == 2 || stage == 3))
                 _obstacle.transform.position = new Vector2(_obstacle.transform.position.x, _obstacle.transform.position.y - Time.deltaTime * GameSpeed);
             if (stage == 5)
-                _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - Time.deltaTime * GameSpeed * 0.01f);
-            
-            // в целом: пока игрок держит палец на экране, машина врага двигается вниз, и пауза = фолс, если не держит - нет этого
-            // todo надо сделать часть с нитро так, чтобы когдла игрок перестаёт держать палец на экране, ставится на паузу; а машина врага двигается вниз быстрее
+                _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - Time.deltaTime * GameSpeed * 0.1f * (nitro && GameSpeed == 15f ? 0f : 1f));
         }
     }
 
     private void Hold()
     {
-        wait -= Time.deltaTime;
-        if (Input.GetMouseButtonDown(0) && wait <= 0f)
+        _nitro.gameObject.SetActive(true);
+        if (Input.GetMouseButton(0) && wait > 0f)
+           wait -= Time.deltaTime;
+
+        if (Input.GetMouseButton(0))
+        Debug.Log(wait);
+
+        if (Input.GetMouseButton(0) && wait <= 0f)
         {
             // вкл нитро
-
-            Debug.Log("nitro");
+            stage++;
             _sounds.Play();
-            GameSpeed += 10f;
+            GameSpeed += 3f;
+            nitro = true;
         }
     }
 
@@ -163,6 +186,7 @@ public class Tutorial : MonoBehaviour
             _player.position = new Vector2(_player.position.x - 0.05f, _player.position.y);
         }
         wait = 3f;
+        _dialogSwipe.SetActive(false);
     }
 
     public void Quit()

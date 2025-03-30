@@ -41,6 +41,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private AudioSource _music;
     [SerializeField] private AudioClip[] sounds = new AudioClip[2];
     [Header("Rest")]
+    [SerializeField] private RectTransform _tutorialButton;
     [SerializeField] private Image _carImage;
     [SerializeField] private Image _dailyGiftImage;
     [SerializeField] private Sprite _dgbColoured;
@@ -53,7 +54,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Text _questText;
     [SerializeField] private Animator _dailyGiftAnimator;
 
-    private bool up = false;
+    private bool up = false, tutor = false, tutorUp = false;
     public static bool MusicOn;
     public static bool SoundsOn;
     public static MenuManager Instance;
@@ -62,6 +63,7 @@ public class MenuManager : MonoBehaviour
     private int step = 0, shields = 0, nitro = 0;
     private Car[] boughtCars;
     private int currentCar = 0;
+    private float tutorialSize = 1f;
 
     private void Awake()
     {
@@ -92,6 +94,8 @@ public class MenuManager : MonoBehaviour
             _previousCar.interactable = false;
         else
             _previousCar.interactable = true;
+        if (PlayerPrefs.GetInt("Tutorial", 0) == 1)
+            tutor = true;
 
         Debug.Log(GameContainer.Current.BuyCar(new RedCar(), 0));
         SetVolume();
@@ -113,6 +117,21 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
+        if (!tutor)
+        {
+            if (!tutorUp && _tutorialButton.localScale.x < 1.1f)
+            {
+                //tutorUp = false;
+                _tutorialButton.localScale = new Vector2(_tutorialButton.localScale.x + 0.001f, _tutorialButton.localScale.y + 0.001f);
+            }
+            else
+                tutorUp = true;
+            if (tutorUp && _tutorialButton.localScale.x > 0.9f)
+                _tutorialButton.localScale = new Vector2(_tutorialButton.localScale.x - 0.001f, _tutorialButton.localScale.y - 0.001f);
+            else
+                tutorUp = false;
+        }
+
         if (wait > 0f)
         {
             wait -= Time.deltaTime;

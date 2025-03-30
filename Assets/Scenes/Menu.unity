@@ -7793,6 +7793,7 @@ MonoBehaviour:
   sounds:
   - {fileID: 8300000, guid: f1db3bdac371a664aaf075afb8046d1e, type: 3}
   - {fileID: 8300000, guid: dbe5595c875958b46ae22f211c06a883, type: 3}
+  _tutorialButton: {fileID: 600448339}
   _carImage: {fileID: 888488966}
   _dailyGiftImage: {fileID: 1969926078}
   _dgbColoured: {fileID: 21300000, guid: 02368f9bf5e044f418f7fe3aa8646d3e, type: 3}

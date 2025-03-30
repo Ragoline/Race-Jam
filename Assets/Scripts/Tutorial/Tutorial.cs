@@ -17,12 +17,21 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject _lowerRoad;
     [SerializeField] private Transform _player;
     [SerializeField] private AudioSource _sounds;
+    [SerializeField] private AudioSource _music;
 
-    private float GameSpeed = 15f;
+    private float GameSpeed = 16f;
     private bool pause = false, obstacle = false, nitro = false;
     private float wait = 2f;
     private int stage = 0;
     private Vector2 firstPressPos, secondPressPos;
+
+    private void Start()
+    {
+        if (!MenuManager.MusicOn)
+            _music.gameObject.SetActive(false);
+        if (!MenuManager.SoundsOn)
+            _sounds.gameObject.SetActive(false);
+    }
 
     void Update()
     {
@@ -30,7 +39,7 @@ public class Tutorial : MonoBehaviour
             wait -= Time.deltaTime;
         if (wait <= 0f && stage == 0)
             stage++;
-        if (stage == 0 && wait <= 0.3f)
+        if (stage == 0 && wait <= 0.5f)
             obstacle = true;
         if (stage == 2)
         {
@@ -68,30 +77,30 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 2:
-                if (_obstacle.transform.position.y <= -5f)
+                if (_obstacle.transform.position.y <= -15f)
                 {
                     Destroy(_obstacle);
                     stage++;
                 }
                 if (_player.position.x < 0)
                 {
-                    if (_player.position.x > -2f)
-                        _player.position = new Vector2(_player.position.x - 0.05f, _player.position.y);
+                    if (_player.position.x > -1.85f)
+                        _player.position = new Vector2(_player.position.x - 8 * Time.deltaTime, _player.position.y);
                     else
                         stage++;
                 }
                 else if (_player.position.x > 0)
                 {
-                    if (_player.position.x < 2f)
-                        _player.position = new Vector2(_player.position.x + 0.05f, _player.position.y);
+                    if (_player.position.x < 1.85f)
+                        _player.position = new Vector2(_player.position.x + 8 * Time.deltaTime, _player.position.y);
                     else
                         stage++;
                 }
                 break;
 
             case 3:
-                if (wait <= 0.3f)
-                    _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - 0.02f);
+                if (wait <= 4f)
+                    _opponent.transform.position = new Vector2(_opponent.transform.position.x, _opponent.transform.position.y - 0.005f);
                 if (wait <= 0f)
                 {
                     stage++;
@@ -106,7 +115,7 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 5:
-                if (_opponent.transform.position.y <= -10f)
+                if (_opponent.transform.position.y <= -15f)
                 {
                     Destroy(_opponent);
                     stage++;
@@ -118,9 +127,9 @@ public class Tutorial : MonoBehaviour
                     pause = false;
                     GameSpeed = 20f;
 
-                    _nitro.value = 1f - (_opponent.transform.position.y + 10f) / 17.3f; // 7.3f -10f
+                    _nitro.value = 1f - (_opponent.transform.position.y + 15f) / 20f; // 4.5f -15f
 
-                    if (_opponent.transform.position.y < 6f)
+                    if (_opponent.transform.position.y < 5f)
                         _dialogHold.SetActive(false);
                 }
                 else
@@ -130,6 +139,7 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 6:
+                PlayerPrefs.SetInt("Tutorial", 1);
                 SceneManager.LoadScene("Menu");
                 break;
         }
@@ -164,7 +174,6 @@ public class Tutorial : MonoBehaviour
 
         if (Input.GetMouseButton(0) && wait <= 0f)
         {
-            // вкл нитро
             stage++;
             _sounds.Play();
             GameSpeed += 3f;
@@ -178,14 +187,14 @@ public class Tutorial : MonoBehaviour
         if (right)
         {
             Debug.Log("swipe right");
-            _player.position = new Vector2(_player.position.x + 0.05f, _player.position.y);
+            _player.position = new Vector2(_player.position.x + 0.1f, _player.position.y);
         }
         else
         {
             Debug.Log("swipe left");
-            _player.position = new Vector2(_player.position.x - 0.05f, _player.position.y);
+            _player.position = new Vector2(_player.position.x - 0.1f, _player.position.y);
         }
-        wait = 3f;
+        wait = 4f;
         _dialogSwipe.SetActive(false);
     }
 

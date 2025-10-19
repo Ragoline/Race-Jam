@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
+//using UnityEditor.Advertisements;
 
 public class MenuManager : MonoBehaviour
 {
@@ -67,6 +69,12 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
+        Advertisement.Banner.Hide();
+        /*if (Advertisement.Banner.isLoaded || Advertisement.IsReady(bannerPlacementName))
+        {
+            Advertisement.Banner.Show(bannerPlacementName);
+        }*/
+
         float unitsPerPixel = 900f / Screen.width;
 
         float desiredHalfHeight = 0.5f * unitsPerPixel * Screen.height;

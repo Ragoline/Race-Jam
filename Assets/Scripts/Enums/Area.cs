@@ -1,9 +1,16 @@
 public enum Area
 {
     City,
-    Winter/*,
-    Desert,
+    Winter,
     Beach,
-    Town,
-    Bridge*/
+    Village/*,
+    Bridge,
+    Christmas,
+    Valentine,
+    SaintPatrick,
+    Easter,
+    Desert,
+    Knowledge
+    Halloween
+    */
 }

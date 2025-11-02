@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +43,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource _playerCar;
     [SerializeField] private AudioSource _opponentCar;
     [SerializeField] private BoxCollider2D _collider;
+    [Header("Language")]
+    [SerializeField] private Text _you;
+    [SerializeField] private Text _theRace;
+    [SerializeField] private Text _continue;
     private Opponent opponent;
     public static int OpponentCar = 0;
     public static bool TimeFlows { get; private set; }
@@ -53,7 +57,7 @@ public class GameManager : MonoBehaviour
     public static int Health, Nitro;
     public static bool Final = false, RandomBonus = false;
     private bool victory = false, pausable = true, up = true;
-    private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo ïîäóìàòü íàñ÷¸ò ñëîæíîñòè: ñòîèò ëè äåëàòü roadObjectTime ïåðåìåííîé, êîòîðàÿ ìåíÿåòñÿ ïðè âûñîêîé/íèçêîé ñëîæíîñòè ãîíêè; ìîæíî ñäåëàòü òàê, ÷òîáû èãðîê, èãðàþùèé íåñêîëüêî îäèíàêîâûõ ãîíîê ïîäðÿä, ïîëó÷àë óâåëè÷åííóþ ñëîæíîñòü
+    private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo Ð¿Ð¾Ð´ÑƒÐ¼Ð°Ñ‚ÑŒ Ð½Ð°ÑÑ‡Ñ‘Ñ‚ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸: ÑÑ‚Ð¾Ð¸Ñ‚ Ð»Ð¸ Ð´ÐµÐ»Ð°Ñ‚ÑŒ roadObjectTime Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ Ð¼ÐµÐ½ÑÐµÑ‚ÑÑ Ð¿Ñ€Ð¸ Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð¹/Ð½Ð¸Ð·ÐºÐ¾Ð¹ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ð³Ð¾Ð½ÐºÐ¸; Ð¼Ð¾Ð¶Ð½Ð¾ ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ Ñ‚Ð°Ðº, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸Ð³Ñ€Ð¾Ðº, Ð¸Ð³Ñ€Ð°ÑŽÑ‰Ð¸Ð¹ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð¾Ð´Ð¸Ð½Ð°ÐºÐ¾Ð²Ñ‹Ñ… Ð³Ð¾Ð½Ð¾Ðº Ð¿Ð¾Ð´Ñ€ÑÐ´, Ð¿Ð¾Ð»ÑƒÑ‡Ð°Ð» ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð½ÑƒÑŽ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ
     public static float Race = 20f;
     public static string Area = "City";
     private Sprite[] vehicles;
@@ -353,6 +357,24 @@ public class GameManager : MonoBehaviour
             _finishLine.SetActive(false);
             //CarController.Instance.transform.rotation = new Quaternion(0, 0, 0, 0);
             _textWonLostCrashed.text = "Crashed";
+            switch (MenuManager.Language)
+            {
+                case 0:
+                    _textWonLostCrashed.text = "Crashed";
+                    break;
+
+                case 1:
+                    _textWonLostCrashed.text = "Ð Ð°Ð·Ð±Ð¸Ð»ÑÑ";
+                    break;
+
+                case 2:
+                    _textWonLostCrashed.text = "te estrellaste";
+                    break;
+
+                case 3:
+                    break;
+
+            }
             _textWonLostCrashed.color = Color.red;
             _textGears.text = "0";
             _textCoins.text = "0";
@@ -449,6 +471,24 @@ public class GameManager : MonoBehaviour
                 if (GameContainer.Current.WhichQuest == 1)
                     GameContainer.Current.Completed++;
                 _textWonLostCrashed.text = "Won";
+                switch (MenuManager.Language)
+                {
+                    case 0:
+                        _textWonLostCrashed.text = "Won";
+                        break;
+
+                    case 1:
+                        _textWonLostCrashed.text = "Ð’Ñ‹Ð¸Ð³Ñ€Ð°Ð»";
+                        break;
+
+                    case 2:
+                        _textWonLostCrashed.text = "Ganaste";
+                        break;
+
+                    case 3:
+                        break;
+
+                }
                 //coins = 1;
                 _textWonLostCrashed.color = Color.green;
                 if (Opponent.TheCar.transform.position.y > 0)
@@ -459,8 +499,26 @@ public class GameManager : MonoBehaviour
             else
             {
                 _textWonLostCrashed.text = "Lost";
+                switch (MenuManager.Language)
+                {
+                    case 0:
+                        _textWonLostCrashed.text = "Lost";
+                        break;
+
+                    case 1:
+                        _textWonLostCrashed.text = "ÐŸÑ€Ð¾Ð¸Ð³Ñ€Ð°Ð»";
+                        break;
+
+                    case 2:
+                        _textWonLostCrashed.text = "Perdiste";
+                        break;
+
+                    case 3:
+                        break;
+
+                }
                 _textWonLostCrashed.color = Color.red;
-                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, _finishLine.transform.position.y + 2f); //todo ýòî âîçìîæíàÿ çàìåíà ðåøåíèþ
+                Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, _finishLine.transform.position.y + 2f); //todo ÑÑ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð°Ñ Ð·Ð°Ð¼ÐµÐ½Ð° Ñ€ÐµÑˆÐµÐ½Ð¸ÑŽ
                 /*if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 2f)
                     Opponent.TheCar.transform.position = new Vector2(Opponent.TheCar.transform.position.x, Opponent.TheCar.transform.position.y - 10f * Time.deltaTime * GameManager.GameSpeed);
                 if (Opponent.TheCar.transform.position.y > _finishLine.transform.position.y + 5f)
@@ -673,12 +731,21 @@ public class GameManager : MonoBehaviour
         switch (MenuManager.Language)
         {
             case 0:
+                _you.text = "You";
+                _theRace.text = "the Race";
+                _continue.text = "Continue";
                 break;
 
             case 1:
+                _you.text = "Ð¢Ñ‹";
+                _theRace.text = "Ð“Ð¾Ð½ÐºÑƒ";
+                _continue.text = "ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÑŒ";
                 break;
 
             case 2:
+                _you.text = "TÃº";
+                _theRace.text = "la Carrera";
+                _continue.text = "Seguir";
                 break;
 
             case 3:

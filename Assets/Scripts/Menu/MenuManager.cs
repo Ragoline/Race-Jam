@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -55,12 +55,26 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Text _captionText;
     [SerializeField] private Text _questText;
     [SerializeField] private Animator _dailyGiftAnimator;
+    [SerializeField] private TMPro.TMP_Dropdown _languageDropDown;
+    [Header("Language")]
+    [SerializeField] private Text _instantMenus;
+    [SerializeField] private Text _customRace;
+    [SerializeField] private Text _area;
+    [SerializeField] private Text _opponent;
+    [SerializeField] private Text _length;
+    [SerializeField] private Text _startCustomRace;
+    [SerializeField] private Text _randomRace;
+    [SerializeField] private Text _chooseYourCar;
+    [SerializeField] private Text _selectShield;
+    [SerializeField] private Text _selectNitro;
+    [SerializeField] private Text _begin;
 
     private bool up = false, tutor = false, tutorUp = false;
     public static bool MusicOn;
     public static bool SoundsOn;
     public static MenuManager Instance;
     public static bool InstantMenu;
+    public static int Language;
     private float wait = 0f;
     private int step = 0, shields = 0, nitro = 0;
     private Car[] boughtCars;
@@ -74,6 +88,8 @@ public class MenuManager : MonoBehaviour
         {
             Advertisement.Banner.Show(bannerPlacementName);
         }*/
+
+        SwitchLanguage();
 
         float unitsPerPixel = 900f / Screen.width;
 
@@ -346,21 +362,95 @@ public class MenuManager : MonoBehaviour
 
     #region Racing
     /// <summary>
-    /// ������ ����� � ����������� �����, ����� ����������� �������
+    /// Меняет текст в определённом месте, когда переключаем слайдер
     /// </summary>
-    /// <param name="which">0 - ����, 1 - ��������, 2 - ������������</param>
+    /// <param name="which">0 - зона, 1 - оппонент, 2 - длительность</param>
     public void ChangeSlider(int which)
     {
         switch (which)
         {
             case 0:
                 _captionText.text = ((Area)_areas.value).ToString();
+                if (Language > 0)
+                {
+                    switch (Language)
+                    {
+                        case 1:
+                            switch (_captionText.text)
+                            { 
+                                case "City":
+                                    _captionText.text = "Город";
+                                    break;
+                                case "Winter":
+                                    _captionText.text = "Зима";
+                                    break;
+                                case "Beach":
+                                    _captionText.text = "Пляж";
+                                    break;
+                                case "Village":
+                                    _captionText.text = "Деревня";
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (_captionText.text)
+                            { 
+                                case "City":
+                                    _captionText.text = "Ciudad";
+                                    break;
+                                case "Winter":
+                                    _captionText.text = "Invierno";
+                                    break;
+                                case "Beach":
+                                    _captionText.text = "Playa";
+                                    break;
+                                case "Village":
+                                    _captionText.text = "Aldea";
+                                    break;
+                            }
+                            break;
+                    }
+                }
                 break;
             case 1:
                 _captionText.text = AllCars.Cars[(int)_opponents.value].Name;
                 break;
             case 2:
                 _captionText.text = ((Length)_lengths.value).ToString();
+                if (Language > 0)
+                {
+                    switch (Language)
+                    {
+                        case 1:
+                            switch (_captionText.text)
+                            {
+                                case "Short":
+                                    _captionText.text = "Короткая";
+                                    break;
+                                case "Standard":
+                                    _captionText.text = "Стандартная";
+                                    break;
+                                case "Long":
+                                    _captionText.text = "Длинная";
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (_captionText.text)
+                            {
+                                case "Short":
+                                    _captionText.text = "Corta";
+                                    break;
+                                case "Standard":
+                                    _captionText.text = "Estándar";
+                                    break;
+                                case "Long":
+                                    _captionText.text = "Larga";
+                                    break;
+                            }
+                            break;
+                    }
+                }
                 break;
         }
     }
@@ -707,5 +797,69 @@ public class MenuManager : MonoBehaviour
         GameContainer.Current.AddCoins(1);
         GameContainer.Current.AddGears(10);
         SaveLoad.Save();
+    }
+
+    private void SwitchLanguage()
+    {
+        Language = PlayerPrefs.GetInt("Language", 1);
+
+        switch (Language)
+        {
+            case 0:
+                _instantMenus.text = "Instant Menus";
+                _customRace.text = "Custom Race";
+                _area.text = "Area";
+                _opponent.text = "Opponent";
+                _length.text = "Length";
+                _startCustomRace.text = "Start Custom Race";
+                _randomRace.text = "Random Race";
+                _chooseYourCar.text = "Choose your car";
+                _selectShield.text = "Select Shield";
+                _selectNitro.text = "Select Nitro";
+                _begin.text = "Begin";
+                break;
+
+            case 1:
+                _instantMenus.text = "Мгновенные Меню";
+                _customRace.text = "Своя Гонка";
+                _area.text = "Зона";
+                _opponent.text = "Оппонент";
+                _length.text = "Длительность";
+                _startCustomRace.text = "Начать Свою Гонку";
+                _randomRace.text = "Случайная Гонка";
+                _chooseYourCar.text = "Выбери машину";
+                _selectShield.text = "Выбери щит";
+                _selectNitro.text = "Выбери нитро";
+                _begin.text = "Начать";
+                break;
+
+            case 2:
+                _instantMenus.text = "Menús Instantáneos";
+                _customRace.text = "Carrera Personalizada";
+                _area.text = "Zona";
+                _opponent.text = "Adversario";
+                _length.text = "Longitud";
+                _startCustomRace.text = "Iniciar";
+                _randomRace.text = "Carrera Aleatoria";
+                _chooseYourCar.text = "Elige tu coche";
+                _selectShield.text = "Elige El Escudo";
+                _selectNitro.text = "Elige El Nitro";
+                _begin.text = "Empezar";
+                break;
+
+            case 3:
+                break;
+        }
+
+        _languageDropDown.value = Language;
+    }
+
+    public void ChooseLanguage()
+    {
+        Language = _languageDropDown.value;
+        Debug.Log("language " + Language);
+        PlayerPrefs.SetInt("Language", Language);
+
+        SwitchLanguage();
     }
 }

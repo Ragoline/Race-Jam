@@ -24,6 +24,10 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     [SerializeField] private Slider turningSlider;
     [SerializeField] private AudioSource _sounds;
     [SerializeField] private AudioSource _music;
+    [Header("Language")]
+    [SerializeField] private Text _speed;
+    [SerializeField] private Text _turning;
+    [SerializeField] private Text _buyButton;
     private Car[] cars;
     private Sprite[] looks;
     private int num = 0;
@@ -32,6 +36,8 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 
     private void Awake()
     {
+
+        SwitchLanguage();
         cars = new Car[AllCars.Cars.Length];
         looks = new Sprite[AllCars.Cars.Length];
         UpdateResources();
@@ -168,13 +174,47 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
             if (GameContainer.Current.BoughtCars[i].Name == cars[num].Name)
             {
                 buyButton.interactable = false;
-                buyText.text = "Bought";
+                switch (MenuManager.Language)
+                {
+                    case 0:
+                        buyText.text = "Bought";
+                        break;
+
+                    case 1:
+                        buyText.text = "Куплено";
+                        break;
+
+                    case 2:
+                        buyText.text = "Comprado";
+                        break;
+
+                    case 3:
+                        break;
+
+                }
                 break;
             }
             else
             {
                 buyButton.interactable = true;
-                buyText.text = "Buy";
+                switch (MenuManager.Language)
+                {
+                    case 0:
+                        buyText.text = "Buy";
+                        break;
+
+                    case 1:
+                        buyText.text = "Купить";
+                        break;
+
+                    case 2:
+                        buyText.text = "Comprar";
+                        break;
+
+                    case 3:
+                        break;
+
+                }
             }
 
         prevButton.interactable = num == 0 ? false : true;
@@ -193,13 +233,47 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                 if (GameContainer.Current.BoughtCars[i].Name == cars[num].Name)
                 {
                     buyButton.interactable = false;
-                    buyText.text = "Bought";
+                    switch (MenuManager.Language)
+                    {
+                        case 0:
+                            buyText.text = "Bought";
+                            break;
+
+                        case 1:
+                            buyText.text = "Куплено";
+                            break;
+
+                        case 2:
+                            buyText.text = "Comprado";
+                            break;
+
+                        case 3:
+                            break;
+
+                    }
                     break;
                 }
                 else
                 {
                     buyButton.interactable = true;
-                    buyText.text = "Buy";
+                    switch (MenuManager.Language)
+                    {
+                        case 0:
+                            buyText.text = "Buy";
+                            break;
+
+                        case 1:
+                            buyText.text = "Купить";
+                            break;
+
+                        case 2:
+                            buyText.text = "Comprar";
+                            break;
+
+                        case 3:
+                            break;
+
+                    }
                 }
         }
     }
@@ -275,5 +349,34 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     {
         _music.volume = MenuManager.MusicOn ? 1f : 0f;
         _sounds.volume = MenuManager.SoundsOn ? 1f : 0f;
+    }
+
+    private void SwitchLanguage()
+    {
+        switch (MenuManager.Language)
+        {
+            case 0:
+                _speed.text = "Speed";
+                _turning.text = "Turning";
+                _buyButton.text = "Buy";
+                break;
+
+            case 1:
+                _speed.text = "Скорость";
+                _turning.text = "Повороты";
+                _buyButton.text = "Купить";
+                break;
+
+            case 2:
+                _speed.text = "Velocidad";
+                _turning.text = "Maniobrabilidad";
+                _buyButton.text = "Comprar";
+                break;
+
+            case 3:
+                break;
+
+        }
+
     }
 }

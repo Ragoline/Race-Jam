@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +18,9 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private Transform _player;
     [SerializeField] private AudioSource _sounds;
     [SerializeField] private AudioSource _music;
+    [Header("Language")]
+    [SerializeField] private Text _swipe;
+    [SerializeField] private Text _hold;
 
     private float GameSpeed = 16f;
     private bool pause = false, obstacle = false, nitro = false;
@@ -27,6 +30,7 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
+        SwitchLanguage();
         if (!MenuManager.MusicOn)
             _music.gameObject.SetActive(false);
         if (!MenuManager.SoundsOn)
@@ -201,5 +205,31 @@ public class Tutorial : MonoBehaviour
     public void Quit()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    private void SwitchLanguage()
+    {
+        switch (MenuManager.Language)
+        {
+            case 0:
+                _swipe.text = "Swipe to move";
+                _hold.text = "Press and hold to speed up";
+                break;
+
+            case 1:
+                _swipe.text = "Свайпай для перемещения";
+                _hold.text = "Нажми и держи для ускорения";
+                break;
+
+            case 2:
+                _swipe.text = "Desliza para mover";
+                _hold.text = "Mantén pulsado para acelerar";
+                break;
+
+            case 3:
+                break;
+
+        }
+
     }
 }

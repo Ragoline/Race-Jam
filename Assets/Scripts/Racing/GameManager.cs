@@ -85,6 +85,8 @@ public class GameManager : MonoBehaviour
         _road.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Roads/" + Area);
         Debug.Log("Images/Roads/" + Area);
 
+        SwitchLanguage();
+
         begin = 3f;
 
         CarController.Car = Player;
@@ -664,5 +666,25 @@ public class GameManager : MonoBehaviour
     public void SoundsOff(bool off)
     {
         _opponentCar.volume = off ? 0f : 1f;
+    }
+
+    private void SwitchLanguage()
+    {
+        switch (MenuManager.Language)
+        {
+            case 0:
+                break;
+
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+        }
+
     }
 }

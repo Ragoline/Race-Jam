@@ -1404,6 +1404,8 @@ MonoBehaviour:
   _player: {fileID: 304417021}
   _sounds: {fileID: 2079589176}
   _music: {fileID: 1337320762}
+  _swipe: {fileID: 466779993}
+  _hold: {fileID: 506065940}
 --- !u!1 &599849334
 GameObject:
   m_ObjectHideFlags: 0

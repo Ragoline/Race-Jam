@@ -137,6 +137,8 @@ public class MenuManager : MonoBehaviour
         }
         CheckDailyGift();
         CheckDailyQuest();
+
+        Levels();
     }
 
     private void Update()
@@ -357,7 +359,20 @@ public class MenuManager : MonoBehaviour
     }
 
     #region Story
-    // todo 
+    private void Levels() // todo в зависимости от пройдености менять цвета у кнопок уровней
+    {
+
+    }
+
+    public void SelectLevel(int num) // todo клик по кнопке уровня
+    {
+
+    }
+
+    public void StartLevel() // todo клик по кнопке начать уровень
+    {
+
+    }
     #endregion
 
     #region Racing

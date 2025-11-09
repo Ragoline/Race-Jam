@@ -372,6 +372,7 @@ public class GameManager : MonoBehaviour
                     break;
 
                 case 3:
+                    _textWonLostCrashed.text = "Abgestürzt";
                     break;
 
             }
@@ -486,6 +487,7 @@ public class GameManager : MonoBehaviour
                         break;
 
                     case 3:
+                        _textWonLostCrashed.text = "gewonnen";
                         break;
 
                 }
@@ -514,6 +516,7 @@ public class GameManager : MonoBehaviour
                         break;
 
                     case 3:
+                        _textWonLostCrashed.text = "verloren";
                         break;
 
                 }
@@ -749,6 +752,9 @@ public class GameManager : MonoBehaviour
                 break;
 
             case 3:
+                _you.text = "Du hast das Rennen";
+                _theRace.text = "";
+                _continue.text = "Weitermachen";
                 break;
 
         }

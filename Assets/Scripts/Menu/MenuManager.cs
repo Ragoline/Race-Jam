@@ -409,6 +409,23 @@ public class MenuManager : MonoBehaviour
                                     break;
                             }
                             break;
+                        case 3:
+                            switch (_captionText.text)
+                            {
+                                case "City":
+                                    _captionText.text = "Stadt";
+                                    break;
+                                case "Winter":
+                                    _captionText.text = "Winter";
+                                    break;
+                                case "Beach":
+                                    _captionText.text = "Strand";
+                                    break;
+                                case "Village":
+                                    _captionText.text = "Dorg";
+                                    break;
+                            }
+                            break;
                     }
                 }
                 break;
@@ -446,6 +463,20 @@ public class MenuManager : MonoBehaviour
                                     break;
                                 case "Long":
                                     _captionText.text = "Larga";
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (_captionText.text)
+                            {
+                                case "Short":
+                                    _captionText.text = "Kurz";
+                                    break;
+                                case "Standard":
+                                    _captionText.text = "Standard";
+                                    break;
+                                case "Long":
+                                    _captionText.text = "Lang";
                                     break;
                             }
                             break;
@@ -720,15 +751,69 @@ public class MenuManager : MonoBehaviour
                 switch (GameContainer.Current.WhichLevel)
                 {
                     case 0:
-                        _questText.text = "Play " + GameContainer.Current.Completed + "/5 races";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Play " + GameContainer.Current.Completed + "/5 races";
+                                break;
+
+                            case 1:
+                                _questText.text = "Сыграть " + GameContainer.Current.Completed + "/5 гонок";
+                                break;
+
+                            case 2:
+                                _questText.text = "Jugar " + GameContainer.Current.Completed + "/5 carreras";
+                                break;
+
+                            case 3:
+                                _questText.text = "Spiele " + GameContainer.Current.Completed + "/5 Rennen";
+                                break;
+
+                        }
                         break;
 
                     case 1:
-                        _questText.text = "Play " + GameContainer.Current.Completed + "/10 races";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Play " + GameContainer.Current.Completed + "/10 races";
+                                break;
+
+                            case 1:
+                                _questText.text = "Сыграть " + GameContainer.Current.Completed + "/10 гонок";
+                                break;
+
+                            case 2:
+                                _questText.text = "Jugar " + GameContainer.Current.Completed + "/10 carreras";
+                                break;
+
+                            case 3:
+                                _questText.text = "Spiele " + GameContainer.Current.Completed + "/10 Rennen";
+                                break;
+
+                        }
                         break;
 
                     case 2:
-                        _questText.text = "Play " + GameContainer.Current.Completed + "/20 races";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Play " + GameContainer.Current.Completed + "/20 races";
+                                break;
+
+                            case 1:
+                                _questText.text = "Сыграть " + GameContainer.Current.Completed + "/20 гонок";
+                                break;
+
+                            case 2:
+                                _questText.text = "Jugar " + GameContainer.Current.Completed + "/20 carreras";
+                                break;
+
+                            case 3:
+                                _questText.text = "Spiele " + GameContainer.Current.Completed + "/20 Rennen";
+                                break;
+
+                        }
                         break;
                 }
                 break;
@@ -737,15 +822,69 @@ public class MenuManager : MonoBehaviour
                 switch (GameContainer.Current.WhichLevel)
                 {
                     case 0:
-                        _questText.text = "Win " + GameContainer.Current.Completed + "/3 races";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Win " + GameContainer.Current.Completed + "/3 races";
+                                break;
+
+                            case 1:
+                                _questText.text = "Выиграть " + GameContainer.Current.Completed + "/3 гонки";
+                                break;
+
+                            case 2:
+                                _questText.text = "Ganar " + GameContainer.Current.Completed + "/3 carreras";
+                                break;
+
+                            case 3:
+                                _questText.text = "" + GameContainer.Current.Completed + "/3 Rennen gewinnen";
+                                break;
+
+                        }
                         break;
 
                     case 1:
-                        _questText.text = "Win " + GameContainer.Current.Completed + "/5 races";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Win " + GameContainer.Current.Completed + "/5 races";
+                                break;
+
+                            case 1:
+                                _questText.text = "Выиграть " + GameContainer.Current.Completed + "/5 гонки";
+                                break;
+
+                            case 2:
+                                _questText.text = "Ganar " + GameContainer.Current.Completed + "/5 carreras";
+                                break;
+
+                            case 3:
+                                _questText.text = "" + GameContainer.Current.Completed + "/5 Rennen gewinnen";
+                                break;
+
+                        }
                         break;
 
                     case 2:
-                        _questText.text = "Win " + GameContainer.Current.Completed + "/8 races";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Win " + GameContainer.Current.Completed + "/8 races";
+                                break;
+
+                            case 1:
+                                _questText.text = "Выиграть " + GameContainer.Current.Completed + "/8 гонки";
+                                break;
+
+                            case 2:
+                                _questText.text = "Ganar " + GameContainer.Current.Completed + "/8 carreras";
+                                break;
+
+                            case 3:
+                                _questText.text = "" + GameContainer.Current.Completed + "/8 Rennen gewinnen";
+                                break;
+
+                        }
                         break;
                 }
                 break;
@@ -754,15 +893,69 @@ public class MenuManager : MonoBehaviour
                 switch (GameContainer.Current.WhichLevel)
                 {
                     case 0:
-                        _questText.text = "Get " + GameContainer.Current.Completed + "/50 gears";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Get " + GameContainer.Current.Completed + "/50 gears";
+                                break;
+
+                            case 1:
+                                _questText.text = "Получить " + GameContainer.Current.Completed + "/50 шестерёнок";
+                                break;
+
+                            case 2:
+                                _questText.text = "Llegar " + GameContainer.Current.Completed + "/50 engranajes";
+                                break;
+
+                            case 3:
+                                _questText.text = "Hol dir " + GameContainer.Current.Completed + "/50 Zahnräder";
+                                break;
+
+                        }
                         break;
 
                     case 1:
-                        _questText.text = "Get " + GameContainer.Current.Completed + "/100 gears";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Get " + GameContainer.Current.Completed + "/100 gears";
+                                break;
+
+                            case 1:
+                                _questText.text = "Получить " + GameContainer.Current.Completed + "/100 шестерёнок";
+                                break;
+
+                            case 2:
+                                _questText.text = "Llegar " + GameContainer.Current.Completed + "/100 engranajes";
+                                break;
+
+                            case 3:
+                                _questText.text = "Hol dir " + GameContainer.Current.Completed + "/100 Zahnräder";
+                                break;
+
+                        }
                         break;
 
                     case 2:
-                        _questText.text = "Get " + GameContainer.Current.Completed + "/200 gears";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Get " + GameContainer.Current.Completed + "/200 gears";
+                                break;
+
+                            case 1:
+                                _questText.text = "Получить " + GameContainer.Current.Completed + "/200 шестерёнок";
+                                break;
+
+                            case 2:
+                                _questText.text = "Llegar " + GameContainer.Current.Completed + "/200 engranajes";
+                                break;
+
+                            case 3:
+                                _questText.text = "Hol dir " + GameContainer.Current.Completed + "/200 Zahnräder";
+                                break;
+
+                        }
                         break;
                 }
                 break;
@@ -771,15 +964,69 @@ public class MenuManager : MonoBehaviour
                 switch (GameContainer.Current.WhichLevel)
                 {
                     case 0:
-                        _questText.text = "Get " + GameContainer.Current.Completed + "/1 coin";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Get " + GameContainer.Current.Completed + "/1 coin";
+                                break;
+
+                            case 1:
+                                _questText.text = "Получить " + GameContainer.Current.Completed + "/1 монету";
+                                break;
+
+                            case 2:
+                                _questText.text = "Llegar " + GameContainer.Current.Completed + "/1 moneda";
+                                break;
+
+                            case 3:
+                                _questText.text = "Erhalte " + GameContainer.Current.Completed + "/1 Münze";
+                                break;
+
+                        }
                         break;
 
                     case 1:
-                        _questText.text = "Get " + GameContainer.Current.Completed + "/3 coins";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Get " + GameContainer.Current.Completed + "/3 coins";
+                                break;
+
+                            case 1:
+                                _questText.text = "Получить " + GameContainer.Current.Completed + "/3 монеты";
+                                break;
+
+                            case 2:
+                                _questText.text = "Llegar " + GameContainer.Current.Completed + "/3 monedas";
+                                break;
+
+                            case 3:
+                                _questText.text = "Erhalte " + GameContainer.Current.Completed + "/3 Münzen";
+                                break;
+
+                        }
                         break;
 
                     case 2:
-                        _questText.text = "Get " + GameContainer.Current.Completed + "/6 coins";
+                        switch (MenuManager.Language)
+                        {
+                            case 0:
+                                _questText.text = "Get " + GameContainer.Current.Completed + "/6 coins";
+                                break;
+
+                            case 1:
+                                _questText.text = "Получить " + GameContainer.Current.Completed + "/6 монет";
+                                break;
+
+                            case 2:
+                                _questText.text = "Llegar " + GameContainer.Current.Completed + "/6 monedas";
+                                break;
+
+                            case 3:
+                                _questText.text = "Erhalte " + GameContainer.Current.Completed + "/5 Münzen";
+                                break;
+
+                        }
                         break;
                 }
                 break;
@@ -848,6 +1095,17 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case 3:
+                _instantMenus.text = "Sofortmenüs";
+                _customRace.text = "Benutzerdefiniertes Rennen";
+                _area.text = "Bereich";
+                _opponent.text = "Gegner";
+                _length.text = "Länge";
+                _startCustomRace.text = "Benutzerdefiniertes Rennen starten";
+                _randomRace.text = "Zufälliges Rennen";
+                _chooseYourCar.text = "Wählen Sie Ihr Auto";
+                _selectShield.text = "Schutzschild auswählen";
+                _selectNitro.text = "Nitro auswählen";
+                _begin.text = "Beginnen";
                 break;
         }
 

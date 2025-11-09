@@ -227,6 +227,8 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 3:
+                _swipe.text = "Zum Bewegen wischen";
+                _hold.text = "Zum Beschleunigen gedrückt halten";
                 break;
 
         }

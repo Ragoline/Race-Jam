@@ -248,6 +248,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                             break;
 
                         case 3:
+                            buyText.text = "Gekauft";
                             break;
 
                     }
@@ -271,6 +272,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                             break;
 
                         case 3:
+                            buyText.text = "Kaufen";
                             break;
 
                     }
@@ -374,6 +376,9 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
                 break;
 
             case 3:
+                _speed.text = "Geschwindigkeit";
+                _turning.text = "Wendigkeit";
+                _buyButton.text = "Kaufen";
                 break;
 
         }

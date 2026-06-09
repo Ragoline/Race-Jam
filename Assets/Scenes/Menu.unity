@@ -9142,6 +9142,14 @@ MonoBehaviour:
   _selectShield: {fileID: 648945778}
   _selectNitro: {fileID: 1436860528}
   _begin: {fileID: 1105372679}
+  _startButton: {fileID: 426713516}
+  _levelButtons:
+  - {fileID: 1855298568}
+  - {fileID: 1862480392}
+  - {fileID: 2035984083}
+  - {fileID: 186244866}
+  - {fileID: 699733078}
+  _episodeText: {fileID: 1961796528}
 --- !u!114 &1433745798
 MonoBehaviour:
   m_ObjectHideFlags: 0

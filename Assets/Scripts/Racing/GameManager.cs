@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     public static int Health, Nitro;
     public static bool Final = false, RandomBonus = false;
     private bool victory = false, pausable = true, up = true;
+    public static bool Story = false;
     private float roadObjectTime = 2f, sideObjectTime = 3f, _raceTime, begin = 3f, gear = 1.5f; // todo подумать насчёт сложности: стоит ли делать roadObjectTime переменной, которая меняется при высокой/низкой сложности гонки; можно сделать так, чтобы игрок, играющий несколько одинаковых гонок подряд, получал увеличенную сложность
     public static float Race = 20f;
     public static string Area = "City";
@@ -389,21 +390,28 @@ public class GameManager : MonoBehaviour
             if (Opponent.TheCar.transform.position.y < CarController.Instance.gameObject.transform.position.y)
             {
                 Debug.Log("victory");
-                coins = 1;
-                if (Opponent.Car.Speed > CarController.Car.Speed)
+                if (Story)
                 {
-                    coins = 5;
+
                 }
-                else if (CarController.Car.Speed == Opponent.Car.Speed)
+                else
                 {
-                    coins = 3;
+                    coins = 1;
+                    if (Opponent.Car.Speed > CarController.Car.Speed)
+                    {
+                        coins = 5;
+                    }
+                    else if (CarController.Car.Speed == Opponent.Car.Speed)
+                    {
+                        coins = 3;
+                    }
+                    else if (CarController.Car.Speed - Opponent.Car.Speed < 0.5f)
+                    {
+                        coins = 2;
+                    }
+                    if (RandomBonus)
+                        coins *= 2;
                 }
-                else if (CarController.Car.Speed - Opponent.Car.Speed < 0.5f)
-                {
-                    coins = 2;
-                }
-                if (RandomBonus)
-                    coins *= 2;
                 victory = true;
             }
             else
@@ -469,6 +477,15 @@ public class GameManager : MonoBehaviour
 
             if (victory)
             {
+                if (Story)
+                {
+                    GameContainer.Current.Level++;
+                    if (GameContainer.Current.Level > 5)
+                    {
+                        // todo game complete
+                    }
+                    Story = false;
+                }
                 if (GameContainer.Current.WhichQuest == 1)
                     GameContainer.Current.Completed++;
                 _textWonLostCrashed.text = "Won";

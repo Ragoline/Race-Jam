@@ -68,6 +68,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Text _selectShield;
     [SerializeField] private Text _selectNitro;
     [SerializeField] private Text _begin;
+    [Header("Story")]
+    [SerializeField] private Button _startButton;
+    [SerializeField] private Button[] _levelButtons;
+    [SerializeField] private Text _episodeText;
 
     private bool up = false, tutor = false, tutorUp = false;
     public static bool MusicOn;
@@ -76,7 +80,7 @@ public class MenuManager : MonoBehaviour
     public static bool InstantMenu;
     public static int Language;
     private float wait = 0f;
-    private int step = 0, shields = 0, nitro = 0;
+    private int step = 0, shields = 0, nitro = 0, level = 0;
     private Car[] boughtCars;
     private int currentCar = 0;
     private float tutorialSize = 1f;
@@ -216,7 +220,9 @@ public class MenuManager : MonoBehaviour
         switch (num)
         {
             case 0: // story button
-                //OpenWindow(0);
+                if (tutor)
+                OpenWindow(0);
+                else
                 SceneManager.LoadScene("Tutorial");
                 break;
 
@@ -361,17 +367,36 @@ public class MenuManager : MonoBehaviour
     #region Story
     private void Levels() // todo в зависимости от пройдености менять цвета у кнопок уровней
     {
-
+        if (GameContainer.Current.Level >= 5)
+            _startButton.interactable = false;
+        for (int i = 0; i < 5; i++)
+        {
+            _levelButtons[i].gameObject.GetComponent<Image>().color = Color.white;
+            _levelButtons[i].interactable = false;
+            if (GameContainer.Current.Level > i)
+            {
+                _levelButtons[i].gameObject.GetComponent<Image>().color = Color.green;
+                _levelButtons[i].interactable = false;
+            }
+            else if (GameContainer.Current.Level < i)
+            {
+                _levelButtons[i].gameObject.GetComponent<Image>().color = Color.red;
+                _levelButtons[i].interactable = false;
+            }
+        }
+        _episodeText.text = "Episode " + (GameContainer.Current.Level + 1);
     }
 
-    public void SelectLevel(int num) // todo клик по кнопке уровня
+    public void SelectLevel(int num) // todo клик по кнопке уровня пока не будет такой возможности - игрок проходит кампанию лишь однажды 
     {
 
     }
 
     public void StartLevel() // todo клик по кнопке начать уровень
     {
+        Debug.Log("start level " + (GameContainer.Current.Level + 1));
 
+        SceneManager.LoadScene("Dialog");
     }
     #endregion
 

@@ -156,6 +156,11 @@ public class GameContainer
         }
         return false;
     }
+
+    public void FinishedLevel()
+    {
+        Current.Level++;
+    }
     
     public void SetDailies()
     {

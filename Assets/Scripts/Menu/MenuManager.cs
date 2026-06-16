@@ -78,9 +78,9 @@ public class MenuManager : MonoBehaviour
     public static bool SoundsOn;
     public static MenuManager Instance;
     public static bool InstantMenu;
-    public static int Language;
+    public static int Language, Level = 0;
     private float wait = 0f;
-    private int step = 0, shields = 0, nitro = 0, level = 0;
+    private int step = 0, shields = 0, nitro = 0;
     private Car[] boughtCars;
     private int currentCar = 0;
     private float tutorialSize = 1f;
@@ -367,16 +367,16 @@ public class MenuManager : MonoBehaviour
     #region Story
     private void Levels() // todo в зависимости от пройдености менять цвета у кнопок уровней
     {
-        if (GameContainer.Current.Level >= 5)
-            _startButton.interactable = false;
+        /*if (GameContainer.Current.Level >= 5)
+            _startButton.interactable = true;*/
         for (int i = 0; i < 5; i++)
         {
             _levelButtons[i].gameObject.GetComponent<Image>().color = Color.white;
-            _levelButtons[i].interactable = false;
+            _levelButtons[i].interactable = true;
             if (GameContainer.Current.Level > i)
             {
                 _levelButtons[i].gameObject.GetComponent<Image>().color = Color.green;
-                _levelButtons[i].interactable = false;
+                _levelButtons[i].interactable = true;
             }
             else if (GameContainer.Current.Level < i)
             {
@@ -385,16 +385,18 @@ public class MenuManager : MonoBehaviour
             }
         }
         _episodeText.text = "Episode " + (GameContainer.Current.Level + 1);
+        Level = (GameContainer.Current.Level + 1);
     }
 
-    public void SelectLevel(int num) // todo клик по кнопке уровня пока не будет такой возможности - игрок проходит кампанию лишь однажды 
+    public void SelectLevel(int num)
     {
-
+        Level = num - 1;
+        _episodeText.text = "Episode " + num;
     }
 
     public void StartLevel() // todo клик по кнопке начать уровень
     {
-        Debug.Log("start level " + (GameContainer.Current.Level + 1));
+        Debug.Log("start level " + Level);
 
         SceneManager.LoadScene("Dialog");
     }

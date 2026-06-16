@@ -479,7 +479,8 @@ public class GameManager : MonoBehaviour
             {
                 if (Story)
                 {
-                    GameContainer.Current.Level++;
+                    if (MenuManager.Level == GameContainer.Current.Level)
+                        GameContainer.Current.Level++;
                     if (GameContainer.Current.Level > 5)
                     {
                         // todo game complete

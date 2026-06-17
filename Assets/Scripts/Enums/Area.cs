@@ -2,8 +2,8 @@ public enum Area
 {
     City,
     Winter,
-    Beach,
-    Village/*,
+    Village,
+    Beach/*,
     Bridge,
     Christmas,
     Valentine,

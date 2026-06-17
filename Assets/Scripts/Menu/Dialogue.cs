@@ -8,10 +8,10 @@ public class Dialogue : MonoBehaviour
 {
     private int level = 0, step = 0;
     private bool readyToTap = false;
-    private float sec = 1f;
+    private float sec = 3f;
 
-    [SerializeField] private SpriteRenderer player, dialogee;
-    [SerializeField] private Sprite[] dialogees, players;
+    [SerializeField] private SpriteRenderer player, dialogee, road;
+    [SerializeField] private Sprite[] dialogees, players, roads;
     [SerializeField] private Image playerBubble, dialogeeBubble;
     [SerializeField] private Text playerText, dialogeeText;
 
@@ -21,6 +21,7 @@ public class Dialogue : MonoBehaviour
         //level = GameContainer.Current.Level + 1;
         dialogee.sprite = dialogees[level];
         player.sprite = players[level];
+        road.sprite = roads[level];
 
         StartCoroutine(myCar());
     }
@@ -65,7 +66,7 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    private void Dialog()
+    private void Dialog() // todo заменить на последнем уровне противника на Black и зону на мост И заменить зону в туторе на мост
     {
         readyToTap = false;
         Debug.Log("dialog");
@@ -73,42 +74,49 @@ public class Dialogue : MonoBehaviour
         switch (level)
         {
             case 0:
-                // todo диалог перед первым уровнем
+                // диалог перед первым уровнем
                 switch (step)
                 {
                     case 1:
                         // первая реплика
                         playerBubble.gameObject.SetActive(true);
-                        playerText.text = "Надоела простая работа, хочу в гонку!";
+                        playerText.text = "Мне нужно достать денег, чтобы выкупить машину отца.";
                         break;
 
                     case 2:
                         // вторая реплика
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Ну, я тебя пристрою в одну.";
+                        dialogeeText.text = "Я тебя пристрою в гонку.";
                         break;
 
                     case 3:
-                        // третья реплика
-                        playerBubble.gameObject.SetActive(true);
-                        dialogeeBubble.gameObject.SetActive(false);
-                        playerText.text = "Спасибо!";
+                        // вторая реплика
+                        playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(true);
+                        dialogeeText.text = "Но ты не выиграешь никакую гонку просто со своей машиной.";
                         break;
 
                     case 4:
-                        // четвёртая реплика
+                        // третья реплика
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Пожалуйста.";
+                        dialogeeText.text = "Держи закись азота!";
                         break;
 
                     case 5:
+                        // четвёртая реплика
+                        playerBubble.gameObject.SetActive(true);
+                        dialogeeBubble.gameObject.SetActive(false);
+                        playerText.text = "Спасибо, дружище! Сейчас попробую выиграть гонку для любителей.";
+                        break;
+
+                    case 6:
                         // начало уровня
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(false);
 
-                        // todo параметры гонки в уровне (какие машины и тд)
+                        // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
                         GameManager.OpponentCar = 12;
                         GameManager.Race = 30f;
@@ -125,7 +133,7 @@ public class Dialogue : MonoBehaviour
                 break;
 
             case 1:
-                // todo диалог перед вторым уровнем
+                // диалог перед вторым уровнем
                 switch (step)
                 {
                     case 1:
@@ -143,24 +151,15 @@ public class Dialogue : MonoBehaviour
 
                     case 3:
                         // третья реплика
-                        playerBubble.gameObject.SetActive(true);
+                        /*playerBubble.gameObject.SetActive(true);
                         dialogeeBubble.gameObject.SetActive(false);
-                        playerText.text = "Хорошо";
-                        break;
+                        playerText.text = "Хорошо";*/
 
-                    case 4:
-                        // четвёртая реплика
-                        playerBubble.gameObject.SetActive(false);
-                        dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Уровень 2";
-                        break;
-
-                    case 5:
                         // начало уровня
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(false);
 
-                        // todo параметры гонки в уровне (какие машины и тд)
+                        // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
                         GameManager.OpponentCar = 4;
                         GameManager.Race = 40f;
@@ -168,6 +167,32 @@ public class Dialogue : MonoBehaviour
                         GameManager.RandomBonus = false;
                         GameManager.Player = new GreyCar();
                         GameManager.Health = 3;
+                        GameManager.Nitro = 2;
+                        GameManager.Story = true;
+                        //CarController.Car = new RedCar();
+                        SceneManager.LoadScene("Racing");
+                        break;
+
+                    case 4:
+                        // четвёртая реплика
+                        /*playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(true);
+                        dialogeeText.text = "Уровень 2";*/
+                        break;
+
+                    case 5:
+                        // начало уровня
+                        playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(false);
+
+                        // параметры гонки в уровне (какие машины и тд)
+                        GameManager.OpponentExists = true;
+                        GameManager.OpponentCar = 4;
+                        GameManager.Race = 40f;
+                        GameManager.Area = Area.Winter.ToString();
+                        GameManager.RandomBonus = false;
+                        GameManager.Player = new GreyCar();
+                        GameManager.Health = 4;
                         GameManager.Nitro = 1;
                         GameManager.Story = true;
                         //CarController.Car = new RedCar();
@@ -177,34 +202,35 @@ public class Dialogue : MonoBehaviour
                 break;
 
             case 2:
-                // todo диалог перед третьим уровнем
+                // диалог перед третьим уровнем
                 switch (step)
                 {
                     case 1:
                         // первая реплика
-                        playerBubble.gameObject.SetActive(true);
-                        playerText.text = "Добрейшего денёчка, гонщик! Я здесь самый кислый водила.";
+                        playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(true);
+                        dialogeeText.text = "Добрейшего денёчка, гонщик! Я здесь самый кислый водила.";
                         break;
 
                     case 2:
                         // вторая реплика
-                        playerBubble.gameObject.SetActive(false);
-                        dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Да ты просто железный лимон!";
+                        playerBubble.gameObject.SetActive(true);
+                        dialogeeBubble.gameObject.SetActive(false);
+                        playerText.text = "Да ты просто железный лимон!";
                         break;
 
                     case 3:
                         // третья реплика
-                        playerBubble.gameObject.SetActive(true);
-                        dialogeeBubble.gameObject.SetActive(false);
-                        playerText.text = "Не суди фрукт по кожуре, гонщик. Попробуй обгони меня!";
+                        playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(true);
+                        dialogeeText.text = "Не суди фрукт по кожуре, гонщик. Попробуй обгони меня!";
                         break;
 
                     case 4:
                         // четвёртая реплика
-                        playerBubble.gameObject.SetActive(false);
-                        dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Легко!";
+                        playerBubble.gameObject.SetActive(true);
+                        dialogeeBubble.gameObject.SetActive(false);
+                        playerText.text = "Легко!";
                         break;
 
                     case 5:
@@ -212,15 +238,15 @@ public class Dialogue : MonoBehaviour
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(false);
 
-                        // todo параметры гонки в уровне (какие машины и тд)
+                        // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
                         GameManager.OpponentCar = 6;
                         GameManager.Race = 50f;
                         GameManager.Area = Area.Village.ToString();
                         GameManager.RandomBonus = false;
                         GameManager.Player = new CyanCar();
-                        GameManager.Health = 3;
-                        GameManager.Nitro = 1;
+                        GameManager.Health = 4;
+                        GameManager.Nitro = 3;
                         GameManager.Story = true;
                         //CarController.Car = new RedCar();
                         SceneManager.LoadScene("Racing");
@@ -229,34 +255,35 @@ public class Dialogue : MonoBehaviour
                 break;
 
             case 3:
-                // todo диалог перед четвёртым уровнем
+                // диалог перед четвёртым уровнем
                 switch (step)
                 {
                     case 1:
                         // первая реплика
-                        playerBubble.gameObject.SetActive(true);
-                        playerText.text = "Эй, красавчик, за мной не угнаться!";
+                        playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(true);
+                        dialogeeText.text = "Эй, красавчик, за мной не угнаться!";
                         break;
 
                     case 2:
                         // вторая реплика
-                        playerBubble.gameObject.SetActive(false);
-                        dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "У меня здесь другие цели, принцесса.";
+                        playerBubble.gameObject.SetActive(true);
+                        dialogeeBubble.gameObject.SetActive(false);
+                        playerText.text = "У меня здесь другие цели, принцесса.";
                         break;
 
                     case 3:
                         // третья реплика
-                        playerBubble.gameObject.SetActive(true);
-                        dialogeeBubble.gameObject.SetActive(false);
-                        playerText.text = "Боюсь, на этом пляже тебе ничего не светит, если не обгонишь меня.";
+                        playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(true);
+                        dialogeeText.text = "Боюсь, на этом пляже тебе ничего не светит, если не обгонишь меня.";
                         break;
 
                     case 4:
                         // четвёртая реплика
-                        playerBubble.gameObject.SetActive(false);
-                        dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Тогда заводись, подруга!";
+                        playerBubble.gameObject.SetActive(true);
+                        dialogeeBubble.gameObject.SetActive(false);
+                        playerText.text = "Тогда заводись, подруга!";
                         break;
 
                     case 5:
@@ -264,15 +291,15 @@ public class Dialogue : MonoBehaviour
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(false);
 
-                        // todo параметры гонки в уровне (какие машины и тд)
+                        // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
                         GameManager.OpponentCar = 8;
                         GameManager.Race = 60f;
                         GameManager.Area = Area.Beach.ToString();
                         GameManager.RandomBonus = false;
                         GameManager.Player = new LemonCar();
-                        GameManager.Health = 3;
-                        GameManager.Nitro = 1;
+                        GameManager.Health = 4;
+                        GameManager.Nitro = 2;
                         GameManager.Story = true;
                         //CarController.Car = new RedCar();
                         SceneManager.LoadScene("Racing");
@@ -281,7 +308,7 @@ public class Dialogue : MonoBehaviour
                 break;
 
             case 4:
-                // todo диалог перед пятым уровнем
+                // диалог перед пятым уровнем
                 switch (step)
                 {
                     case 1:
@@ -294,7 +321,7 @@ public class Dialogue : MonoBehaviour
                         // вторая реплика
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Ты меня в жизни не обгонишь. Машина твоего отца - моя!";
+                        dialogeeText.text = "Ты меня в жизни не обгонишь. Машина твоего отца моя!";
                         break;
 
                     case 3:
@@ -306,9 +333,28 @@ public class Dialogue : MonoBehaviour
 
                     case 4:
                         // четвёртая реплика
-                        playerBubble.gameObject.SetActive(false);
+                        /*playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(true);
-                        dialogeeText.text = "Уровень 5";
+                        dialogeeText.text = "Уровень 5";*/
+
+
+                        // начало уровня
+                        playerBubble.gameObject.SetActive(false);
+                        dialogeeBubble.gameObject.SetActive(false);
+
+                        // параметры гонки в уровне (какие машины и тд)
+                        GameManager.OpponentExists = true;
+                        GameManager.OpponentCar = 14;
+                        GameManager.Race = 70f;
+                        //GameManager.Area = Area.Bridge.ToString();
+                        GameManager.RandomBonus = false;
+                        GameManager.Player = new PinkCar();
+                        GameManager.Health = 3;
+                        GameManager.Nitro = 1;
+                        GameManager.Story = true;
+                        //CarController.Car = new RedCar();
+                        SceneManager.LoadScene("Racing");
+                        break;
                         break;
 
                     case 5:
@@ -316,13 +362,13 @@ public class Dialogue : MonoBehaviour
                         playerBubble.gameObject.SetActive(false);
                         dialogeeBubble.gameObject.SetActive(false);
 
-                        // todo параметры гонки в уровне (какие машины и тд)
+                        // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
                         GameManager.OpponentCar = 14;
                         GameManager.Race = 70f;
                         //GameManager.Area = Area.Bridge.ToString();
                         GameManager.RandomBonus = false;
-                        GameManager.Player = new PurpleCar();
+                        GameManager.Player = new PinkCar();
                         GameManager.Health = 3;
                         GameManager.Nitro = 1;
                         GameManager.Story = true;

@@ -365,7 +365,7 @@ public class MenuManager : MonoBehaviour
     }
 
     #region Story
-    private void Levels() // todo в зависимости от пройдености менять цвета у кнопок уровней
+    private void Levels()
     {
         /*if (GameContainer.Current.Level >= 5)
             _startButton.interactable = true;*/
@@ -385,7 +385,7 @@ public class MenuManager : MonoBehaviour
             }
         }
         _episodeText.text = "Episode " + (GameContainer.Current.Level + 1);
-        Level = (GameContainer.Current.Level + 1);
+        Level = (GameContainer.Current.Level);
     }
 
     public void SelectLevel(int num)

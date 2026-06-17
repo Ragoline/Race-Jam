@@ -722,18 +722,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1738573078}
   dialogee: {fileID: 437735385}
+  road: {fileID: 668534762}
   dialogees:
   - {fileID: 21300000, guid: e977216d99aac954abc573bfed0c12b9, type: 3}
-  - {fileID: 21300000, guid: e977216d99aac954abc573bfed0c12b9, type: 3}
-  - {fileID: 21300000, guid: e977216d99aac954abc573bfed0c12b9, type: 3}
-  - {fileID: 21300000, guid: e977216d99aac954abc573bfed0c12b9, type: 3}
-  - {fileID: 21300000, guid: e977216d99aac954abc573bfed0c12b9, type: 3}
+  - {fileID: 21300000, guid: 54256c90c160c424682fe69d9de1b4d3, type: 3}
+  - {fileID: 21300000, guid: a573df7f0082ba3468163d5a266f7efa, type: 3}
+  - {fileID: 21300000, guid: 19738b8da618b484397ac13fe367d6e7, type: 3}
+  - {fileID: 21300000, guid: c47ec03caad9ceb46a1c0e52a440a916, type: 3}
   players:
   - {fileID: 21300000, guid: b75522b2f9929904e90de0b643df7295, type: 3}
-  - {fileID: 21300000, guid: e977216d99aac954abc573bfed0c12b9, type: 3}
-  - {fileID: 21300000, guid: e4d4a04213ea9cc43a05b4eb6ba3df86, type: 3}
-  - {fileID: 21300000, guid: 2fbd94ed37cc7424682626ad304bcdd8, type: 3}
+  - {fileID: 21300000, guid: 87839f14717be334fb4ae41bfeb123a3, type: 3}
+  - {fileID: 21300000, guid: 54256c90c160c424682fe69d9de1b4d3, type: 3}
+  - {fileID: 21300000, guid: a573df7f0082ba3468163d5a266f7efa, type: 3}
   - {fileID: 21300000, guid: c47ec03caad9ceb46a1c0e52a440a916, type: 3}
+  roads:
+  - {fileID: 21300000, guid: b5829d8aa567f3944ae0ecccd7921063, type: 3}
+  - {fileID: 21300000, guid: fa302e54b63895e4c90c124ba211aaff, type: 3}
+  - {fileID: 21300000, guid: e43e6e8a1ed06de419a7ed1ea40e72e4, type: 3}
+  - {fileID: 21300000, guid: c614b2cf930869248b33ea0eb0e96395, type: 3}
+  - {fileID: 0}
   playerBubble: {fileID: 1384120471}
   dialogeeBubble: {fileID: 1466877862}
   playerText: {fileID: 1369396297}

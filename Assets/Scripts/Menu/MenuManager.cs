@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Advertisements;
+//using UnityEngine.Advertisements;
 //using UnityEditor.Advertisements;
 
 public class MenuManager : MonoBehaviour
@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _dailyQuestWindow;
     [SerializeField] private GameObject _optionsWindow;
     [SerializeField] private GameObject _chooseWindow;
+    [SerializeField] private GameObject _achievementsPanel;
     [Header("Choose")]
     [SerializeField] private Button _greenNitro;
     [SerializeField] private Button _yellowNitro;
@@ -87,7 +88,7 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        Advertisement.Banner.Hide();
+        //Advertisement.Banner.Hide();
         /*if (Advertisement.Banner.isLoaded || Advertisement.IsReady(bannerPlacementName))
         {
             Advertisement.Banner.Show(bannerPlacementName);
@@ -1161,5 +1162,51 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("Language", Language);
 
         SwitchLanguage();
+    }
+
+    public void OpenAchievementsPanel()
+    {
+        _achievementsPanel.SetActive(!_achievementsPanel.activeSelf);
+    }
+
+    /// <summary>
+    /// Давать достижение
+    /// </summary>
+    /// <param name="which">0=FullHouse,1=FastestontheWildWest,2=Father'sCar,3=SideQuester,4=Daily,5=Champion,6=Nitro,7=Shield,8=MyBucket,9=ReadytoRockandRoll</param>
+    public static void GetAchievement(int which)
+    { // todo добавить визуальное (и звуковое?) получение ачивки
+        switch (which)
+        {
+            case 0:
+                PlayerPrefs.SetInt("Full House", 1);
+                break;
+            case 1:
+                PlayerPrefs.SetInt("Fastest on the Wild West", 1);
+                break;
+            case 2:
+                PlayerPrefs.SetInt("Father's Car", 1);
+                break;
+            case 3:
+                PlayerPrefs.SetInt("Side Quester", 1);
+                break;
+            case 4:
+                PlayerPrefs.SetInt("Daily", 1);
+                break;
+            case 5:
+                PlayerPrefs.SetInt("Champion", 1);
+                break;
+            case 6:
+                PlayerPrefs.SetInt("Nitro", 1);
+                break;
+            case 7:
+                PlayerPrefs.SetInt("Shield", 1);
+                break;
+            case 8:
+                PlayerPrefs.SetInt("My Bucket", 1);
+                break;
+            case 9:
+                PlayerPrefs.SetInt("Ready to Rock and Roll", 1);
+                break;
+        }
     }
 }

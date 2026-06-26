@@ -796,7 +796,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1711,7 +1711,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -3583,7 +3583,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -4214,7 +4214,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -8488,7 +8488,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -9089,7 +9089,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -10120,6 +10120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _windows: {fileID: 806053656}
   _storyWindow: {fileID: 1402654748}
+  _canvas: {fileID: 1203147237}
   _racingWindow: {fileID: 1281464059}
   _areas: {fileID: 1287960054}
   _opponents: {fileID: 1037285231}
@@ -10127,6 +10128,18 @@ MonoBehaviour:
   _dailyGiftWindow: {fileID: 264406733}
   _dailyQuestWindow: {fileID: 1359318515}
   _optionsWindow: {fileID: 283949184}
+  _achievements:
+  - {fileID: 170913598}
+  - {fileID: 1988047927}
+  - {fileID: 1964087718}
+  - {fileID: 1198390237}
+  - {fileID: 1411711297}
+  - {fileID: 1381639935}
+  - {fileID: 1860932792}
+  - {fileID: 1019605965}
+  - {fileID: 1536928847}
+  - {fileID: 1486656038}
+  _achievementPrefab: {fileID: 5060480740235762886, guid: 272341d1853f52c4ca4d4e18b7d850f5, type: 3}
   _chooseWindow: {fileID: 626148112}
   _achievementsPanel: {fileID: 39235918}
   _greenNitro: {fileID: 1528690678}
@@ -10622,7 +10635,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -10980,7 +10993,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -13643,7 +13656,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -13845,7 +13858,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 100
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1

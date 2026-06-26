@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 {
+    [SerializeField] private GameObject _canvas;
     [SerializeField] private GameObject consumablesWindow;
     [SerializeField] private GameObject shieldButton;
     [SerializeField] private GameObject greenNitroButton;
@@ -24,6 +25,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     [SerializeField] private Slider turningSlider;
     [SerializeField] private AudioSource _sounds;
     [SerializeField] private AudioSource _music;
+    [SerializeField] private GameObject _achievementPrefab;
     [Header("Language")]
     [SerializeField] private Text _speed;
     [SerializeField] private Text _turning;
@@ -33,10 +35,11 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     private int num = 0;
     private static int BoughtFilter = 0, SpeedFilter = 0, TurningFilter = 0;
     [SerializeField] private AudioClip[] sounds = new AudioClip[2];
+    public static StoreManager Instance;
 
     private void Awake()
     {
-
+        Instance = this;
         SwitchLanguage();
         cars = new Car[AllCars.Cars.Length];
         looks = new Sprite[AllCars.Cars.Length];
@@ -277,6 +280,10 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 
                     }
                 }
+            if (GameContainer.Current.BoughtCars.Length == AllCars.Cars.Length)
+                MenuManager.GetAchievement(0, "Store");
+            if (num == 3)
+                MenuManager.GetAchievement(1, "Store");
         }
     }
 
@@ -383,5 +390,10 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
 
         }
 
+    }
+
+    public void ShowAchievement()
+    {
+        Instantiate(_achievementPrefab, _canvas.transform);
     }
 }

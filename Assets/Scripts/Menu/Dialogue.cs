@@ -18,6 +18,8 @@ public class Dialogue : MonoBehaviour
     void Start()
     {
         level = MenuManager.Level;
+        if (level > 4)
+            level = 4;
         //level = GameContainer.Current.Level + 1;
         dialogee.sprite = dialogees[level];
         player.sprite = players[level];
@@ -66,7 +68,7 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    private void Dialog() // todo заменить на последнем уровне противника на Black и зону на мост И заменить зону в туторе на мост
+    private void Dialog() // todo заменить на последнем уровне зону на мост И заменить зону в туторе на мост
     {
         readyToTap = false;
         Debug.Log("dialog");
@@ -344,17 +346,16 @@ public class Dialogue : MonoBehaviour
 
                         // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
-                        GameManager.OpponentCar = 14;
-                        GameManager.Race = 70f;
+                        GameManager.OpponentCar = 15;
+                        GameManager.Race = 7f;
                         //GameManager.Area = Area.Bridge.ToString();
                         GameManager.RandomBonus = false;
                         GameManager.Player = new PinkCar();
                         GameManager.Health = 3;
-                        GameManager.Nitro = 1;
+                        GameManager.Nitro = 3;
                         GameManager.Story = true;
                         //CarController.Car = new RedCar();
                         SceneManager.LoadScene("Racing");
-                        break;
                         break;
 
                     case 5:
@@ -364,7 +365,7 @@ public class Dialogue : MonoBehaviour
 
                         // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
-                        GameManager.OpponentCar = 14;
+                        GameManager.OpponentCar = 15;
                         GameManager.Race = 70f;
                         //GameManager.Area = Area.Bridge.ToString();
                         GameManager.RandomBonus = false;
@@ -372,7 +373,7 @@ public class Dialogue : MonoBehaviour
                         GameManager.Health = 3;
                         GameManager.Nitro = 1;
                         GameManager.Story = true;
-                        //CarController.Car = new RedCar();
+                        //CarController.Car = new BlackCar();
                         SceneManager.LoadScene("Racing");
                         break;
                 }

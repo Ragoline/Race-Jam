@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource _playerCar;
     [SerializeField] private AudioSource _opponentCar;
     [SerializeField] private BoxCollider2D _collider;
+    [SerializeField] private GameObject _achievementPrefab;
     [Header("Language")]
     [SerializeField] private Text _you;
     [SerializeField] private Text _theRace;
@@ -479,11 +480,13 @@ public class GameManager : MonoBehaviour
             {
                 if (Story)
                 {
+                    Debug.Log("ачивка 3 " + GameContainer.Current.Level);
                     if (MenuManager.Level == GameContainer.Current.Level)
                         GameContainer.Current.Level++;
-                    if (GameContainer.Current.Level > 5)
+                    if (GameContainer.Current.Level >= 5)
                     {
                         // todo game complete
+                        MenuManager.GetAchievement(2, "Menu");
                     }
                     Story = false;
                 }
@@ -777,5 +780,10 @@ public class GameManager : MonoBehaviour
 
         }
 
+    }
+
+    public void ShowAchievement()
+    {
+        Instantiate(_achievementPrefab, Canvas.transform);
     }
 }

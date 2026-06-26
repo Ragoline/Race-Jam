@@ -1385,6 +1385,7 @@ MonoBehaviour:
   _playerCar: {fileID: 385146597}
   _opponentCar: {fileID: 4504297708121197568, guid: b8e2f6075b68caa4ea1a893f2b42e903, type: 3}
   _collider: {fileID: 304417027}
+  _achievementPrefab: {fileID: 5060480740235762886, guid: 272341d1853f52c4ca4d4e18b7d850f5, type: 3}
   _you: {fileID: 1837141614}
   _theRace: {fileID: 2048827347}
   _continue: {fileID: 599849336}

@@ -4664,6 +4664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6e3190f0cfcea45a53b8d33974e71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 265020309}
   consumablesWindow: {fileID: 535448067}
   shieldButton: {fileID: 1722396146}
   greenNitroButton: {fileID: 782827036}
@@ -4682,6 +4683,7 @@ MonoBehaviour:
   turningSlider: {fileID: 1228442382}
   _sounds: {fileID: 207338051}
   _music: {fileID: 2021537255}
+  _achievementPrefab: {fileID: 5060480740235762886, guid: 272341d1853f52c4ca4d4e18b7d850f5, type: 3}
   _speed: {fileID: 985478265}
   _turning: {fileID: 417159446}
   _buyButton: {fileID: 715013007}

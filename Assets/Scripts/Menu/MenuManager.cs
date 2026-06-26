@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     [Header("Base")]
     [SerializeField] private GameObject _windows;
     [SerializeField] private GameObject _storyWindow;
+    [SerializeField] private GameObject _canvas;
     [Header("Racing")]
     [SerializeField] private GameObject _racingWindow;
     [SerializeField] private Slider _areas;
@@ -19,6 +20,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _dailyGiftWindow;
     [SerializeField] private GameObject _dailyQuestWindow;
     [SerializeField] private GameObject _optionsWindow;
+    [SerializeField] private Image[] _achievements;
+    [SerializeField] private GameObject _achievementPrefab;
     [SerializeField] private GameObject _chooseWindow;
     [SerializeField] private GameObject _achievementsPanel;
     [Header("Choose")]
@@ -144,6 +147,8 @@ public class MenuManager : MonoBehaviour
         CheckDailyQuest();
 
         Levels();
+
+        LoadAchievements();
     }
 
     private void Update()
@@ -387,12 +392,20 @@ public class MenuManager : MonoBehaviour
         }
         _episodeText.text = "Episode " + (GameContainer.Current.Level + 1);
         Level = (GameContainer.Current.Level);
+        if (Level > 4)
+        {
+            Level = 4;
+            _episodeText.text = "Episode 5";
+        }
     }
 
     public void SelectLevel(int num)
     {
         Level = num - 1;
+        if (Level < 6)
         _episodeText.text = "Episode " + num;
+        else
+            _episodeText.text = "Episode 5";
     }
 
     public void StartLevel() // todo клик по кнопке начать уровень
@@ -1173,7 +1186,7 @@ public class MenuManager : MonoBehaviour
     /// Давать достижение
     /// </summary>
     /// <param name="which">0=FullHouse,1=FastestontheWildWest,2=Father'sCar,3=SideQuester,4=Daily,5=Champion,6=Nitro,7=Shield,8=MyBucket,9=ReadytoRockandRoll</param>
-    public static void GetAchievement(int which)
+    public static void GetAchievement(int which, string sceneName)
     { // todo добавить визуальное (и звуковое?) получение ачивки
         switch (which)
         {
@@ -1208,5 +1221,75 @@ public class MenuManager : MonoBehaviour
                 PlayerPrefs.SetInt("Ready to Rock and Roll", 1);
                 break;
         }
+
+        var activescene = SceneManager.GetActiveScene().name;
+        //Scene menuscene = SceneManager.GetSceneAt(0), racingscene = SceneManager.GetSceneAt(1), storescene = SceneManager.GetSceneAt(2);
+
+        switch (sceneName)
+        {
+            case ("Menu"):
+                {
+                    MenuManager.Instance.ShowAchievement();
+                    break;
+                }
+            case ("Racing"):
+                {
+                    GameManager.Instance.ShowAchievement();
+                    break;
+                }
+            case ("Store"):
+                {
+                    StoreManager.Instance.ShowAchievement();
+                    break;
+                }
+        }
+
+        /*switch (activescene)
+        {
+            case ("Menu"):
+                {
+                    MenuManager.Instance.ShowAchievement();
+                    break;
+                }
+            case ("Racing"):
+                {
+                    GameManager.Instance.ShowAchievement();
+                    break;
+                }
+            case ("Store"):
+                {
+                    StoreManager.Instance.ShowAchievement();
+                    break;
+                }
+        }*/
+    }
+
+    public void ShowAchievement()
+    {
+        Instantiate(_achievementPrefab, _canvas.transform);
+    }
+
+    private void LoadAchievements()
+    {
+        if (PlayerPrefs.GetInt("Full House", 0) == 1)
+            _achievements[0].color = Color.white;
+        if (PlayerPrefs.GetInt("Fastest on the Wild West", 0) == 1)
+            _achievements[1].color = Color.white;
+        if (PlayerPrefs.GetInt("Father's Car", 0) == 1)
+            _achievements[2].color = Color.white;
+        if (PlayerPrefs.GetInt("Side Quester", 0) == 1)
+            _achievements[3].color = Color.white;
+        if (PlayerPrefs.GetInt("Daily", 0) == 1)
+            _achievements[4].color = Color.white;
+        if (PlayerPrefs.GetInt("Champion", 0) == 1)
+            _achievements[5].color = Color.white;
+        if (PlayerPrefs.GetInt("Nitro", 0) == 1)
+            _achievements[6].color = Color.white;
+        if (PlayerPrefs.GetInt("Shield", 0) == 1)
+            _achievements[7].color = Color.white;
+        if (PlayerPrefs.GetInt("My Bucket", 0) == 1)
+            _achievements[8].color = Color.white;
+        if (PlayerPrefs.GetInt("Ready to Rock and Roll", 0) == 1)
+            _achievements[9].color = Color.white;
     }
 }

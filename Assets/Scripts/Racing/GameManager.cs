@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] public GameObject _canvas;
     [SerializeField] public GameObject Canvas;
     [SerializeField] private GameObject[] _health;
     [SerializeField] private GameObject _nitro;
@@ -114,6 +115,8 @@ public class GameManager : MonoBehaviour
         }
         SetHealth();
         SetNitro();
+        if (Health >= 6 && Nitro >= 3 && !Story)
+            MenuManager.GetAchievement(9, "Racing");
         AudioUpdate();
     }
 
@@ -447,7 +450,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FinalCutScene()
     {
-        Vehicle.Instance.SoundsOff(true);
+        if (Vehicle.Instance != null)
+            Vehicle.Instance.SoundsOff(true);
         SoundsOff(true);
         CarController.Instance.Finish();
         if (GameContainer.Current.WhichQuest == 0)
@@ -478,6 +482,7 @@ public class GameManager : MonoBehaviour
 
             if (victory)
             {
+                MenuManager.GetAchievement(5, "Racing");
                 if (Story)
                 {
                     Debug.Log("ачивка 3 " + GameContainer.Current.Level);
@@ -486,10 +491,13 @@ public class GameManager : MonoBehaviour
                     if (GameContainer.Current.Level >= 5)
                     {
                         // todo game complete
-                        MenuManager.GetAchievement(2, "Menu");
+                        MenuManager.GetAchievement(2, "Racing");
                     }
-                    Story = false;
                 }
+                RandomBonus = false;
+                Health = 3;
+                Nitro = 0;
+                Story = false;
                 if (GameContainer.Current.WhichQuest == 1)
                     GameContainer.Current.Completed++;
                 _textWonLostCrashed.text = "Won";
@@ -784,6 +792,6 @@ public class GameManager : MonoBehaviour
 
     public void ShowAchievement()
     {
-        Instantiate(_achievementPrefab, Canvas.transform);
+        Instantiate(_achievementPrefab, _canvas.transform);
     }
 }

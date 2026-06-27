@@ -123,24 +123,28 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
             case 0:
                 GameContainer.Current.AddGears(-10);
                 GameContainer.Current.AddArmour(1);
+                MenuManager.GetAchievement(7, "Store");
                 PlaySound(0);
                 break;
 
             case 1:
                 GameContainer.Current.AddGears(-20);
                 GameContainer.Current.AddNitro(0, true);
+                MenuManager.GetAchievement(6, "Store");
                 PlaySound(0);
                 break;
 
             case 2:
                 GameContainer.Current.AddGears(-30);
                 GameContainer.Current.AddNitro(1, true);
+                MenuManager.GetAchievement(6, "Store");
                 PlaySound(0);
                 break;
 
             case 3:
                 GameContainer.Current.AddGears(-40);
                 GameContainer.Current.AddNitro(2, true);
+                MenuManager.GetAchievement(6, "Store");
                 PlaySound(0);
                 break;
         }
@@ -228,6 +232,7 @@ public class StoreManager : MonoBehaviour // менять текст buy, название и цену
     {
         if (GameContainer.Current.BuyCar(cars[num], cars[num].Price))
         {
+            MenuManager.GetAchievement(8, "Store");
             Debug.Log("bought!");
             PlaySound(1);
             UpdateResources();

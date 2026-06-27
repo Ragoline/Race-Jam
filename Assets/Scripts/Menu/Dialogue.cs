@@ -347,7 +347,7 @@ public class Dialogue : MonoBehaviour
                         // параметры гонки в уровне (какие машины и тд)
                         GameManager.OpponentExists = true;
                         GameManager.OpponentCar = 15;
-                        GameManager.Race = 7f;
+                        GameManager.Race = 70f;
                         //GameManager.Area = Area.Bridge.ToString();
                         GameManager.RandomBonus = false;
                         GameManager.Player = new PinkCar();

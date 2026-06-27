@@ -1346,6 +1346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d540dafe843514884bcc3df06a6aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 1071279829}
   Canvas: {fileID: 656871804}
   _health:
   - {fileID: 1947920635}

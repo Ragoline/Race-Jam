@@ -284,8 +284,8 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case 3: // daily gift window
-                /*_dailyGiftWindow.transform.position = new Vector2(Screen.width / 2, Screen.height * (up ? -1 : 1));
-                _dailyGiftWindow.SetActive(true);*/
+                _dailyGiftWindow.transform.position = new Vector2(Screen.width / 2, Screen.height * (up ? -1 : 1));
+                _dailyGiftWindow.SetActive(true);
                 break;
 
             case 5: // daily quest window
@@ -720,6 +720,7 @@ public class MenuManager : MonoBehaviour
 
     public void GetDailyGift()
     {
+        GetAchievement(4, "Menu");
         if (_dailyGiftImage.sprite == _dgbColoured)
         {
             _dailyGiftImage.sprite = _dgbBlacknWhite;
@@ -753,6 +754,7 @@ public class MenuManager : MonoBehaviour
     {
         if (GameContainer.Current.Completed >= GameContainer.Current.Goal)
         {
+            GetAchievement(3, "Menu");
             if (GameContainer.Current.SoftCurrency)
                 switch (GameContainer.Current.WhichLevel)
                 {

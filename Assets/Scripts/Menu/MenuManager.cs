@@ -295,9 +295,9 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case 6: // choose Window
-                _anotherShield1.color = Color.gray;
+                /*_anotherShield1.color = Color.gray;
                 _anotherShield2.color = Color.gray;
-                _anotherShield3.color = Color.gray;
+                _anotherShield3.color = Color.gray;*/
                 if (GameContainer.Current.Armour >= 1)
                 {
                     _oneShield.interactable = true;
@@ -305,13 +305,13 @@ public class MenuManager : MonoBehaviour
                 if (GameContainer.Current.Armour >= 2)
                 {
                     _twoShields.interactable = true;
-                    _anotherShield1.color = Color.white;
+                    //_anotherShield1.color = Color.white;
                 }
                 if (GameContainer.Current.Armour >= 3)
                 {
                     _threeShields.interactable = true;
-                    _anotherShield2.color = Color.white;
-                    _anotherShield3.color = Color.white;
+                    /*_anotherShield2.color = Color.white;
+                    _anotherShield3.color = Color.white;*/
                 }
                 if (GameContainer.Current.GreenNitro)
                 {
